@@ -57,7 +57,7 @@ class zabbix (
     undef   => $zabbix::params::frontend,
     default => $frontend
   }
-  $api_real      = $frontend ? {
+  $api_real      = $api ? {
     undef   => $zabbix::params::api,
     default => $api
   }
