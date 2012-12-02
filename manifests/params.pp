@@ -53,7 +53,7 @@ class zabbix::params {
   }
   $agent_listen_ip = $::ipHostNumber # from ldap
   $agent_userparameters     = undef # default install does not have userparams
-  $agent_include_path       = '/etc/zabbix/zabbix_agentd.d/'
+  $agent_include_path       = '/etc/zabbix/zabbix_agentd.d'
 
   $agent_conf_file = $::operatingsystem ? {
     windows => 'C:\zabbix_agentd.conf',
@@ -81,6 +81,11 @@ class zabbix::params {
     Gentoo  => 'zabbix-agentd',
     default => 'zabbix-agent'
   }
+  # agent_param settings
+  $agent_param_ensure       = 'present'
+  $agent_param_index        = '10'
+  $agent_param_template     = 'zabbix/zabbix_agent_userparam.conf.erb'
+  $agent_param_command      = 'echo "Hello World!"'
 
   # server settings
   $zabbix_database_host     = ''

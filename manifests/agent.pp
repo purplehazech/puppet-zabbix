@@ -120,7 +120,10 @@ class zabbix::agent (
     }
   }
 
-  file { $conf_file_real:
+  file { $agent_include_path_real:
+    ensure => directory,
+    notify => Service[$service_name_real]
+  } -> file { $conf_file_real:
     content => template("zabbix/${template_real}"),
     notify  => Service[$service_name_real];
   }

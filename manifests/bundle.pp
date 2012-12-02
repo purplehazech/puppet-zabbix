@@ -23,9 +23,10 @@ class zabbix::bundle (
     ensure => $ensure_real
   }
 
-  zabbix::agent::params { $name:
+  # do once per items
+  zabbix::agent::param { $items[name]:
     ensure => $ensure_real,
-    params => $items
+    key    => $items[key]
   }
 
 }
