@@ -6,7 +6,8 @@ describe 'zabbix::frontend' do
     let(:facts) { 
       {
         :operatingsystem => 'Gentoo',
-        :fqdn => 'f.q.d.n.example.com'
+        :fqdn => 'f.q.d.n.example.com',
+        :id => 'id'
       }
     }
     let(:params) {
@@ -18,6 +19,9 @@ describe 'zabbix::frontend' do
     it {
       should contain_class('zabbix::frontend::gentoo').with({
         :ensure => 'present'
+      })
+      should contain_class('apache').with({
+        :serveradmin => 'id@f.q.d.n.example.com'
       })
       should contain_apache__vhost('f.q.d.n.example.com').with({
         :docroot         => '/var/www/f.q.d.n.example.com/htdocs',
