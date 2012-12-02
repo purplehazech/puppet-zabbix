@@ -50,11 +50,11 @@ class zabbix::agent (
   $service_name       = undef) {
   include stdlib
   include zabbix::params
-  $ensure_real = $ensure ? {
+  $ensure_real    = $ensure ? {
     undef   => $zabbix::params::agent_ensure,
     default => $ensure
   }
-  validate_re($ensure_real, [absent, present])
+  # validate_re($ensure_real, [absent, present])
   $hostname_real  = $ensure ? {
     undef   => $zabbix::params::agent_hostname,
     default => $hostname
@@ -75,17 +75,17 @@ class zabbix::agent (
     undef   => $zabbix::params::agent_conf_file,
     default => $conf_file
   }
-  validate_absolute_path($conf_file_real)
-  $pid_file_real = $pid_file ? {
+  # validate_absolute_path($conf_file_real)
+  $pid_file_real  = $pid_file ? {
     undef   => $zabbix::params::agent_pid_file,
     default => $pid_file
   }
-  validate_absolute_path($pid_file_real)
-  $log_file_real = $log_file ? {
+  # validate_absolute_path($pid_file_real)
+  $log_file_real  = $log_file ? {
     undef   => $zabbix::params::agent_log_file,
     default => $log_file
   }
-  validate_absolute_path($pid_file_real)
+  # validate_absolute_path($pid_file_real)
   $userparameters_real     = $userparameters ? {
     undef   => $zabbix::params::agent_userparameters,
     default => $userparameters
@@ -99,7 +99,7 @@ class zabbix::agent (
     undef   => $zabbix::params::agent_include_path,
     default => $agent_include_path
   }
-  $package_real            = $package ? {
+  $package_real   = $package ? {
     undef   => $zabbix::params::agent_package,
     default => $package
   }
@@ -108,8 +108,8 @@ class zabbix::agent (
     default => $service_name
   }
   # compat: define stuff still used in win template
-  $cn = $hostname_real
-  $ipHostNumber            = $listen_ip_real
+  $cn             = $hostname_real
+  $ipHostNumber   = $listen_ip_real
   $zabbix_server_ip        = $server_ip_real
   $zabbix_agentd_pid_file  = $pid_file_real
   $zabbix_agentd_log_file  = $log_file_real
