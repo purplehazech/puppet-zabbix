@@ -9,8 +9,8 @@
 define zabbix::server::template ($ensure = 'present') {
   zabbix_api { $name:
     type     => 'template',
-    server   => $zabbix::params::zabbix_frontend_url,
-    user     => $zabbix::params::zabbix_frontend_user,
-    password => $zabbix::params::zabbix_frontend_password
+    server   => $zabbix::params::frontend_url,
+    user     => $zabbix::params::frontend_user,
+    password => $zabbix::params::frontend_password
   }
 }

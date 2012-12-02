@@ -8,29 +8,35 @@
 # [*version*]
 #   ...
 #
-class zabbix::frontend ($ensure, $version = undef) {
-  if $::operatingsystem == 'Gentoo' {
-    class { 'zabbix::frontend::gentoo':
-      ensure => $ensure
-    }
+class zabbix::frontend ($ensure = undef, $version = undef) {
+  include zabbix::params
+  $ensure_real  = $ensure ? {
+    undef   => $zabbix::params::frontend_ensure,
+    default => $ensure
   }
-  $version_real  = $version ? {
-    undef   => '0.0.0',
+  $version_real = $version ? {
+    undef   => $zabbix::params::frontend_version,
     default => $version
   }
 
-  class { 'zabbix::frontend::vhost': 
-    ensure => $ensure,
+  if $::operatingsystem == 'Gentoo' {
+    class { 'zabbix::frontend::gentoo':
+      ensure => $ensure_real
+    }
+  }
+
+  class { 'zabbix::frontend::vhost':
+    ensure => $ensure_real,
     before => Webapp_config['zabbix']
   }
 
-  $webapp_action = $ensure ? {
+  $webapp_action = $ensure_real ? {
     present => 'install',
     absent  => 'remove',
     default => noop
   }
 
-  if ($version_real != '0.0.0') {
+  if ($version_real != false) {
     webapp_config { 'zabbix':
       action  => $webapp_action,
       vhost   => $fqdn,
@@ -40,6 +46,7 @@ class zabbix::frontend ($ensure, $version = undef) {
       depends => ''
     }
   }
+
   case $ensure {
     present : { # in /etc/php/apache2-php5.4/php.ini do
                 #   date.timezone = Europe/Zurich
