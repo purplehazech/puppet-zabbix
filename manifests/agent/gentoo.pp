@@ -2,10 +2,11 @@
 #
 # activate agent use flag for zabbix package
 #
-class zabbix::agent::gentoo {
+class zabbix::agent::gentoo ($ensure) {
   file { '/etc/portage/package.use/10_zabbix__agent':
-    content => 'net-analyzer/zabbix agent'
+    ensure  => $ensure,
+    content => 'net-analyzer/zabbix agent',
+    before  => Package['zabbix']
   }
 
 }
- 

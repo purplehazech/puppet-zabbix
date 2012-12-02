@@ -31,40 +31,48 @@
 #
 class zabbix::params {
   # global settings
-  $ensure                   = present
-  $server                   = 'zabbix'
+  $ensure          = present
+  $agent           = present
+  $server          = absent
+  $frontend        = absent
+  $api             = $::operatingsystem ? {
+    windows => absent,
+    default => present
+  }
+  # global network settings
+  $server_host     = 'zabbix'
 
   # agent settings
-  $agent_ensure             = $::operatingsystem ? {
+  $agent_ensure    = $::operatingsystem ? {
     windows => false,
     default => present
   }
-  $agent_hostname           = $::operatingsystem ? {
+  $agent_hostname  = $::operatingsystem ? {
     windows => $::cn, # grab name from ldap in unreliable windows case
     default => $::hostname
   }
-  $agent_listen_ip          = $::ipHostNumber # from ldap
+  $agent_listen_ip = $::ipHostNumber # from ldap
   $agent_userparameters     = undef # default install does not have userparams
   $agent_include_path       = '/etc/zabbix/zabbix_agentd.d/'
 
-  $agent_conf_file          = $::operatingsystem ? {
+  $agent_conf_file = $::operatingsystem ? {
     windows => 'C:\zabbix_agentd.conf',
     Gentoo  => '/etc/zabbix/zabbix_agentd.conf',
     default => '/etc/zabbix/zabbix_agent.conf'
   }
-  $agent_pid_file           = $::operatingsystem ? {
+  $agent_pid_file  = $::operatingsystem ? {
     Gentoo  => '/var/run/zabbix/zabbix_agentd.pid',
     default => '/var/run/zabbix-agent/zabbix_agentd.pid'
   }
-  $agent_log_file           = $::operatingsystem ? {
+  $agent_log_file  = $::operatingsystem ? {
     Gentoo  => '/var/log/zabbix/zabbix_agentd.log',
     default => '/var/log/zabbix-agent/zabbix_agentd.log'
   }
-  $agent_template           = $::operatingsystem ? {
+  $agent_template  = $::operatingsystem ? {
     windows => 'zabbix_agentd.win.conf.erb',
     default => 'zabbix_agentd.conf.erb'
   }
-  $agent_package            = $::operatingsystem ? {
+  $agent_package   = $::operatingsystem ? {
     Gentoo  => 'zabbix',
     default => 'zabbix-agent'
   }
@@ -86,4 +94,3 @@ class zabbix::params {
   $zabbix_frontend_password = 'zabbix'
 
 }
-

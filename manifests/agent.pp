@@ -59,7 +59,7 @@ class zabbix::agent (
     default => $hostname
   }
   $server_ip_real = $server ? {
-    undef   => $zabbix::params::server,
+    undef   => $zabbix::params::server_host,
     default => $server
   }
   $listen_ip_real = $listen_ip ? {
@@ -114,9 +114,9 @@ class zabbix::agent (
   $zabbix_agentd_log_file  = $log_file_real
   $zabbix_agentd_install   = $ensure_real
 
-  if defined("zabbix::agent::${::operatingsystem}") {
-    class { "zabbix::agent::${::operatingsystem}":
-      before => Package[$package_real]
+  if $::operatingsystem == 'Gentoo' {
+    class { 'zabbix::agent::gentoo':
+      ensure => $ensure_real
     }
   }
 

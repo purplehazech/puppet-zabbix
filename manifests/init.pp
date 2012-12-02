@@ -9,13 +9,20 @@
 #
 # === Parameters
 #
-# [*::zabbix_server_ip*]
-#   where to reach the zabbix server instance, may also be a hostname but
-#   ips are recommended
+# [*ensure*]
+#   present or absent for core utils
+# [*agent*]
+#   present or absent for agent config
+# [*server*]
+#   present or absent for server config
+# [*frontend*]
+#   present or absent for sever config
+# [*api*]
+#   present or absent for api usage (needed by Zabbix_api resources)
 #
 # === Example Usage
 #
-#   $zabbix_server_ip = 'zabbix'
+#   $zabbix::params::server_host = 'zabbix'
 #   include zabbix
 #
 # === Todos:
@@ -27,24 +34,49 @@
 # * res
 # * .
 #
-class zabbix ($ensure = undef) {
+class zabbix (
+  $ensure   = undef,
+  $agent    = undef,
+  $server   = undef,
+  $frontend = undef,
+  $api      = undef) {
   include zabbix::params
-  $ensure_real = $ensure ? {
+  $ensure_real   = $ensure ? {
     undef   => $zabbix::params::ensure,
     default => $ensure
   }
+  $agent_real    = $agent ? {
+    undef   => $zabbix::params::agent,
+    default => $agent
+  }
+  $server_real   = $server ? {
+    undef   => $zabbix::params::server,
+    default => $server
+  }
+  $frontend_real = $frontend ? {
+    undef   => $zabbix::params::frontend,
+    default => $frontend
+  }
+  $api_real      = $frontend ? {
+    undef   => $zabbix::params::api,
+    default => $api
+  }
 
-  if defined("zabbix::${::operatingsystem}") {
-    class { "zabbix::${::operatingsystem}":
+  if $::operatingsystem == 'Gentoo' {
+    class { 'zabbix::gentoo':
+      ensure => $ensure_real
     }
   }
 
-  # install agent on every machine
-  include zabbix::agent
-
-  # needed by the included libs
   package { 'zbxapi':
-    ensure   => $ensure_real,
+    ensure   => $api_real,
     provider => 'gem'
+  } -> class { 'zabbix::server':
+    ensure => $server_real
+  } -> class { 'zabbix::agent':
+    ensure => $agent_real
+  } -> class { 'zabbix::frontend':
+    ensure => $frontend_real
   }
+
 }
