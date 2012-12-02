@@ -1,0 +1,8 @@
+rvm: 1.8.7
+notifications:
+  email:
+    - hairmare@purplehaze.ch
+script: "bundle exec rake spec"
+env:
+  - PUPPET_VERSION=3.0.1
+  - PUPPET_VERSION=2.7.18
