@@ -30,6 +30,15 @@
 #   class zabbix::foot inherits zabbix::params
 #
 class zabbix::params {
+  $ensure                   = present
+
+  $server                   = 'zabbix'
+
+  # agent settings
+  $agent_listen_ip          = $::ipHostNumber # from ldap
+  $agent_userparameters     = undef # default install does not have userparams
+  $agent_include_path       = '/etc/zabbix/zabbix_agentd.d/'
+
   $zabbix_database_host     = ''
   $zabbix_database_type     = 'mysql'
   $zabbix_database_user     = 'root'
@@ -41,35 +50,31 @@ class zabbix::params {
 
   case $::operatingsystem {
     windows         : {
-      $zabbix_agentd_install          = false
-      $zabbix_supports_userparameters = false
-      $zabbix_agentd_service_name     = 'Zabbix Agent'
-      $zabbix_agentd_conf_file        = 'C:\zabbix_agentd.conf'
-      $zabbix_agentd_conf_template    = 'zabbix_agentd.win.conf.erb'
+      $zabbix_agentd_install       = false
+      $zabbix_agentd_service_name  = 'Zabbix Agent'
+      $zabbix_agentd_conf_file     = 'C:\zabbix_agentd.conf'
+      $zabbix_agentd_conf_template = 'zabbix_agentd.win.conf.erb'
     }
     Debian          : {
-      $zabbix_supports_userparameters = true
-      $zabbix_agentd_install          = true
-      $zabbix_agentd_package_name     = 'zabbix-agent'
-      $zabbix_agentd_service_name     = 'zabbix-agent'
-      $zabbix_agentd_conf_file        = '/etc/zabbix/zabbix_agent.conf'
-      $zabbix_agentd_conf_template    = 'zabbix_agentd.conf.erb'
-      $zabbix_agentd_conf_include     = '/etc/zabbix/zabbix_agentd.d/'
-      $zabbix_agentd_pid_file         = '/var/run/zabbix-agent/zabbix_agentd.pid'
-      $zabbix_agentd_log_file         = '/var/log/zabbix-agent/zabbix_agentd.log'
+      $agent_pid_file              = '/var/run/zabbix-agent/zabbix_agentd.pid'
+      $agent_log_file              = '/var/log/zabbix-agent/zabbix_agentd.log'
+      $zabbix_agentd_install       = true
+      $zabbix_agentd_package_name  = 'zabbix-agent'
+      $zabbix_agentd_service_name  = 'zabbix-agent'
+      $zabbix_agentd_conf_file     = '/etc/zabbix/zabbix_agent.conf'
+      $zabbix_agentd_conf_template = 'zabbix_agentd.conf.erb'
     }
     Gentoo, default : {
-      $zabbix_supports_userparameters = true
-      $zabbix_agentd_install          = true
-      $zabbix_agentd_package_name     = 'zabbix'
-      $zabbix_agentd_service_name     = 'zabbix-agentd'
-      $zabbix_agentd_conf_file        = '/etc/zabbix/zabbix_agentd.conf'
-      $zabbix_agentd_conf_template    = 'zabbix_agentd.conf.erb'
-      $zabbix_agentd_conf_include     = '/etc/zabbix/userparameter.d/'
-      $zabbix_agentd_pid_file         = '/var/run/zabbix/zabbix_agentd.pid'
-      $zabbix_agentd_log_file         = '/var/log/zabbix/zabbix_agentd.log'
+      $agent_pid_file              = '/var/run/zabbix/zabbix_agentd.pid'
+      $agent_log_file              = '/var/log/zabbix/zabbix_agentd.log'
+      $zabbix_agentd_install       = true
+      $zabbix_agentd_package_name  = 'zabbix'
+      $zabbix_agentd_service_name  = 'zabbix-agentd'
+      $zabbix_agentd_conf_file     = '/etc/zabbix/zabbix_agentd.conf'
+      $zabbix_agentd_conf_template = 'zabbix_agentd.conf.erb'
     }
 
   }
 
 }
+

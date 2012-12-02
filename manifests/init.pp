@@ -27,12 +27,24 @@
 # * res
 # * .
 #
-class zabbix {
-  include zabbix::gentoo
+class zabbix ($ensure = undef) {
+  include zabbix::params
+  $ensure_real = $ensure ? {
+    undef   => $zabbix::params::ensure,
+    default => $ensure
+  }
+
+  if defined("zabbix::${::operatingsystem}") {
+    class { "zabbix::${::operatingsystem}":
+    }
+  }
+
+  # install agent on every machine
   include zabbix::agent
 
   # needed by the included libs
   package { 'zbxapi':
-    ensure   => installed,
+    ensure   => $ensure_real,
     provider => 'gem'
   }
+}
