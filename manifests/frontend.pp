@@ -6,11 +6,26 @@
 # [*ensure*]
 #   absent or present
 #
-class zabbix::frontend ($ensure = undef) {
+class zabbix::frontend ($ensure, $version = undef) {
   if $::operatingsystem == 'Gentoo' {
     class { 'zabbix::frontend::gentoo':
       ensure => $ensure
     }
+  }
+
+  $webapp_action = $ensure ? {
+    present => 'install',
+    absent  => 'remove',
+    default => noop
+  }
+
+  webapp_config { 'zabbix':
+    action  => $webapp_action,
+    vhost   => $fqdn,
+    version => $version,
+    app     => 'zabbix',
+    base    => '/zabbix',
+    depends => ''
   }
 
   case $ensure {
