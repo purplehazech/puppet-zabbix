@@ -31,6 +31,7 @@ class zabbix::frontend::vhost (
     vhost_name => $host_real,
     docroot    => $docroot_real,
     port       => $port_real,
+    ssl        => false
   }
 
 }
