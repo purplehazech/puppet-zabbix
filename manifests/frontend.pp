@@ -12,6 +12,10 @@ class zabbix::frontend ($ensure, $version = undef) {
       ensure => $ensure
     }
   }
+  $version_real  = $version ? {
+    undef   => '0.0.0',
+    default => $version
+  }
 
   $webapp_action = $ensure ? {
     present => 'install',
@@ -19,13 +23,16 @@ class zabbix::frontend ($ensure, $version = undef) {
     default => noop
   }
 
-  webapp_config { 'zabbix':
-    action  => $webapp_action,
-    vhost   => $fqdn,
-    version => $version,
-    app     => 'zabbix',
-    base    => '/zabbix',
-    depends => ''
+  if ($version_real != '0.0.0') {
+    webapp_config { 'zabbix':
+      action  => $webapp_action,
+      vhost   => $fqdn,
+      version => $version_real,
+      app     => 'zabbix',
+      base    => '/zabbix',
+      depends => ''
+    }
+
   }
 
   case $ensure {
