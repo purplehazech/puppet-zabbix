@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe 'zabbix::frontend' do
+
+  context "make ensure configurable" do
+    it {
+      should contain_class('zabbix::params')
+    }
+  end
   
   context "on gentoo" do
     let(:facts) { 
