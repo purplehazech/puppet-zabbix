@@ -1,4 +1,18 @@
+# == Class: zabbix::frontend
+#
+# Install and manage zabbix frontend
+#
+# === Parmeters
+# [*ensure*]
+#   absent or present
+#
 class zabbix::frontend ($ensure = undef) {
+  if $::operatingsystem == 'Gentoo' {
+    class { 'zabbix::frontend::gentoo':
+      ensure => $ensure
+    }
+  }
+
   case $ensure {
     present : { # in /etc/php/apache2-php5.4/php.ini do
                 #   date.timezone = Europe/Zurich
