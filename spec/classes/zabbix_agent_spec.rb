@@ -2,6 +2,21 @@ require 'spec_helper'
 
 describe 'zabbix::agent' do
   
+  context "on debian" do
+    let(:facts) { 
+      {
+        :operatingsystem => 'Debian'
+      }
+    }
+    it {
+      should contain_package('zabbix-agent').with({:ensure => 'present'})
+      should contain_file('/etc/zabbix/zabbix_agent.conf')
+      should contain_service('zabbix-agent').with({
+        :ensure => 'running',
+        :enable => 'true'
+      })
+    }
+  end
   context "on gentoo" do
     let(:facts) { 
       {
