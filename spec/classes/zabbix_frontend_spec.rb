@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'zabbix::frontend' do
 
-  context "make ensure configurable" do
+  context "make configurable" do
     it {
       should contain_class('zabbix::params')
     }
