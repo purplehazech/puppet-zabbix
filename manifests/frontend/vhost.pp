@@ -1,4 +1,4 @@
 # == Class: zabbix::frontend::vhost
 #
-class zabbix::frontend::vhost ($ensure) {
+class zabbix::frontend::vhost ($ensure = undef) {
 }

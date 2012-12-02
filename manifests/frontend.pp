@@ -19,6 +19,11 @@ class zabbix::frontend ($ensure, $version = undef) {
     default => $version
   }
 
+  class { 'zabbix::frontend::vhost': 
+    ensure => $ensure,
+    before => Webapp_config['zabbix']
+  }
+
   $webapp_action = $ensure ? {
     present => 'install',
     absent  => 'remove',
@@ -33,9 +38,6 @@ class zabbix::frontend ($ensure, $version = undef) {
       app     => 'zabbix',
       base    => '/zabbix',
       depends => ''
-    }
-    class { 'zabbix::frontend::vhost': 
-      ensure => $ensure
     }
   }
   case $ensure {
