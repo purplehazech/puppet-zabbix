@@ -11,6 +11,7 @@ describe 'zabbix::frontend' do
     }
     let(:params) {
       {
+        :ensure  => 'present',
         :version => '2.0.3'
       }
     }

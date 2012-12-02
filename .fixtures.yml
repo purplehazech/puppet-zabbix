@@ -1,5 +1,6 @@
 fixtures:
   repositories:
     stdlib: git://github.com/puppetlabs/puppetlabs-stdlib.git
+    webapp_config: git://github.com/hairmare/puppet-webapp-config.git
   symlinks:
     zabbix : "#{source_dir}"
