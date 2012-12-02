@@ -28,17 +28,4 @@ describe 'zabbix::frontend' do
       })
     }
   end
-  
-  context "on windows" do
-    let(:facts) { 
-      {
-        :operatingsystem => 'windows'
-      }
-    }
-    
-    it {
-      should_not contain_package('zabbix').with({:ensure => 'present'})
-      should_not contain_package('zabbix-frontend').with({:ensure => 'present'})
-    }
-  end
 end
