@@ -19,7 +19,7 @@ describe 'zabbix::frontend' do
       should contain_class('zabbix::frontend::gentoo').with({
         :ensure => 'present'
       })
-      should contain_webapp__config('zabbix').with({
+      should contain_webapp_config('zabbix').with({
         :action => 'install', 
         :vhost => 'f.q.d.n.example.com',
         :base => '/zabbix', 
