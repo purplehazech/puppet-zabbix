@@ -2,9 +2,9 @@
 
 {<img src="https://secure.travis-ci.org/purplehazech/puppet-zabbix.png?branch=master" alt="Build Status" />}[https://travis-ci.org/purplehazech/puppet-zabbix]
 
-Install and configure zabbix. Right now only the agent part is polished and tested.
-All the Server and Api related stuff still needs work nad its basically proof of
-concept stuff.
+Install and configure zabbix. Right now only the agent part without userparameters 
+is polished and tested. All the Server and Api related stuff still needs work and 
+its basically proof of concept stuff.
 
 === Example Usage:
 
