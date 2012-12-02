@@ -1,17 +1,30 @@
 require 'spec_helper'
 
-describe 'zabbix::agent' do
+describe 'zabbix::frontend' do
   
   context "on gentoo" do
     let(:facts) { 
       {
-        :operatingsystem => 'Gentoo'
+        :operatingsystem => 'Gentoo',
+        :fqdn => 'f.q.d.n.example.com'
+      }
+    }
+    let(:params) {
+      {
+        :version => '2.0.3'
       }
     }
     it {
-      should contain_file('/etc/portage/package.use/10_zabbix__frontend')
-      should contain_package('zabbix').with({:ensure => 'present'})
-      should contain_file('/etc/zabbix/zabbix_agentd.conf')
+      should contain_class('zabbix::frontend::gentoo').with({
+        :ensure => 'present'
+      })
+      should contain_webapp__config('zabbix').with({
+        :action => 'install', 
+        :vhost => 'f.q.d.n.example.com',
+        :base => '/zabbix', 
+        :app => 'zabbix', 
+        :version => '2.0.3'
+      })
     }
   end
   
