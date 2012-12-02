@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'zabbix' do
   let :facts do 
     {
-      :operatingsystem => 'gentoo'
+      :operatingsystem => 'Gentoo'
     }
   end
   it {
