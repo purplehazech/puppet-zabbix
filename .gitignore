@@ -1,2 +1,4 @@
 .project
 Gemfile.lock
+spec/fixtures/
+.*.swp
