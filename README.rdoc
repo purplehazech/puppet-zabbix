@@ -6,12 +6,25 @@ Install and configure zabbix. Right now only the agent part without userparamete
 is polished and tested. All the Server and Api related stuff still needs work and 
 its basically proof of concept stuff.
 
-=== Example Usage:
+=== Example Usage
 
 setup an agent on a node
 
   $zabbix::params::server = 'zabbix'
   class{ 'zabbix': }
+  
+agent management with user parameter
+
+  class{ 'zabbix::agent':
+    server  => 'zabbix'
+  }
+  zabbix::agent::params { 'zabbix.param.test':
+    command => 'echo "Hellow World!"'
+  }
+  zabbix::agent::params { 'Check for trueness':
+    key     => 'zabbix.param.trueistrue
+    command => 'test true'
+  }
   
 === License
 
