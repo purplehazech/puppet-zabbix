@@ -1,6 +1,7 @@
 # == Class: zabbix::agent
 #
-# Manage a zabbix agent
+# Install and manage a zabbix agent. Have a look at zabbix::agent::param if you
+# need to use custom UserParameters.
 #
 # === Parameters
 # [*ensure*]

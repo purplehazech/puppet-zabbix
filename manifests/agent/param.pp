@@ -1,5 +1,35 @@
 # == Define: zabbix::agent::param
 #
+# Create a userparameter on a zabbix agent. This works in tandem with
+# zabbix::server::item to monitor resources.
+#
+# This is usually used to create an additional config file per UserParameter
+# needed on the agent node.
+#
+# === Parameters
+# [*ensure*]
+#   present or absent
+# [*key*]
+#   unique key for zabbix
+# [*command*]
+#   command to execute as UserParamter
+# [*path*]
+#   path to use for zabbix conf Include dir, default is
+#   '/etc/zabbix/zabbix_agentd.d'
+# [*index*]
+#   index number to prefix to UserParameters conf file, default is '10'
+# [*file*]
+#   full path to file puppet should manage
+# [*template*]
+#   template to use for UserParameter conf file contents
+#
+# === Example Usage
+#
+#   zabbix::agent::param { 'zabbix.key.test':
+#     ensure => 'present',
+#     command => 'echo "Hello World!"'
+#   }
+#
 define zabbix::agent::param (
   $ensure   = undef,
   $key      = undef,
