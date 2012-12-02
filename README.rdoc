@@ -1,8 +1,31 @@
 == Module: Zabbix
 
-Install and configure a zabbix agent.
+{<img src="https://secure.travis-ci.org/purplehazech/puppet-zabbix.png?branch=master" alt="Build Status" />}[https://travis-ci.org/purplehazech/puppet-zabbix]
 
-=== Example:
+Install and configure zabbix. Right now only the agent part is polished and tested.
+All the Server and Api related stuff still needs work nad its basically proof of
+concept stuff.
 
-  $zabbix_server_ip = 'zabbix-server-ip'
-  class{'zabbix': }
+=== Example Usage:
+
+setup an agent on a node
+
+  $zabbix::params::server = 'zabbix'
+  class{ 'zabbix': }
+  
+=== License
+
+2012, Lucas S. Bickel, Alle Rechte vorbehalten
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
