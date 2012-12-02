@@ -20,6 +20,7 @@ describe 'zabbix::frontend' do
         :ensure => 'present'
       })
       should contain_apache__vhost('f.q.d.n.example.com').with({
+        :docroot         => '/var/www/f.q.d.n.example.com/htdocs',
         :priority        => '10',
         :vhost_name      => 'f.q.d.n.example.com',
         :port            => '80',
