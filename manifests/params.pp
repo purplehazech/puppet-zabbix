@@ -97,7 +97,10 @@ class zabbix::params {
     windows => false,
     default => '2.0.3'
   }
-  $frontend_url             = 'http://localhost/zabbix'
+  $frontend_host            = $fqdn
+  $frontend_docroot         = "/var/www/${frontend_host}/htdocs"
+  $frontend_port            = '80'
+  $frontend_url             = "http://${frontend_host}/zabbix"
   $frontend_user            = 'Admin'
   $frontend_password        = 'zabbix'
 
