@@ -19,6 +19,11 @@ describe 'zabbix::frontend' do
       should contain_class('zabbix::frontend::gentoo').with({
         :ensure => 'present'
       })
+      should contain_apache__vhost('f.q.d.n.example.com').with({
+        :priority        => '10',
+        :vhost_name      => 'f.q.d.n.example.com',
+        :port            => '80',
+      })
       should contain_webapp_config('zabbix').with({
         :action => 'install', 
         :vhost => 'f.q.d.n.example.com',
