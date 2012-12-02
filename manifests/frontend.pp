@@ -5,6 +5,8 @@
 # === Parmeters
 # [*ensure*]
 #   absent or present
+# [*version*]
+#   ...
 #
 class zabbix::frontend ($ensure, $version = undef) {
   if $::operatingsystem == 'Gentoo' {
@@ -32,9 +34,10 @@ class zabbix::frontend ($ensure, $version = undef) {
       base    => '/zabbix',
       depends => ''
     }
-
+    class { 'zabbix::frontend::vhost': 
+      ensure => $ensure
+    }
   }
-
   case $ensure {
     present : { # in /etc/php/apache2-php5.4/php.ini do
                 #   date.timezone = Europe/Zurich
