@@ -10,14 +10,16 @@
 #
 class zabbix::frontend ($ensure = undef, $version = undef) {
   include zabbix::params
-  $ensure_real  = $ensure ? {
+  $ensure_real = $ensure ? {
     undef   => $zabbix::params::frontend_ensure,
     default => $ensure
   }
+  validate_re($ensure_real, [absent, present])
   $version_real = $version ? {
     undef   => $zabbix::params::frontend_version,
     default => $version
   }
+  validate_re($ensure_real, ['^[0-9].[0-9].[0-9]', present, absent, 'skip'])
 
   if $::operatingsystem == 'Gentoo' {
     class { 'zabbix::frontend::gentoo':
@@ -36,7 +38,7 @@ class zabbix::frontend ($ensure = undef, $version = undef) {
     default => noop
   }
 
-  if ($version_real != false) {
+  if ($version_real != 'skip') {
     webapp_config { 'zabbix':
       action  => $webapp_action,
       vhost   => $fqdn,

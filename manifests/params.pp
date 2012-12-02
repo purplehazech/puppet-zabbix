@@ -94,7 +94,7 @@ class zabbix::params {
   # frontend settings
   $frontend_ensure          = present
   $frontend_version         = $::operatingsystem ? {
-    windows => false,
+    windows => 'skip',
     default => '2.0.3'
   }
   $frontend_host            = $fqdn
