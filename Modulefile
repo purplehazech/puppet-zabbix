@@ -1,0 +1,9 @@
+name 'purplehazech-zabbix'
+version '0.0.1'
+
+author 'Lucas S. Bickel'
+license 'AGPL'
+project_page 'https://github.com/purplehazech/puppet-infra-project'
+source 'https://github.com/purplehazech/puppet-infra-project/tree/master/modules/zabbix'
+summary 'install and configure zabbix agent'
+description 'Simply installs and configure a zabbix agent. I also plan on doing the server later on.'

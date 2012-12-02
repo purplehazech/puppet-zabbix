@@ -1,0 +1,8 @@
+== Module: Zabbix
+
+Install and configure a zabbix agent.
+
+=== Example:
+
+  $zabbix_server_ip = 'zabbix-server-ip'
+  class{'zabbix': }
