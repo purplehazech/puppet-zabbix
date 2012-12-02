@@ -64,19 +64,28 @@ class zabbix (
 
   if $::operatingsystem == 'Gentoo' {
     class { 'zabbix::gentoo':
-      ensure => $ensure_real
+      ensure => $ensure_real,
+      before => Class['zabbix::agent']
     }
+  }
+
+  class { 'zabbix::agent':
+    ensure => $agent_real
   }
 
   package { 'zbxapi':
     ensure   => $api_real,
     provider => 'gem'
-  } -> class { 'zabbix::server':
-    ensure => $server_real
-  } -> class { 'zabbix::agent':
-    ensure => $agent_real
-  } -> class { 'zabbix::frontend':
-    ensure => $frontend_real
+  }
+
+  class { 'zabbix::server':
+    ensure  => $server_real,
+    require => [Class['zabbix::agent'], Package['zbxapi']]
+  }
+
+  class { 'zabbix::frontend':
+    ensure  => $frontend_real,
+    require => Class['zabbix::agent']
   }
 
 }

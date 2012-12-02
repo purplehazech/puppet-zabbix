@@ -1,19 +1,19 @@
 {
   "name": "purplehazech-zabbix",
   "author": "Lucas S. Bickel",
-  "description": "Simply installs and configure a zabbix agent. I also plan on doing the server later on.",
+  "description": "Simply installs and configure a zabbix agent. I also plan on doing server and frontend later on.",
   "license": "AGPL",
   "project_page": "https://github.com/purplehazech/puppet-infra-project",
   "source": "https://github.com/purplehazech/puppet-infra-project/tree/master/modules/zabbix",
   "summary": "install and configure zabbix agent",
   "version": "0.0.1",
   "checksums": {
-    ".fixtures.yml": "2984c1e9571475540a23c28bd2aa0eb4",
+    ".fixtures.yml": "aec23591795b06c34045f75728efe9d7",
     ".travis.yml": "f8052b7eec06516f5b3678d7e24bc695",
     "Gemfile": "ff908043e15d175714cea137564a41b4",
     "Gemfile.lock": "4cf2e3d6aac4adbab36595a3d2383654",
     "LICENSE": "c0acfa7a8a03b718abee9135bc1a1c55",
-    "Modulefile": "988ceaac10bdec99f7a341b57c8ce230",
+    "Modulefile": "3c702ea15eda65e33734e3f5b014b54a",
     "README.rdoc": "a2b33ec49e54e54b9b08e961e0ce8d0a",
     "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
     "lib/puppet/provider/zabbix_api/ruby.rb": "4769bc09edc51f3eed813b41b78f992a",
@@ -22,16 +22,16 @@
     "manifests/agent/gentoo.pp": "4be97eacff3e8fa1fa414a1d4f384b3c",
     "manifests/agent/param.pp": "cd4dab32dcbb5f655531934ee6cddb60",
     "manifests/bundle.pp": "9e49b60bf083dfb026d9d5b60b8850a2",
-    "manifests/frontend.pp": "b910fac24accae2f82159a0c87bfc9bf",
-    "manifests/frontend/gentoo.pp": "fad605ea6bed679fa3d85a4b428ed10e",
+    "manifests/frontend.pp": "0d65f5c119029742e4bcec751e0e5132",
+    "manifests/frontend/gentoo.pp": "35260321dbc166cec903af6ef34bf51f",
     "manifests/gentoo.pp": "a4431967832108b5323043d7b64a4c08",
-    "manifests/init.pp": "f8a8f8b83f3ebe1003105f860dfbccd3",
+    "manifests/init.pp": "332ec2cc26b689c84cc6315c78817166",
     "manifests/params.pp": "204978f3082fc70089311723cce24095",
     "manifests/server.pp": "f27bb609df4d5b81dfe2e8305d1d5d13",
     "manifests/server/gentoo.pp": "d878f0ba8f8a3adc39dbe171665ab7e4",
     "manifests/server/template.pp": "14b0b4ccaa94f89d2eee8ef456776947",
     "spec/classes/zabbix_agent_spec.rb": "c2953aaed9f32c03f362086c8dd2fee5",
-    "spec/classes/zabbix_frontend_spec.rb": "5734199c7c8fa6642a7f3b4d6301b66b",
+    "spec/classes/zabbix_frontend_spec.rb": "b364b27f9ecc3a223810e2d5fa7dc781",
     "spec/classes/zabbix_spec.rb": "31f723923877159895f0d73ba3bfb0c4",
     "spec/defines/zabbix_agent_param_spec.rb": "603db1f62550fded0c59fddab44a9a50",
     "spec/spec_helper.rb": "d7a62b403b7d46b784706f4e9823e1aa",
@@ -109,6 +109,10 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": "~3.2.0"
+    },
+    {
+      "name": "hairmare/webapp_config",
+      "version_requirement": "\u003d1.0.0"
     }
   ]
 }
