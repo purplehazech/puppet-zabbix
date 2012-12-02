@@ -9,15 +9,24 @@ describe 'zabbix::agent::param' do
         :operatingsystem => 'Gentoo'
       }
     }
-    
-    let(:params) {
-      {
-        :key => 'foo.bar.baz'
-      }
-    }
     it {
       should contain_class('zabbix::params')
       should contain_file('/etc/zabbix/zabbix_agentd.d/10_foo.bar.baz.conf').with({
+        :ensure => 'present'
+      })
+    }
+  end
+  
+  context "call with key" do
+    let(:title) { 'my witty title' }
+    
+    let(:params) { 
+      {
+        :key => 'blergh.key'
+      }
+    }
+    it {
+      should contain_file('/etc/zabbix/zabbix_agentd.d/10_blergh.key.conf').with({
         :ensure => 'present'
       })
     }
