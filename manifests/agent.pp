@@ -48,7 +48,6 @@ class zabbix::agent (
   $agent_include_path = undef,
   $package            = undef,
   $service_name       = undef) {
-  include stdlib
   include zabbix::params
   $ensure_real    = $ensure ? {
     undef   => $zabbix::params::agent_ensure,

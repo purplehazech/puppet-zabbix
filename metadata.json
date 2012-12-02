@@ -8,16 +8,16 @@
   "summary": "install and configure zabbix agent",
   "version": "0.0.1",
   "checksums": {
-    ".fixtures.yml": "7db33f361de0e82dcf443f256cbba971",
+    ".fixtures.yml": "2984c1e9571475540a23c28bd2aa0eb4",
     ".travis.yml": "f8052b7eec06516f5b3678d7e24bc695",
     "Gemfile": "ff908043e15d175714cea137564a41b4",
     "Gemfile.lock": "4cf2e3d6aac4adbab36595a3d2383654",
-    "Modulefile": "b2edace44664b9540c44501f4e54894e",
+    "Modulefile": "988ceaac10bdec99f7a341b57c8ce230",
     "README.rdoc": "cf085323dbfa16ac43753ae619feaa06",
     "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
     "lib/puppet/provider/zabbix_api/ruby.rb": "4769bc09edc51f3eed813b41b78f992a",
     "lib/puppet/type/zabbix_api.rb": "a1b07cabe8859db644c308ed6df1d665",
-    "manifests/agent.pp": "e51debfef649a6be9c2f0acc63016585",
+    "manifests/agent.pp": "fdd02de3df54e752f1a906fa6ad93c97",
     "manifests/agent/param.pp": "07098b54ddab029d1a5f769f92a8b887",
     "manifests/agent/params.pp": "a6114242201f16b6f8c421d395673b21",
     "manifests/bundle.pp": "c13323be738c8e5f474da9e24bec9a5c",
@@ -29,7 +29,7 @@
     "manifests/server.pp": "6bb1a0e3d2069e94fd8529b280a9bc5c",
     "manifests/server/gentoo.pp": "1be2132272e7aa61ab71e676e25c33d8",
     "manifests/server/template.pp": "14b0b4ccaa94f89d2eee8ef456776947",
-    "spec/classes/zabbix_agent_spec.rb": "e10b571090db21fc9078e3a4ad6ebc06",
+    "spec/classes/zabbix_agent_spec.rb": "c2953aaed9f32c03f362086c8dd2fee5",
     "spec/classes/zabbix_spec.rb": "bfecc135758cc871317df2ba67ed90ee",
     "spec/spec_helper.rb": "d7a62b403b7d46b784706f4e9823e1aa",
     "templates/zabbix_agentd.conf.erb": "c441dd6c766726d4721a8eec1dc1dcd0",
@@ -100,5 +100,10 @@
       "name": "zabbix_api"
     }
   ],
-  "dependencies": []
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": "~3.2.0"
+    }
+  ]
 }
