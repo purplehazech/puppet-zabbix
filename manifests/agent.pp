@@ -32,8 +32,17 @@
 #
 # === Example Usage:
 #
-#   class { 'zabbix::agent':
+# install and manage zabbix::agent
+#
+#   class { 'zabbix::agent' :
 #     server => 'zabbix'
+#   }
+#
+# only manage zabbix, dont install (handy on windows)
+#
+#   class { 'zabbix::agent' :
+#     server  => 'zabbix',
+#     package => false
 #   }
 #
 class zabbix::agent (
@@ -129,7 +138,7 @@ class zabbix::agent (
     notify  => Service[$service_name_real];
   }
 
-  if $ensure_real != false {
+  if $package_real != false {
     package { $package_real:
       ensure => $ensure_real,
       before => File[$conf_file_real],

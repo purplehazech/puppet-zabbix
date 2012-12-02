@@ -43,10 +43,7 @@ class zabbix::params {
   $server_host     = 'zabbix'
 
   # agent settings
-  $agent_ensure    = $::operatingsystem ? {
-    windows => false,
-    default => present
-  }
+  $agent_ensure    = present
   $agent_hostname  = $::operatingsystem ? {
     windows => $::cn, # grab name from ldap in unreliable windows case
     default => $::hostname
@@ -73,6 +70,7 @@ class zabbix::params {
     default => 'zabbix_agentd.conf.erb'
   }
   $agent_package   = $::operatingsystem ? {
+    windows => false,
     Gentoo  => 'zabbix',
     default => 'zabbix-agent'
   }
