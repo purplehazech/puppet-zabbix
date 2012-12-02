@@ -1,0 +1,104 @@
+{
+  "name": "purplehazech-zabbix",
+  "author": "Lucas S. Bickel",
+  "description": "Simply installs and configure a zabbix agent. I also plan on doing the server later on.",
+  "license": "AGPL",
+  "project_page": "https://github.com/purplehazech/puppet-infra-project",
+  "source": "https://github.com/purplehazech/puppet-infra-project/tree/master/modules/zabbix",
+  "summary": "install and configure zabbix agent",
+  "version": "0.0.1",
+  "checksums": {
+    ".fixtures.yml": "7db33f361de0e82dcf443f256cbba971",
+    ".travis.yml": "f8052b7eec06516f5b3678d7e24bc695",
+    "Gemfile": "ff908043e15d175714cea137564a41b4",
+    "Gemfile.lock": "4cf2e3d6aac4adbab36595a3d2383654",
+    "Modulefile": "b2edace44664b9540c44501f4e54894e",
+    "README.rdoc": "cf085323dbfa16ac43753ae619feaa06",
+    "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
+    "lib/puppet/provider/zabbix_api/ruby.rb": "4769bc09edc51f3eed813b41b78f992a",
+    "lib/puppet/type/zabbix_api.rb": "a1b07cabe8859db644c308ed6df1d665",
+    "manifests/agent.pp": "fe9a72597303ed70310b21048ad974c1",
+    "manifests/agent/param.pp": "07098b54ddab029d1a5f769f92a8b887",
+    "manifests/agent/params.pp": "a6114242201f16b6f8c421d395673b21",
+    "manifests/bundle.pp": "c13323be738c8e5f474da9e24bec9a5c",
+    "manifests/frontend.pp": "5999ed8bcb6f7790723c1715524c2ad6",
+    "manifests/frontend/gentoo.pp": "12c0d9853069768e8335fac3dc96f48f",
+    "manifests/gentoo.pp": "c11e46e59a680273e1c55ae5a69c74da",
+    "manifests/init.pp": "e47b787229111c00fdacbedaf169302f",
+    "manifests/params.pp": "454aefc3c8e4767f4a018113c7aa24d3",
+    "manifests/server.pp": "6bb1a0e3d2069e94fd8529b280a9bc5c",
+    "manifests/server/gentoo.pp": "1be2132272e7aa61ab71e676e25c33d8",
+    "manifests/server/template.pp": "14b0b4ccaa94f89d2eee8ef456776947",
+    "spec/classes/.zabbix_spec.rb.swp": "8637809af68f39a4981841e08987e7eb",
+    "spec/classes/zabbix_spec.rb": "a060c6b095bc2c5e9a941a46459dc416",
+    "spec/spec_helper.rb": "d7a62b403b7d46b784706f4e9823e1aa",
+    "templates/zabbix_agentd.conf.erb": "fa4f32547ef7548cc2f2fd3cfeff6225",
+    "templates/zabbix_agentd.win.conf.erb": "3f46878cccabdc7c0ca0ef0ac25bd7cf",
+    "tests/site.pp": "de830773837f87fbd688238719fb684c"
+  },
+  "types": [
+    {
+      "parameters": [
+        {
+          "name": "name",
+          "doc": "An arbitrary name used as the identity of the resource."
+        },
+        {
+          "name": "type",
+          "doc": "A type to manage, like template, item, host, ..."
+        },
+        {
+          "name": "server",
+          "doc": "URL to zabbix frontend"
+        },
+        {
+          "name": "proxy_host",
+          "doc": "proxy host if needed"
+        },
+        {
+          "name": "proxy_password",
+          "doc": "password to the proxy"
+        },
+        {
+          "name": "user",
+          "doc": "zabbix user"
+        },
+        {
+          "name": "password",
+          "doc": "zabbix users password"
+        },
+        {
+          "name": "host",
+          "doc": "host to operate on in cases like items"
+        },
+        {
+          "name": "hostgroup",
+          "doc": "hostgroup to put template into"
+        },
+        {
+          "name": "description",
+          "doc": "description for new items"
+        },
+        {
+          "name": "application",
+          "doc": "application for items"
+        },
+        {
+          "name": "trigger_type",
+          "doc": "type of trigger"
+        },
+        {
+          "name": "trigger_status",
+          "doc": "status of trigger"
+        }
+      ],
+      "providers": [
+        {
+          "name": "ruby"
+        }
+      ],
+      "name": "zabbix_api"
+    }
+  ],
+  "dependencies": []
+}

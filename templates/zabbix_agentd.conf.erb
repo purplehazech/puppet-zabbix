@@ -8,7 +8,7 @@
 # Note that hostnames must resolve hostname->IP address and
 # IP address->hostname.
 
-Server=<%= zabbix_server_ip %>
+Server=<%= server_ip_real %>
 
 # Server port for sending active checks
 
@@ -25,10 +25,10 @@ Hostname=<%= hostname %>
 # IP address to bind agent
 # If missing, bind to all available IPs
 
-ListenIP=<%= ipHostNumber %>
+ListenIP=<%= listen_ip_real %>
 
 # Source IP address for outgouing connections
-SourceIP=<%= ipHostNumber %>
+SourceIP=<%= listen_ip_real %>
 
 # Number of pre-forked instances of zabbix_agentd.
 # Default value is 5
@@ -60,12 +60,12 @@ DebugLevel=3
 
 # Name of PID file
 
-PidFile=<%= zabbix_agentd_pid_file %>
+PidFile=<%= pid_file_real %>
 
 # Name of log file.
 # If not set, syslog will be used
 
-LogFile=<%= zabbix_agentd_log_file %>
+LogFile=<%= log_file_real %>
 
 # Maximum size of log file in MB. Set to 0 to disable automatic log rotation.
 #LogFileSize=1
@@ -74,8 +74,8 @@ LogFile=<%= zabbix_agentd_log_file %>
 # Must be between 1 and 30
 
 Timeout=3
-<% if zabbix_supports_userparameters %>
-Include=<%= $zabbix_agentd_conf_include %>
+<% if has_userparameters %>
+Include=<%= $agent_include_path_real %>
 <% end %>
 
 ####### USER-DEFINED MONITORED PARAMETERS #######
