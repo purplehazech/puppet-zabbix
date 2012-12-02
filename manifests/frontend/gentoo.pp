@@ -1,14 +1,18 @@
+# == Class: zabbix::frontend::gentoo
+#
+# Gentoo specific use flags for frontend
+#
 class zabbix::frontend::gentoo {
-  file {
-    '/etc/portage/package.use/10_zabbix_frontend':
-      content => 'net-analyzer/zabbix  ldap mysql frontend snmp';
-
-    '/etc/portage/package.use/10_php-zabbix_frontend':
-      content => 'dev-lang/php truetype gd bcmath sockets sysvipc xmlwriter xmlreader';
-
-    '/etc/portage/package.use/10_gd-zabbix_frontend':
-      content => 'media-libs/gd png'
-
+  file { '/etc/portage/package.use/10_zabbix__frontend':
+    content => 'net-analyzer/zabbix ldap mysql frontend snmp'
   }
 
+  file { '/etc/portage/package.use/10_zabbix__frontend_dev_lang_php':
+    content => 'dev-lang/php truetype gd bcmath sockets sysvipc xmlwriter xmlreader'
+  }
+
+  file { '/etc/portage/package.use/10_gd-zabbix__frontend_media_libs_gd':
+    content => 'media-libs/gd png'
+  }
 }
+

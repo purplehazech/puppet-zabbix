@@ -114,6 +114,12 @@ class zabbix::agent (
   $zabbix_agentd_log_file  = $log_file_real
   $zabbix_agentd_install   = $ensure_real
 
+  if defined("zabbix::agent::${::operatingsystem}") {
+    class { "zabbix::agent::${::operatingsystem}":
+      before => Package[$package_real]
+    }
+  }
+
   file { $conf_file_real:
     content => template("zabbix/${template_real}"),
     notify  => Service[$service_name_real];
@@ -142,4 +148,3 @@ class zabbix::agent (
   }
 
 }
-
