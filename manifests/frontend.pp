@@ -45,7 +45,7 @@ class zabbix::frontend ($ensure = undef, $version = undef) {
       version => $version_real,
       app     => 'zabbix',
       base    => '/zabbix',
-      depends => ''
+      depends => []
     }
   }
 

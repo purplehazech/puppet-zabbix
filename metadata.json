@@ -25,7 +25,7 @@
     "manifests/agent/gentoo.pp": "4be97eacff3e8fa1fa414a1d4f384b3c",
     "manifests/agent/param.pp": "cd4dab32dcbb5f655531934ee6cddb60",
     "manifests/bundle.pp": "9e49b60bf083dfb026d9d5b60b8850a2",
-    "manifests/frontend.pp": "707742e1982a77870054e7848aabbfc7",
+    "manifests/frontend.pp": "2ca4c4fd78b9bf9ccf061ed816cf4dcd",
     "manifests/frontend/gentoo.pp": "24fcc88af3090d1ca953c09123d64ab4",
     "manifests/frontend/vhost.pp": "1cbf2dfc99ea7fb0bc04ecab82ecb2cc",
     "manifests/gentoo.pp": "a4431967832108b5323043d7b64a4c08",
@@ -172,6 +172,7 @@
     "templates/zabbix_agent_userparam.conf.erb": "fd4cbbc300f4f115090658f9db707824",
     "templates/zabbix_agentd.conf.erb": "c441dd6c766726d4721a8eec1dc1dcd0",
     "templates/zabbix_agentd.win.conf.erb": "3f46878cccabdc7c0ca0ef0ac25bd7cf",
+    "tests/.frontend.pp.swp": "74448fb0cc6fefb42b98ab0420303da4",
     "tests/agent_with_param.pp": "abe540cba307541ce0daf9cc9958eddf",
     "tests/frontend.pp": "6eb8b8594f5eade3199a50e81b8de2a6",
     "tests/site.pp": "de830773837f87fbd688238719fb684c"
