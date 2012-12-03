@@ -52,4 +52,17 @@ describe 'zabbix::frontend' do
       })
       }
   end
+  
+  context "use base uri parameter" do
+    let(:params) {
+      {
+        :base => '/mah_zahbowx'
+      }
+    }
+    it {
+      should contain_webapp_config('zabbix').with({
+        :base => '/mah_zahbowx'
+      })
+    }
+  end
 end
