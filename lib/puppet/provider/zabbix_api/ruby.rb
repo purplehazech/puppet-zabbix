@@ -1,3 +1,6 @@
+# == Type: zabbix_api
+#
+#
 require "zbxapi"
 Puppet::Type.type(:zabbix_api).provide(:ruby) do
 
