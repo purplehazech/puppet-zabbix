@@ -13,7 +13,7 @@ describe 'zabbix::frontend::vhost' do
       should contain_class('apache')
       should contain_apache__vhost('f.q.d.n.example.com').with({
         :docroot         => '/var/www/f.q.d.n.example.com/htdocs',
-        :vhost           => 'f.q.d.n.example.com',
+        :vhost_name      => 'f.q.d.n.example.com',
         :port            => '80',
       })
     }
