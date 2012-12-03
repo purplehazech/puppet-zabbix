@@ -2,7 +2,12 @@ require 'spec_helper'
 
 describe 'zabbix::frontend' do
 
- 
+  # only support gentoo for frontends as of now
+  let(:facts) {
+    {
+      :operatingsystem => 'Gentoo',
+    }
+  }
   context "on gentoo" do
     let(:facts) { 
       {
