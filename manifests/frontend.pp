@@ -130,19 +130,4 @@ class zabbix::frontend (
     ensure  => $ensure_real,
     content => template('zabbix/zabbix.conf.php.erb')
   }
-
-  case $ensure {
-    present : { # in /etc/php/apache2-php5.4/php.ini do
-                #   date.timezone = Europe/Zurich
-                #   post_max_size = 32M
-                #   max_execution_time = 600
-                #   max_input_time = 600
-                # setup
-                # /usr/share/webapps/zabbix/2.0.3/htdocs/include/db.inc.php
-                #   $DB_TYPE='SQLITE3';
-                #   $zabbix_database_* vars
-       }
-    absent  : { }
-  }
-
 }

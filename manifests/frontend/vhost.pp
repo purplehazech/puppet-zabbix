@@ -34,4 +34,12 @@ class zabbix::frontend::vhost (
     ssl        => false
   }
 
+  apache::vhost::include::php { 'zabbix':
+    vhost_name => $host_real,
+    values     => [
+      "date.timezone \"${timezone}\"",
+      'post_max_size "32M"',
+      'max_execution_time "600"',
+      'max_input_time "600"']
+  }
 }
