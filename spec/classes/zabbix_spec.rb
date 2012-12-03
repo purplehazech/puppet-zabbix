@@ -4,7 +4,8 @@ describe 'zabbix' do
   context "normal gentoo call" do
     let :facts do 
       {
-        :operatingsystem => 'Gentoo'
+        :operatingsystem => 'Gentoo',
+        :zabbixvserion => '2.0.3'
       }
     end
     it {
@@ -18,7 +19,9 @@ describe 'zabbix' do
   context "server gentoo call" do
     let :facts do 
       {
-        :operatingsystem => 'Gentoo'
+        :operatingsystem => 'Gentoo',
+        :zabbixvserion => '2.0.3'
+
       }
     end
     let :params do
@@ -37,7 +40,9 @@ describe 'zabbix' do
   context "frontend gentoo call" do
     let :facts do 
       {
-        :operatingsystem => 'Gentoo'
+        :operatingsystem => 'Gentoo',
+        :zabbixvserion => '2.0.3'
+
       }
     end
     let :params do
