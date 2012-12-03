@@ -90,4 +90,20 @@ describe 'zabbix::frontend' do
       should contain_file('/var/www/f.q.d.n.example.com/htdocs/zabbix/conf/zabbix.conf.php')
     }
   end
+  
+  context "grab version to install from facter" do
+
+    let(:facts) { 
+      {
+        :fqdn            => 'f.q.d.n.example.com',
+        :operatingsystem => 'Gentoo',
+        :zabbixversion   => 'over9000'
+      }
+    }
+    it {
+      should contain_webapp_config('zabbix').with({
+        :version => 'over9000',
+      })
+    }
+  end
 end
