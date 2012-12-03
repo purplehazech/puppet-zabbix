@@ -2,11 +2,20 @@
 #
 # Install and manage zabbix frontend
 #
+# === Example Usage:
+#
+#   class { 'zabbix::frontend':
+#     ensure       => present,
+#     server_host  => 'zabbix-server.local',
+#     server_name  => 'gentoo-dev',
+#     hostname     => $fqdn,
+#   }
+#
 # === Parmeters
 # * *ensure*
 #   absent or present
-# * *server*
-#   the server this belongs to
+# * *server_host*
+#   the zabbix server this belongs to
 # * *server_host*
 #   defaults to server
 # * *hostname*
