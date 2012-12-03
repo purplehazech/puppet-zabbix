@@ -101,10 +101,8 @@ class zabbix::frontend (
     default => $db_password
   }
 
-  if $::operatingsystem == 'Gentoo' {
-    class { 'zabbix::frontend::gentoo':
-      ensure => $ensure_real
-    }
+  class { 'zabbix::frontend::gentoo':
+    ensure => $ensure_real
   }
 
   if $vhost_class_real != 'zabbix::puppet::vhost' {
