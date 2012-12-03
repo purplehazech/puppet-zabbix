@@ -118,7 +118,7 @@ class zabbix::params {
   #
   $frontend_version         = $::operatingsystem ? {
     windows => 'skip',
-    default => '2.0.3'
+    default => $::zabbixversion
   }
 
   # === frontend_node
