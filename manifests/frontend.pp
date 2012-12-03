@@ -5,6 +5,10 @@
 # === Parmeters
 # * *ensure*
 #   absent or present
+# * *server*
+#   the server this belongs to
+# * *server_host*
+#   defaults to server
 # * *hostname*
 #   what hostname webapp shall use
 # * *vhost_class*
@@ -17,16 +21,34 @@
 #
 class zabbix::frontend (
   $ensure      = undef,
+  $server_host = undef,
+  $server_name = undef,
   $hostname    = undef,
   $base        = undef,
   $vhost_class = undef,
-  $version     = undef) {
+  $version     = undef,
+  $db_type     = undef,
+  $db_server   = undef,
+  $db_port     = undef,
+  $db_database = undef,
+  $db_user     = undef,
+  $db_password = undef) {
   include zabbix::params
   $ensure_real = $ensure ? {
     undef   => $zabbix::params::frontend_ensure,
     default => $ensure
   }
   validate_re($ensure_real, [absent, present])
+  $server_host_real = $server_host ? {
+    undef   => $zabbix::params::server_host,
+    default => $server_host
+  }
+  validate_string($server_host_real)
+  $server_name_real = $server_name ? {
+    undef   => $server_host_real,
+    default => $server_name
+  }
+  validate_string($server_name)
   $hostname_real = $hostname ? {
     undef   => $zabbix::params::frontend_hostname,
     default => $hostname
@@ -44,6 +66,30 @@ class zabbix::frontend (
   $vhost_class_real = $vhost_class ? {
     undef   => $zabbix::params::frontend_vhost_class,
     default => $vhost_class
+  }
+  $db_type_real     = $db_type ? {
+    undef   => $zabbix::params::frontend_db_type,
+    default => $db_type
+  }
+  $db_server_real   = $db_server ? {
+    undef   => $zabbix::params::frontend_db_server,
+    default => $db_server
+  }
+  $db_port_real     = $db_port ? {
+    undef   => $zabbix::params::frontend_db_port,
+    default => $db_port
+  }
+  $db_database_real = $db_database ? {
+    undef   => $zabbix::params::frontend_db_database,
+    default => $db_database
+  }
+  $db_user_real     = $db_user ? {
+    undef   => $zabbix::params::frontend_db_user,
+    default => $db_user
+  }
+  $db_password_real = $db_password ? {
+    undef   => $zabbix::params::frontend_db_password,
+    default => $db_password
   }
 
   if $::operatingsystem == 'Gentoo' {
@@ -80,6 +126,11 @@ class zabbix::frontend (
     }
   }
 
+  file { "/var/www/${hostname_real}/htdocs${base_real}/conf/zabbix.conf.php":
+    ensure  => $ensure_real,
+    content => template('zabbix/zabbix.conf.php.erb')
+  }
+
   case $ensure {
     present : { # in /etc/php/apache2-php5.4/php.ini do
                 #   date.timezone = Europe/Zurich
@@ -90,7 +141,6 @@ class zabbix::frontend (
                 # /usr/share/webapps/zabbix/2.0.3/htdocs/include/db.inc.php
                 #   $DB_TYPE='SQLITE3';
                 #   $zabbix_database_* vars
-                # webapp-config -I -h localhost -d zabbix zabbix 2.0.3
        }
     absent  : { }
   }

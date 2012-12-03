@@ -142,4 +142,10 @@ class zabbix::params {
   $frontend_url             = "http://${frontend_hostname}/zabbix"
   $frontend_user            = 'Admin'
   $frontend_password        = 'zabbix'
+  $frontend_db_type         = 'MYSQL'
+  $frontend_db_server       = 'localhost'
+  $frontend_db_port         = '0'
+  $frontend_db_database     = 'zabbix'
+  $frontend_db_user         = 'root'
+  $frontend_db_password     = ''
 }
