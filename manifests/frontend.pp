@@ -103,8 +103,9 @@ class zabbix::frontend (
     }
   } else {
     class { 'zabbix::frontend::vhost':
-      ensure => $ensure_real,
-      before => Webapp_config['zabbix']
+      ensure   => $ensure_real,
+      hostname => $hostname_real,
+      before   => Webapp_config['zabbix']
     }
 
   }
