@@ -70,4 +70,22 @@ describe 'zabbix::frontend' do
       })
     }
   end
+  
+  context "configure frontend completely" do
+
+    let(:facts) { 
+      {
+        :fqdn            => 'f.q.d.n.example.com',
+      }
+    }
+    let(:params) {
+      {
+        :ensure  => 'present',
+        :version => '2.0.3',
+      }
+    }
+    it {
+      should contain_file('/var/www/f.q.d.n.example.com/htdocs/zabbix/conf/zabbix.conf.php')
+    }
+  end
 end
