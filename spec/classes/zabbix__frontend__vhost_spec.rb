@@ -7,6 +7,7 @@ describe 'zabbix::frontend::vhost' do
       {
         :fqdn            => 'f.q.d.n.example.com',
         :operatingsystem => 'Gentoo',
+        :timezone        => 'CET'
       }
     }
     it {
@@ -16,16 +17,13 @@ describe 'zabbix::frontend::vhost' do
         :vhost_name      => 'f.q.d.n.example.com',
         :port            => '80',
       })
-      should contain_file_line('zabbix-db').with({
-        :path            => '/var/www/f.q.d.n.example.com/htdocs'
-      })
       should contain_apache__vhost__include__php('zabbix').with({
         :vhost_name      => 'f.q.d.n.example.com',
-        :envs            => [
-          'date.timezone = Europe/Zurich', 
-          'post_max_size = 32M', 
-          'max_execution_time = 600', 
-          'max_input_time = 600'
+        :values          => [
+          'date.timezone "CET"', 
+          'post_max_size "32M"', 
+          'max_execution_time "600"', 
+          'max_input_time "600"'
         ]
       })
     }

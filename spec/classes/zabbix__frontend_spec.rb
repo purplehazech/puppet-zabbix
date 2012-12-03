@@ -71,11 +71,12 @@ describe 'zabbix::frontend' do
     }
   end
   
-  context "configure frontend completely" do
+  context "configure frontend" do
 
     let(:facts) { 
       {
         :fqdn            => 'f.q.d.n.example.com',
+        :operatingsystem => 'Gentoo',
       }
     }
     let(:params) {
