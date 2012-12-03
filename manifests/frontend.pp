@@ -116,6 +116,12 @@ class zabbix::frontend (
     default => noop
   }
 
+  file { "/var/www/${hostname_real}/htdocs${base_real}/conf/zabbix.conf.php":
+    ensure  => $ensure_real,
+    content => template('zabbix/zabbix.conf.php.erb'),
+    require => Webapp_config['zabbix']
+  }
+
   if ($version_real != 'skip') {
     webapp_config { 'zabbix':
       action  => $webapp_action,
@@ -125,10 +131,5 @@ class zabbix::frontend (
       base    => $base_real,
       depends => []
     }
-  }
-
-  file { "/var/www/${hostname_real}/htdocs${base_real}/conf/zabbix.conf.php":
-    ensure  => $ensure_real,
-    content => template('zabbix/zabbix.conf.php.erb')
   }
 }

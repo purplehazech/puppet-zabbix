@@ -23,7 +23,7 @@
     "manifests/agent/gentoo.pp": "4be97eacff3e8fa1fa414a1d4f384b3c",
     "manifests/agent/param.pp": "cd4dab32dcbb5f655531934ee6cddb60",
     "manifests/bundle.pp": "9e49b60bf083dfb026d9d5b60b8850a2",
-    "manifests/frontend.pp": "b118b2710981ea3bff35919053624909",
+    "manifests/frontend.pp": "035c510b6e65fadad030379c295ed5f2",
     "manifests/frontend/gentoo.pp": "24fcc88af3090d1ca953c09123d64ab4",
     "manifests/frontend/vhost.pp": "69d2842f44cee829f5ac2656a0da2e22",
     "manifests/gentoo.pp": "a4431967832108b5323043d7b64a4c08",
