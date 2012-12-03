@@ -52,17 +52,4 @@ describe 'zabbix::frontend' do
       })
       }
   end
-  
-  context "it should fail with invalid ensure" do
-    let(:params) {
-      {
-        :ensure => 'ohnoez'
-      }
-    }
-    it {
-      expect {
-        contain_class('zabbix::frontend')
-      }.to raise_error(Puppet::Error, /validate_re/)
-    }
-  end
 end
