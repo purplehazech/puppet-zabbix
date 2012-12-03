@@ -30,7 +30,19 @@
 #   class zabbix::foot inherits zabbix::params
 #
 class zabbix::params {
-  # global settings
+  # == facter imports
+  # 
+  # grab vars from facter
+  #
+  # === zabbixversion_fact
+  #
+  # grab version from facter, this might fix poor broken travis
+  $zabbixversion_fact = $::zabbixversion ? {
+    undef   => '0.0.0', # some valid but outdated version
+    default => $::zabbixversion # the real thang
+  }
+
+  # == global settings
   $ensure   = present
   $agent    = present
   $server   = absent
@@ -118,7 +130,7 @@ class zabbix::params {
   #
   $frontend_version         = $::operatingsystem ? {
     windows => 'skip',
-    default => $::zabbixversion
+    default => $zabbixversion_fact
   }
 
   # === frontend_node
