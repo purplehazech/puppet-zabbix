@@ -31,14 +31,14 @@
 #
 class zabbix::params {
   # == facter imports
-  # 
+  #
   # grab vars from facter
   #
   # === zabbixversion_fact
   #
   # grab version from facter, this might fix poor broken travis
-  $zabbixversion_fact = $::zabbixversion ? {
-    undef   => '0.0.0', # some valid but outdated version
+  $zabbixversion_fact       = $::zabbixversion ? {
+    undef   => '2.0.3', # golden default that needs updating
     default => $::zabbixversion # the real thang
   }
 
