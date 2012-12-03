@@ -6,6 +6,15 @@ Install and configure zabbix. Right now only the agent part without userparamete
 is polished and tested. All the Server and Api related stuff still needs work and 
 its basically proof of concept stuff.
 
+I got a bit carried away with this module and it is coming along nicely. The next steps 
+I plan on taking are these:
+
+* pull thomasvandoren/puppet-zabbix for ists absolutely nice report implementation
+* finalize frontend install
+* rewrite api integration with lots of spec
+* add server part
+* test and integrate
+
 === Example Usage
 
 setup an agent on a node
@@ -19,7 +28,7 @@ agent management with user parameter
     server  => 'zabbix'
   }
   zabbix::agent::params { 'zabbix.param.test':
-    command => 'echo "Hellow World!"'
+    command => 'echo "Hello World!"'
   }
   zabbix::agent::params { 'Check for trueness':
     key     => 'zabbix.param.trueistrue
