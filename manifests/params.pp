@@ -120,15 +120,26 @@ class zabbix::params {
     windows => 'skip',
     default => '2.0.3'
   }
+
   # === frontend_node
   #
   # under what fqdn this will get hosted
   #
   $frontend_hostname        = $fqdn
+
+  # === frontend_docroot
+  #
+  # docroot of the frontends vhost
+  #
   $frontend_docroot         = "/var/www/${frontend_hostname}/htdocs"
+
+  # === frontend_base
+  #
+  # base request uri for frontend
+  #
+  $frontend_base            = '/zabbix'
   $frontend_port            = '80'
   $frontend_url             = "http://${frontend_hostname}/zabbix"
   $frontend_user            = 'Admin'
   $frontend_password        = 'zabbix'
-
 }

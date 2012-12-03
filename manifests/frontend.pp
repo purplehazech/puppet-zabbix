@@ -8,14 +8,17 @@
 # * *hostname*
 #   what hostname webapp shall use
 # * *vhost_class*
-#    class to use as the main vhost class, use to
-#    replace zabbix::frontend::vhost if needed
+#   class to use as the main vhost class, use to
+#   replace zabbix::frontend::vhost if needed
 # * *version*
 #   zabbix version or skip to leave out most of this module
+# * *base*
+#   base path for web request_uri
 #
 class zabbix::frontend (
   $ensure      = undef,
   $hostname    = undef,
+  $base        = undef,
   $vhost_class = undef,
   $version     = undef) {
   include zabbix::params
@@ -29,6 +32,10 @@ class zabbix::frontend (
     default => $hostname
   }
   validate_string($hostname_real)
+  $base_real    = $base ? {
+    undef   => $zabbix::params::frontend_base,
+    default => $base
+  }
   $version_real = $version ? {
     undef   => $zabbix::params::frontend_version,
     default => $version
@@ -68,7 +75,7 @@ class zabbix::frontend (
       vhost   => $hostname_real,
       version => $version_real,
       app     => 'zabbix',
-      base    => '/zabbix',
+      base    => $base_real,
       depends => []
     }
   }
