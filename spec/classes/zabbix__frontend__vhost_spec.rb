@@ -28,4 +28,26 @@ describe 'zabbix::frontend::vhost' do
       })
     }
   end
+  context "alternative docroot" do
+    let(:facts) { 
+      {
+        :fqdn            => 'f.q.d.n.example.com',
+        :operatingsystem => 'Gentoo',
+        :timezone        => 'CET'
+      }
+    }
+    let(:params) { 
+      {
+        :hostname        => 'elsewhere',
+      }
+    }
+    it {
+      should contain_class('apache')
+      should contain_apache__vhost('elsewhere').with({
+        :docroot         => '/var/www/elsewhere/htdocs',
+        :vhost_name      => 'elsewhere',
+        :port            => '80',
+      })
+    }
+  end
 end
