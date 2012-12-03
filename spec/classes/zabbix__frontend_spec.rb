@@ -27,7 +27,8 @@ describe 'zabbix::frontend' do
         :ensure  => 'present',
       })
       should contain_class('zabbix::frontend::vhost').with({
-        :ensure  => 'present',
+        :ensure   => 'present',
+        :hostname => 'f.q.d.n.example.com'
       })
       should contain_webapp_config('zabbix').with({
         :action  => 'install', 
