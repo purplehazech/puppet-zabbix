@@ -91,16 +91,43 @@ class zabbix::params {
   $zabbix_database_user     = 'root'
   $zabbix_database_password = ''
 
-  # frontend settings
+  # == frontend settings
+  #
+  # contains setting pertaining to the front end install
+  #
+  # === frontend_ensure
+  #
+  # install frontend on node, present or absent
+  #
   $frontend_ensure          = present
+
+  # === frontend_vhost_class
+  #
+  # What class to use for creating vhosts. The provided default
+  # creates an apache base server and hosts zabbix on /zabbix.
+  #
+  $frontend_vhost_class     = 'zabbix::puppet::vhost'
+
+  # === frontend_version
+  #
+  # what version of the frontend to install, skip make this module ignore
+  # everything.
+  #
+  # @todo find a friendly way to get the answer from webapp-config and implement
+  #       said thing nicely
+  #
   $frontend_version         = $::operatingsystem ? {
     windows => 'skip',
     default => '2.0.3'
   }
-  $frontend_host            = $fqdn
-  $frontend_docroot         = "/var/www/${frontend_host}/htdocs"
+  # === frontend_node
+  #
+  # under what fqdn this will get hosted
+  #
+  $frontend_hostname        = $fqdn
+  $frontend_docroot         = "/var/www/${frontend_hostname}/htdocs"
   $frontend_port            = '80'
-  $frontend_url             = "http://${frontend_host}/zabbix"
+  $frontend_url             = "http://${frontend_hostname}/zabbix"
   $frontend_user            = 'Admin'
   $frontend_password        = 'zabbix'
 

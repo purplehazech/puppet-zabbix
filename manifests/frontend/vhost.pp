@@ -1,10 +1,10 @@
 # == Class: zabbix::frontend::vhost
 #
 class zabbix::frontend::vhost (
-  $ensure  = undef,
-  $docroot = undef,
-  $port    = undef,
-  $host    = undef) {
+  $ensure   = undef,
+  $docroot  = undef,
+  $port     = undef,
+  $hostname = undef) {
   include zabbix::params
   $ensure_real = $ensure ? {
     undef   => $zabbix::params::frontend,
@@ -20,9 +20,9 @@ class zabbix::frontend::vhost (
     undef   => $zabbix::params::frontend_port,
     default => $port
   }
-  $host_real = $host ? {
-    undef   => $zabbix::params::frontend_host,
-    default => $host
+  $host_real = $hostname ? {
+    undef   => $zabbix::params::frontend_hostname,
+    default => $hostname
   }
 
   include apache
