@@ -123,6 +123,12 @@ class zabbix::params {
   # template for conf file
   #
   $server_template      = 'zabbix/zabbix_server.conf.erb'
+  #
+  # == server_node_id
+  #
+  # node id for multi master setups
+  #
+  $server_node_id       = 0
   $server_db_server     = $db_server
   $server_db_database   = $db_database
   $server_db_user       = $db_user
