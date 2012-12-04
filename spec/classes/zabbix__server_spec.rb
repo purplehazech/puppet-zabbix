@@ -14,6 +14,7 @@ describe 'zabbix::server' do
         :ensure => 'running',
         :enable => 'true',
       })
+      should contain_file('/etc/zabbix/zabbix_server.conf')
     }
   end
   context 'it should have valid params' do
