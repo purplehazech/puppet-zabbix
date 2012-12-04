@@ -62,8 +62,9 @@ describe 'zabbix::server' do
       }
     }
     it {
-      should contain_zabbix__agent__server('server_host').with({
-        :ensure => 'present'
+      should contain_zabbix__agent('zabbix::agent').with({
+        :ensure => 'present',
+        :server => 'server_host'
       })
     }
   end
