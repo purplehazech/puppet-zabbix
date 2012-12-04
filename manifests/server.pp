@@ -11,7 +11,9 @@ class zabbix::server (
   $db_server   = undef,
   $db_database = undef,
   $db_user     = undef,
-  $db_password = undef) {
+  $db_password = undef,
+  $hostname    = undef,
+  $export      = undef) {
   include zabbix::params
   $ensure_real      = $ensure ? {
     undef   => $zabbix::params::server_enable,
@@ -45,6 +47,14 @@ class zabbix::server (
     undef   => $zabbix::params::server_db_password,
     default => $db_password
   }
+  $hostname_real    = $hostname ? {
+    undef   => $zabbix::params::server_hostname,
+    default => $hostname
+  }
+  $export_real      = $export ? {
+    undef   => $zabbix::params::server_export,
+    default => $export
+  }
 
   case $::operatingsystem {
     'Gentoo' : {
@@ -73,13 +83,13 @@ class zabbix::server (
     enable => $service_enable
   }
 
-  case $ensure {
-    present : {
-      include zabbix::server::gentoo
-      # install templates needed by different nodes
-      Zabbix::Server::Template <<| |>>
+  if $export_real == present {
+    # export myself to all agents
+    @@zabbix::agent { 'zabbix::agent':
+      ensure => present,
+      server => $hostname_real
     }
-    absent  : {
-    }
+    # install templates needed by different nodes
+    Zabbix::Server::Template <<| |>>
   }
 }
