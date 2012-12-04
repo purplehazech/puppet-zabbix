@@ -17,10 +17,17 @@ describe 'zabbix::server' do
       should contain_file('/etc/zabbix/zabbix_server.conf')
     }
   end
-  context 'it should have valid params' do
+  context 'it should have params' do
     let(:params) {
       {
-        :ensure => 'present',
+        :ensure      => 'present',
+        :conf_file   => 'undef',
+        :template    => 'undef',
+        :node_id     => 'undef',
+        :db_server   => 'undef',
+        :db_database => 'undef',
+        :db_user     => 'undef',
+        :db_password => 'undef',
       }
     }
   end
