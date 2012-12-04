@@ -51,6 +51,13 @@ class zabbix::params {
     windows => absent,
     default => present
   }
+
+  # == export
+  #
+  # use export globally
+  #
+  $export               = present
+
   $db_type              = 'MYSQL'
   $db_server            = 'localhost'
   $db_port              = '0'
@@ -123,12 +130,20 @@ class zabbix::params {
   # template for conf file
   #
   $server_template      = 'zabbix/zabbix_server.conf.erb'
+
   #
   # == server_node_id
   #
   # node id for multi master setups
   #
   $server_node_id       = 0
+
+  # == server_export
+  #
+  # export resources on server, present or absent
+  #
+  $server_export        = $export
+
   $server_db_server     = $db_server
   $server_db_database   = $db_database
   $server_db_user       = $db_user

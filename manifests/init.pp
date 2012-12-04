@@ -39,7 +39,8 @@ class zabbix (
   $agent    = undef,
   $server   = undef,
   $frontend = undef,
-  $api      = undef) {
+  $api      = undef,
+  $export   = undef) {
   include zabbix::params
   $ensure_real   = $ensure ? {
     undef   => $zabbix::params::ensure,
@@ -61,6 +62,10 @@ class zabbix (
     undef   => $zabbix::params::api,
     default => $api
   }
+  $export_real   = $export ? {
+    undef   => $zabbix::params::export,
+    default => $export
+  }
 
   if $::operatingsystem == 'Gentoo' {
     class { 'zabbix::gentoo':
@@ -80,6 +85,7 @@ class zabbix (
 
   class { 'zabbix::server':
     ensure  => $server_real,
+    export  => $export_real,
     require => [Class['zabbix::agent'], Package['zbxapi']]
   }
 
