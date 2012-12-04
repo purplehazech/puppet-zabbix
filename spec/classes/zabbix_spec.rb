@@ -1,6 +1,18 @@
 require 'spec_helper'
 
 describe 'zabbix' do
+  context "with params" do
+    let(:params) {
+      {
+        :ensure   => 'undef',
+        :agent    => 'undef',
+        :server   => 'undef',
+        :frontend => 'undef',
+        :api      => 'undef',
+        :export   => 'undef',
+      }
+    }
+  end
   context "normal gentoo call" do
     let :facts do 
       {
