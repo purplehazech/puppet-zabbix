@@ -28,22 +28,40 @@ describe 'zabbix::server' do
         :db_database => 'undef',
         :db_user     => 'undef',
         :db_password => 'undef',
+        :export      => 'undef,'
       }
     }
   end
-  context 'test zabbix::server::template call with ensure', :broken => true do
+  context 'test zabbix::server::template call with args', :broken => true do
     # broken due to dependency on rodjek/rspec-puppet#51
     let(:exported_resources) { 
       {
         'zabbix::server::template' => {
           'test_template' => {
-            'ensure' => 'present'
+            'ensure' => 'present',
           }
         }
       }
     }
     it {
       should contain_zabbix__server__template('test_template').with({
+        :ensure => 'present'
+      })
+    }
+  end
+  context 'with export present' do
+    let(:facts) {
+      {
+        'fqdn' => 'server_host'
+      }
+    }
+    let(:params) {
+      {
+      'export' => 'present',
+      }
+    }
+    it {
+      should contain_zabbix__agent__server('server_host').with({
         :ensure => 'present'
       })
     }
