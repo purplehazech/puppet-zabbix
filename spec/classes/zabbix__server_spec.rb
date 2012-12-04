@@ -31,4 +31,21 @@ describe 'zabbix::server' do
       }
     }
   end
+  context 'test zabbix::server::template call with ensure', :broken => true do
+    # broken due to dependency on rodjek/rspec-puppet#51
+    let(:exported_resources) { 
+      {
+        'zabbix::server::template' => {
+          'test_template' => {
+            'ensure' => 'present'
+          }
+        }
+      }
+    }
+    it {
+      should contain_zabbix__server__template('test_template').with({
+        :ensure => 'present'
+      })
+    }
+  end
 end
