@@ -70,4 +70,15 @@ describe 'zabbix' do
       should contain_class('zabbix::frontend').with({:ensure => 'present'})
     }
   end
+  context "calls with export" do
+    let :params do
+      {
+        :ensure => 'present',
+        :export => 'present'
+      }
+    end
+    it {
+      should contain_class('zabbix::server').with({:export => 'present'})
+    }
+  end
 end
