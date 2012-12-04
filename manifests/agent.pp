@@ -45,6 +45,12 @@
 #     package => false
 #   }
 #
+# === Issues
+#
+# * no validation whatsoever due to non working plugin sync on my winxp boxes
+# * only really tested on gentoo, some debian flavors and partly on some winxp
+#*
+#
 class zabbix::agent (
   $ensure             = undef,
   $hostname           = undef,
@@ -99,7 +105,7 @@ class zabbix::agent (
     undef   => $zabbix::params::agent_userparameters,
     default => $userparameters
   }
-  # @todo validate_hash
+  # validate_hash($userparameters_real)
   $has_userparameters      = $userparameters_real ? {
     undef   => false,
     default => true
@@ -159,5 +165,4 @@ class zabbix::agent (
     ensure => $service_ensure,
     enable => $service_enable
   }
-
 }
