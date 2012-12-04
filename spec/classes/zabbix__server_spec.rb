@@ -28,7 +28,8 @@ describe 'zabbix::server' do
         :db_database => 'undef',
         :db_user     => 'undef',
         :db_password => 'undef',
-        :export      => 'undef,'
+        :export      => 'undef',
+        :hostname    => 'undef',
       }
     }
   end
