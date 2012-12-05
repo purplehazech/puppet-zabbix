@@ -85,9 +85,9 @@ class zabbix::server (
 
   if $export_real == present {
     # export myself to all agents
-    @@zabbix::agent { 'zabbix::agent':
-      ensure => present,
-      server => $hostname_real
+    @@zabbix::agent::server { $hostname_real:
+      ensure   => present,
+      hostname => $hostname_real
     }
     # install templates needed by different nodes
     Zabbix::Server::Template <<| |>>

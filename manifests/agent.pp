@@ -69,7 +69,7 @@ class zabbix::agent (
     default => $hostname
   }
   $server_ip_real = $server ? {
-    undef   => $zabbix::params::server_host,
+    undef   => $zabbix::params::server_hostname,
     default => $server
   }
   $listen_ip_real = $listen_ip ? {

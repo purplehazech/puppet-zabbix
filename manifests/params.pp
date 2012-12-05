@@ -65,7 +65,7 @@ class zabbix::params {
   $db_user              = 'root'
   $db_password          = ''
   # global network settings
-  $server_host          = 'zabbix'
+  $server_hostname      = 'zabbix'
 
   # agent settings
   $agent_ensure         = present

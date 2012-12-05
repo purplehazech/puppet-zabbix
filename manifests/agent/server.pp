@@ -2,5 +2,5 @@
 #
 # server helper define
 #
-define zabbix::agent::server ($ensure = undef, $define = undef) {
+define zabbix::agent::server ($ensure = undef, $hostname = undef) {
 }
