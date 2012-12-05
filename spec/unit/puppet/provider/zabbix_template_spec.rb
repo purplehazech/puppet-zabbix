@@ -18,6 +18,17 @@ describe "zabbix_template" do
     resource.provider().exists?().should == false
   end
   
+  it "should return true on existing templates" do
+    resource = Puppet::Type.type(:zabbix_template).new({
+      :name => 'rspec zabbix_template that exists',
+    })
+    Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
+    if !resource.provider().exists?()
+      resource.provider().create()
+    end
+    resource.provider().exists?().should == true
+  end
+  
   it "should create a template, find it and delete it again", :broken => true do
     resource = Puppet::Type.type(:zabbix_template).new({
       :name => 'rspec zabbix_template',
