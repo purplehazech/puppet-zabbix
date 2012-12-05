@@ -4,8 +4,8 @@ describe 'zabbix::agent::server' do
   context "with params" do
     let :params do
       {
-        :ensure => 'undef',
-        :server => 'undef'
+        :ensure   => 'undef',
+        :hostname => 'undef'
       }
     end
   end
