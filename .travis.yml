@@ -1,6 +1,15 @@
+language: 
+  - ruby
 rvm: 1.8.7
-script: "bundle exec rake spec"
+before_script:
+  - sudo apt-get install zabbix-server-mysql zabbix-frontend-php
+  - mysql -u root -e "use zabbix; insert into users_groups(usrgrpid, userid) values(10,1);"
+  - echo "$(curl -fsSL https://raw.github.com/gist/8f0df0d1824ea25a3827/zabbix.php)" | sudo tee /usr/share/zabbix/conf/zabbix.conf.php
+script: 
+  - "bundle exec rake spec"
+#  - "bundle exec rake lint"
+
 env:
 #  - PUPPET_VERSION=3.0.1 Breaks due to rodjek/rspec-puppet#58
   - PUPPET_VERSION=2.7.18
-  - PUPPET_VERSION=2.7.20
+#  - PUPPET_VERSION=2.7.20
