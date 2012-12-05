@@ -84,9 +84,7 @@ describe 'zabbix::server' do
       }
     }
     it {
-      should contain_class('zabbix::agent').with({
-        :ensure   => 'present',
-      })
+      should contain_class('zabbix::agent')
     }
   end
 end
