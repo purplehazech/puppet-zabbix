@@ -73,6 +73,16 @@ describe 'zabbix::server' do
     }
   end
   context 'should always require an agent' do
+    let(:facts) {
+      {
+        :operatingsystem => 'Gentoo'
+      }
+    }
+    let(:params) {
+      {
+        :ensure => 'present'
+      }
+    }
     it {
       should contain_class('zabbix::agent').with({
         :ensure   => 'present',
