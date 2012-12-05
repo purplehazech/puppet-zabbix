@@ -1,6 +1,12 @@
 == Module: Zabbix
 
-{<img src="https://secure.travis-ci.org/purplehazech/puppet-zabbix.png?branch=master" alt="Build Status" />}[https://travis-ci.org/purplehazech/puppet-zabbix]
+{<img src="https://secure.travis-ci.org/purplehazech/puppet-zabbix.png?branch=master" alt="Build Status" />}[https://travis-ci.org/purplehazech/puppet-zabbix] *Master* 
+
+{<img src="https://secure.travis-ci.org/purplehazech/puppet-zabbix.png?branch=zabbix-server" alt="Build Status" />}[https://travis-ci.org/purplehazech/puppet-zabbix] zabbix-server
+
+{<img src="https://secure.travis-ci.org/purplehazech/puppet-zabbix.png?branch=zabbix-api" alt="Build Status" />}[https://travis-ci.org/purplehazech/puppet-zabbix] zabbix-api
+
+{<img src="https://secure.travis-ci.org/purplehazech/puppet-zabbix.png?branch=travis-stress" alt="Build Status" />}[https://travis-ci.org/purplehazech/puppet-zabbix] travis-stress
 
 Install and configure zabbix. Right now only the agent part without userparameters 
 is polished and tested. All the Server and Api related stuff still needs work and 
