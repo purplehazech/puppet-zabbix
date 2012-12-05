@@ -10,13 +10,12 @@ describe "zabbix_template" do
     resource.provider.class.to_s.should == "Puppet::Type::Zabbix_template::ProviderRuby"
   end
   
-  
   it "should return false on inexistant templates" do
     resource = Puppet::Type.type(:zabbix_template).new({
       :name => 'blerghli',
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
-    false === resource.provider().exists?()
+    resource.provider().exists?().should == false
   end
   
   it "should create a template, find it and delete it again" do
@@ -25,8 +24,8 @@ describe "zabbix_template" do
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
     resource.provider().create()
-    true === resource.provider().exists?()
+    resource.provider().exists?().should == true
     resource.provider().destroy()
-    false === resource.provider().exists?()
+    resource.provider().exists?().should == false
   end
 end
