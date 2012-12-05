@@ -74,7 +74,7 @@ describe 'zabbix::server' do
   end
   context 'should always require an agent' do
     it {
-      should contain_zabbix__agent('zabbix::agent').with({
+      should contain_class('zabbix::agent').with({
         :ensure   => 'present',
       })
     }
