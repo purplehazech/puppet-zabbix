@@ -50,7 +50,10 @@ describe 'zabbix::server' do
       })
     }
   end
-  context 'with export present' do
+  context 'with export present', :broken => true do
+    # testing exported resources seems generally broken
+    # i would like to test this side for proper exporting
+    # and then test it on the other side again like above
     let(:facts) {
       {
         :operatingsystem => 'Gentoo',
