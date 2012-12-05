@@ -71,6 +71,11 @@ describe 'zabbix' do
     }
   end
   context "calls with export" do
+    let :facts do
+      {
+        :operatingsystem => 'Gentoo'
+      }
+    end
     let :params do
       {
         :ensure => 'present',
