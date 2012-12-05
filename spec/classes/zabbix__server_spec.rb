@@ -53,6 +53,7 @@ describe 'zabbix::server' do
   context 'with export present' do
     let(:facts) {
       {
+        :operatingsystem => 'Gentoo',
         'fqdn' => 'server_host'
       }
     }
