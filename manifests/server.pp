@@ -56,7 +56,8 @@ class zabbix::server (
     default => $export
   }
 
-  include zabbix::agent
+  class { 'zabbix::agent':
+  }
 
   case $::operatingsystem {
     'Gentoo' : {
