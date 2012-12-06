@@ -5,6 +5,7 @@ describe 'zabbix::externals' do
     let :param do
       {
         :ensure => 'undef',
+        :api    => 'undef',
       }
     end
     it {
