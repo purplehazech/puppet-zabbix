@@ -52,7 +52,7 @@ class zabbix::params {
     default => present
   }
   # global network settings
-  $server_host              = 'zabbix'
+  $server_host     = 'zabbix'
 
   # agent settings
   $agent_ensure             = present
