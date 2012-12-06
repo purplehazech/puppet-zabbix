@@ -12,4 +12,10 @@ describe 'zabbix::externals' do
     }
   end
   
+  context 'should load params' do
+    it {
+      should contain_class('zabbix::params')
+    }
+  end
+  
 end
