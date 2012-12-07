@@ -87,4 +87,22 @@ describe 'zabbix::server' do
       should contain_class('zabbix::agent')
     }
   end
+  context 'should install activerecord' do
+
+    let(:facts) {
+      {
+        :operatingsystem => 'Gentoo'
+      }
+    }
+    let(:params) {
+      {
+        :ensure => 'present'
+      }
+    }
+    it {
+      should contain_package('activerecord').with({
+        :ensure => 'present'
+      })
+    }
+  end
 end
