@@ -63,6 +63,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Zabbix Report Processor is in this program as a subtree merge.
 
 Author: Thomas Van Doren
+
 License: GPLv2
+
 Github: https://github.com/thomasvandoren/puppet-zabbix
 
