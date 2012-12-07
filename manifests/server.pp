@@ -56,12 +56,19 @@ class zabbix::server (
     default => $export
   }
 
+  require zabbix::agent
+
   case $::operatingsystem {
     'Gentoo' : {
       class { 'zabbix::server::gentoo':
         ensure => $ensure_real
       }
     }
+  }
+
+  package { 'activerecord':
+    ensure => $ensure,
+    before => File[$conf_file_real]
   }
 
   $service_ensure = $ensure_real ? {
@@ -75,7 +82,8 @@ class zabbix::server (
 
   file { $conf_file_real:
     ensure  => $ensure_real,
-    content => template($template_real)
+    content => template($template_real),
+    notify  => Service['zabbix-server']
   }
 
   service { 'zabbix-server':
@@ -93,3 +101,4 @@ class zabbix::server (
     Zabbix::Server::Template <<| |>>
   }
 }
+ 

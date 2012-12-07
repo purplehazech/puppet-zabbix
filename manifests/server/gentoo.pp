@@ -5,4 +5,9 @@ class zabbix::server::gentoo ($ensure = undef) {
     content => 'net-analyzer/zabbix  ldap mysql server jabber snmp -sqlite',
     before  => Package['zabbix']
   }
+
+  file { '/etc/portage/package.use/10_zabbix__server_activerecord':
+    content => 'dev-ruby/activerecord mysql',
+    before  => Package['activerecord']
+  }
 }

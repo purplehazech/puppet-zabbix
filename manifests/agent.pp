@@ -65,38 +65,38 @@ class zabbix::agent (
   $package            = undef,
   $service_name       = undef) {
   include zabbix::params
-  $ensure_real    = $ensure ? {
+  $ensure_real             = $ensure ? {
     undef   => $zabbix::params::agent_ensure,
     default => $ensure
   }
   # validate_re($ensure_real, [absent, present])
-  $hostname_real  = $ensure ? {
+  $hostname_real           = $ensure ? {
     undef   => $zabbix::params::agent_hostname,
     default => $hostname
   }
-  $server_ip_real = $server ? {
+  $server_ip_real          = $server ? {
     undef   => $zabbix::params::server_hostname,
     default => $server
   }
-  $listen_ip_real = $listen_ip ? {
+  $listen_ip_real          = $listen_ip ? {
     undef   => $zabbix::params::agent_listen_ip,
     default => $listen_ip
   }
-  $template_real  = $template ? {
+  $template_real           = $template ? {
     undef   => $zabbix::params::agent_template,
     default => $template
   }
-  $conf_file_real = $conf_file ? {
+  $conf_file_real          = $conf_file ? {
     undef   => $zabbix::params::agent_conf_file,
     default => $conf_file
   }
   # validate_absolute_path($conf_file_real)
-  $pid_file_real  = $pid_file ? {
+  $pid_file_real           = $pid_file ? {
     undef   => $zabbix::params::agent_pid_file,
     default => $pid_file
   }
   # validate_absolute_path($pid_file_real)
-  $log_file_real  = $log_file ? {
+  $log_file_real           = $log_file ? {
     undef   => $zabbix::params::agent_log_file,
     default => $log_file
   }
@@ -114,7 +114,7 @@ class zabbix::agent (
     undef   => $zabbix::params::agent_include_path,
     default => $agent_include_path
   }
-  $package_real   = $package ? {
+  $package_real            = $package ? {
     undef   => $zabbix::params::agent_package,
     default => $package
   }
@@ -122,13 +122,14 @@ class zabbix::agent (
     undef   => $zabbix::params::agent_service_name,
     default => $service_name
   }
+  emerg($service_name_real)
   # compat: define stuff still used in win template
-  $cn             = $hostname_real
-  $ipHostNumber   = $listen_ip_real
-  $zabbix_server_ip        = $server_ip_real
-  $zabbix_agentd_pid_file  = $pid_file_real
-  $zabbix_agentd_log_file  = $log_file_real
-  $zabbix_agentd_install   = $ensure_real
+  $cn                     = $hostname_real
+  $ipHostNumber           = $listen_ip_real
+  $zabbix_server_ip       = $server_ip_real
+  $zabbix_agentd_pid_file = $pid_file_real
+  $zabbix_agentd_log_file = $log_file_real
+  $zabbix_agentd_install  = $ensure_real
 
   if $::operatingsystem == 'Gentoo' {
     class { 'zabbix::agent::gentoo':
@@ -147,8 +148,7 @@ class zabbix::agent (
   if $package_real != false {
     package { $package_real:
       ensure => $ensure_real,
-      before => File[$conf_file_real],
-      notify => Servce[$service_name_real]
+      before => File[$conf_file_real]
     }
   }
 
