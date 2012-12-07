@@ -19,4 +19,12 @@ describe 'zabbix::externals' do
     }
   end
   
+  context 'should export zabbix api configs', :broken => true do
+    it {
+      # i believe @@ stuff is mostly untestable as of now
+      should contain_zabbix_template('Template App Zabbix')
+      should contain_zabbix_template_application('Zabbix')
+    }
+  end
+
 end
