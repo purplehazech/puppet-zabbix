@@ -66,6 +66,11 @@ class zabbix::server (
     }
   }
 
+  package { 'activerecord':
+    ensure => $ensure,
+    before => File[$conf_file_real]
+  }
+
   $service_ensure = $ensure_real ? {
     absent  => stopped,
     default => running
@@ -96,3 +101,4 @@ class zabbix::server (
     Zabbix::Server::Template <<| |>>
   }
 }
+ 
