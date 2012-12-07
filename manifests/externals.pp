@@ -25,5 +25,16 @@ class zabbix::externals ($ensure = undef, $api = undef) {
   $api_real    = $api ? {
     undef   => $zabbix::params::api_ensure,
     default => $api
-  } }
+  }
 
+  if $api_real {
+    @@zabbix_template { 'Template App Zabbix':
+      ensure => $ensure_real,
+    }
+
+    @@zabbix_template_application { 'Zabbix':
+      ensure => $ensure_real,
+      host   => 'Template App Zabbix',
+    }
+  }
+}

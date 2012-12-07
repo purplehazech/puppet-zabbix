@@ -103,6 +103,13 @@ class zabbix::params {
   $zabbix_database_user     = 'root'
   $zabbix_database_password = ''
 
+  # == api settings
+  #
+  # === api_ensure
+  #
+  # enable/disable api settings
+  $api_ensure      = false
+
   # == frontend settings
   #
   # contains setting pertaining to the front end install
