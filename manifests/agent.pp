@@ -149,7 +149,7 @@ class zabbix::agent (
     package { $package_real:
       ensure => $ensure_real,
       before => File[$conf_file_real],
-      notify => Servce[$service_name_real]
+      notify => Service[$service_name_real]
     }
   }
 
