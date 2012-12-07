@@ -57,3 +57,12 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+==== Zabbix Report Processor
+
+Zabbix Report Processor is in this program as a subtree merge.
+
+Author: Thomas Van Doren
+License: GPLv2
+Github: https://github.com/thomasvandoren/puppet-zabbix
+
