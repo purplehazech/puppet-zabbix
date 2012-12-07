@@ -77,7 +77,8 @@ class zabbix::server (
 
   file { $conf_file_real:
     ensure  => $ensure_real,
-    content => template($template_real)
+    content => template($template_real),
+    notify  => Service['zabbix-server']
   }
 
   service { 'zabbix-server':
