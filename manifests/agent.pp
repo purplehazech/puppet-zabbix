@@ -148,8 +148,7 @@ class zabbix::agent (
   if $package_real != false {
     package { $package_real:
       ensure => $ensure_real,
-      before => File[$conf_file_real],
-      notify => Service[$service_name_real]
+      before => File[$conf_file_real]
     }
   }
 
