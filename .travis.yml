@@ -1,6 +1,8 @@
 rvm:
   - 1.8.7
   - 1.9.3
+before_script:
+  - curl https://github.com/rodjek/rspec-puppet/pull/61.patch | patch -d `bundle show rspec-puppet` -p 1 -t
 script:
   - "rake spec"
 env:
