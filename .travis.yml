@@ -4,12 +4,18 @@ rvm:
 script:
   - "rake spec"
 env:
-#  - PUPPET_VERSION=3.0.1 Breaks due to rodjek/rspec-puppet#58
+  - PUPPET_VERSION=3.0.1 # Breaks due to rodjek/rspec-puppet#58
+  - PUPPET_VERSION=3.0.0
   - PUPPET_VERSION=2.7.18
   - PUPPET_VERSION=2.7.20
   - PUPPET_VERSION=2.7.13
   - PUPPET_VERSION=2.7.6
 matrix:
   allow_failures:
-    - env: PUPPET_VERSION=2.6.9
+    - env: 
+      - PUPPET_VERSION=2.6.9
+      - PUPPET_VERSION=2.7.6
+      - PUPPET_VERSION=2.7.13
+      - PUPPET_VERSION=2.7.18
+      - PUPPET_VERSION=2.7.20
     - rvm: 1.9.3
