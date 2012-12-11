@@ -3,3 +3,10 @@ Gemfile.lock
 spec/fixtures/
 .*.swp
 metadata.json
+# Emacs stuff.
+*~
+*#*#
+*.#*
+
+# Build stuff.
+/pkg

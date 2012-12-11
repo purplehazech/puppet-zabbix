@@ -15,4 +15,5 @@ group :test do
   gem 'rspec-puppet', '>= 0.1.5'
   gem 'puppet-lint', '>= 0.3.2'
   gem 'puppetlabs_spec_helper', '>= 0.3.0'
+  gem 'open4', '~> 1.3.0'
 end
