@@ -193,7 +193,7 @@ class zabbix::params {
   #
   # under what fqdn this will get hosted
   #
-  $frontend_hostname    = $fqdn
+  $frontend_hostname    = $::fqdn
 
   # === frontend_docroot
   #
