@@ -17,26 +17,26 @@ it over to multiple architectures later on.
 In my opinion a feature complete Zabbix module must support the 
 following things.
 
-* Zabbix reports from puppet
-** initial supported by doing a subtree merge from 
-   https://github.com/thomasvandoren/puppet-zabbix
-* ability to separately manage Zabbix server, frontend and agent
-** more or less ready to integrate
-* additional apps like proxy, alternative agents (snmp + more)
-** not hard to do, but bumped to later since i don't need them
-* complete api integration for provisioning
-** plans are to host every single line of Zabbix config
-   in puppet data somewhere. You never need to touch the 
-   config part of the frontend. The second version of the
-   API seems to work, Zabbix's api some quirks and i needed
-   to find those first.
-   This is under development in the zabbix-api branch and will
-   not hit master before it's complete. The one in master is 
-   considered unsuitable for any use other that finding out how 
-   not to code ruby.
-* documentation
-** containing all the (double) spaceship examples to explain 
-   why it makes sense to use the Zabbix api this way.
+[Zabbix reports from puppet]
+ initial support by doing a subtree merge from 
+ https://github.com/thomasvandoren/puppet-zabbix
+[ability to separately manage Zabbix server, frontend and agent]
+ more or less ready to integrate
+[additional apps like proxy, alternative agents (snmp + more)]
+ not hard to do, but bumped to later since i don't need them
+[complete api integration for provisioning]
+ plans are to host every single line of Zabbix config
+ in puppet data somewhere. You never need to touch the 
+ config part of the frontend. The second version of the
+ API seems to work, Zabbix's api some quirks and i needed
+ to find those first.
+ This is under development in the zabbix-api branch and will
+ not hit master before it's complete. The one in master is 
+ considered unsuitable for any use other that finding out how 
+ not to code ruby.
+[documentation]
+ containing all the (double) spaceship examples to explain 
+ why it makes sense to use the Zabbix api this way.
    
 Most of the legwork is falling together and i expect this module
 to look like it should soonish. I will update the major version
