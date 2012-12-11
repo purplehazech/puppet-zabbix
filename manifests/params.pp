@@ -2,6 +2,8 @@
 #
 # parametrize zabbix class
 #
+# @todo move me to hiera completely!
+#
 # === Operating Systems
 #
 # This module supports various operating systems.

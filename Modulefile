@@ -2,7 +2,7 @@ name 'purplehazech-zabbix'
 version '0.0.2'
 
 author 'Lucas S. Bickel'
-license 'GNU Affero General Public License, version 3'
+license 'see README.rdoc'
 project_page 'https://github.com/purplehazech/puppet-infra-project'
 source 'https://github.com/purplehazech/puppet-infra-project/tree/master/modules/zabbix'
 summary 'install and configure zabbix agent'
