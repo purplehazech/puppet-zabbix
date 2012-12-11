@@ -11,6 +11,7 @@ Puppet::Type.newtype(:zabbix_template_item) do
   
   newparam(:applications) do
     desc 'Array of applications to add the item to.'
+    defaultto []
   end
 
   newparam(:delay) do
@@ -127,21 +128,10 @@ Puppet::Type.newtype(:zabbix_template_item) do
     2 - Delta, simple change.
     EOT
   end
+  
   newparam(:description) do
     desc <<-EOT
-    Description of the item.
+      Description of the item.
     EOT
   end
-  puts "
-  newparam() do
-    desc <<-EOT
-    Description of the item.
-    EOT
-  end
-  newparam() do
-    desc <<-EOT
-    
-    EOT
-  end
-  "
 end
