@@ -17,4 +17,5 @@ group :test do
   gem 'puppet-lint', '>= 0.3.2'
   gem 'puppetlabs_spec_helper', '>= 0.3.0'
   gem 'open4', '~> 1.3.0'
+  gem 'json', '~> 1.7.5'
 end
