@@ -1,5 +1,5 @@
 
-describe "zabbix_template_item", :broken => true do
+describe "zabbix_template_item" do
   let(:provider) { Puppet::Type.type(:zabbix_template_item) }
   
   it "should get defined as provider" do
@@ -11,12 +11,28 @@ describe "zabbix_template_item", :broken => true do
   end
   
   
-  it "should return false on inexistant template apps" do
+  it "should return false on inexistant template items" do
     resource = Puppet::Type.type(:zabbix_template_item).new({
       :name => 'not my rspec template item',
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
     false == resource.provider().exists?()
+  end
+
+  it "should return true on existant template items" do
+    template = Puppet::Type.type(:zabbix_template).new({
+      :name => 'my rspec items template',
+    })
+    resource = Puppet::Type.type(:zabbix_template_item).new({
+      :name => 'my existing rspec item',
+      :key => 'rspec.template.item.existing',
+      :template => 'my rspec items template'
+    })
+    Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
+    if !template.provider.exists?()
+      template.provider().create()
+    end
+    true == resource.provider().exists?()
   end
   
   it "should create a template item, find it and delete it again" do
@@ -25,7 +41,8 @@ describe "zabbix_template_item", :broken => true do
     })
     resource = Puppet::Type.type(:zabbix_template_item).new({
       :name => 'my rspec item',
-      :host => 'my rspec items template'
+      :key => 'rspec.template.item',
+      :template => 'my rspec items template'
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
     if !template.provider.exists?()
