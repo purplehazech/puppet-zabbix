@@ -8,6 +8,9 @@ end
 
 gem 'puppet', puppetversion
 gem 'zabbixapi', ['>= 0.4.9']
+# may be removed as soon as zabbixapi >= 0.5.1 is out
+# see vadv/zabbixapi#7 for details :)
+gem 'json', '~> 1.7.5'
  
 group :test do
   gem 'rake', '>= 0.9.0'
@@ -17,5 +20,4 @@ group :test do
   gem 'puppet-lint', '>= 0.3.2'
   gem 'puppetlabs_spec_helper', '>= 0.3.0'
   gem 'open4', '~> 1.3.0'
-  gem 'json', '~> 1.7.5'
 end
