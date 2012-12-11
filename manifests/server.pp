@@ -85,6 +85,9 @@ class zabbix::server (
         ensure => $ensure_real
       }
     }
+    default  : {
+      # fail silently for now
+    }
   }
 
   package { 'activerecord':
@@ -122,4 +125,3 @@ class zabbix::server (
     Zabbix::Server::Template <<| |>>
   }
 }
- 
