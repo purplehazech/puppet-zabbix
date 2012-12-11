@@ -5,30 +5,30 @@
 #
 # === Parameters
 # [*ensure*]
-#   present, absent to use package manager or false to disable package resource
+#  present, absent to use package manager or false to disable package resource
 # [*hostname*]
-#   hostname to report as
+#  hostname to report as
 # [*server*]
-#   server to send reports to
+#  server to send reports to
 # [*listen_ip*]
-#   ip to to listen on, also gets used as source ip
+#  ip to to listen on, also gets used as source ip
 # [*template*]
-#   what template to use
+#  what template to use
 # [*conf_file*]
-#   where to put agent config
+#  where to put agent config
 # [*pid_file*]
-#   where the pid file lives
+#  where the pid file lives
 # [*log_file*]
-#   what file to log to
+#  what file to log to
 # [*userparameters*]
-#   Hash of default userparmeters, unsupported
+#  Hash of default userparmeters, unsupported
 # [*agent_include_path*]
-#   needed for user parameters, specify default userparameter location, might
-#   get folded into userparameter
+#  needed for user parameters, specify default userparameter location, might
+#  get folded into userparameter
 # [*package*]
-#   name of package to install
+#  name of package to install
 # [*service_name*]
-#   name of service to start
+#  name of service to start
 #
 # === Example Usage:
 #
@@ -49,7 +49,6 @@
 #
 # * no validation whatsoever due to non working plugin sync on my winxp boxes
 # * only really tested on gentoo, some debian flavors and partly on some winxp
-#*
 #
 class zabbix::agent (
   $ensure             = undef,

@@ -10,15 +10,15 @@
 # === Parameters
 #
 # [*ensure*]
-#   present or absent for core utils
+#  present or absent for core utils
 # [*agent*]
-#   present or absent for agent config
+#  present or absent for agent config
 # [*server*]
-#   present or absent for server config
+#  present or absent for server config
 # [*frontend*]
-#   present or absent for sever config
+#  present or absent for sever config
 # [*api*]
-#   present or absent for api usage (needed by Zabbix_api resources)
+#  present or absent for api usage (needed by Zabbix_api resources)
 #
 # === Example Usage
 #
@@ -32,7 +32,6 @@
 # * resource collectors
 # * resource
 # * res
-# * .
 #
 class zabbix (
   $ensure   = undef,
