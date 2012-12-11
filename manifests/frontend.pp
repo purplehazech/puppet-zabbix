@@ -12,21 +12,21 @@
 #   }
 #
 # === Parmeters
-# * *ensure*
-#   absent or present
-# * *server_host*
-#   the zabbix server this belongs to
-# * *server_host*
-#   defaults to server
-# * *hostname*
-#   what hostname webapp shall use
-# * *vhost_class*
-#   class to use as the main vhost class, use to
-#   replace zabbix::frontend::vhost if needed
-# * *version*
-#   zabbix version or skip to leave out most of this module
-# * *base*
-#   base path for web request_uri
+# [*ensure*]
+#  absent or present
+# [*server_host*]
+#  the zabbix server this belongs to
+# [*server_host*]
+#  defaults to server
+# [*hostname*]
+#  what hostname webapp shall use
+# [*vhost_class*]
+#  class to use as the main vhost class, use to
+#  replace zabbix::frontend::vhost if needed
+# [*version*]
+#  zabbix version or skip to leave out most of this module
+# [*base*]
+#  base path for web request_uri
 #
 class zabbix::frontend (
   $ensure      = undef,
