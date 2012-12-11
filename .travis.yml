@@ -3,6 +3,7 @@ rvm:
   - 1.9.3
 before_script:
   - curl https://github.com/rodjek/rspec-puppet/pull/61.patch | patch -d `bundle show rspec-puppet` -p 1 -t
+  - curl https://github.com/vadv/zabbixapi/pull/6.patch | patch -d `bundle show zabbixapi` -p 1 -t
   - sudo apt-get update -y
   - sudo apt-get install -y zabbix-server-mysql zabbix-frontend-php
   - mysql -u root -e "use zabbix; insert into users_groups(usrgrpid, userid) values(10,1);"
