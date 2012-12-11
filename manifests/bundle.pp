@@ -6,9 +6,9 @@
 #
 # === Parameters
 # [*ensure*]
-#   present or absent, present is default
+#  present or absent, present is default
 # [*items*]
-#   hash of items to add to bundle
+#  hash of items to add to bundle
 #
 # === Example Usage
 #

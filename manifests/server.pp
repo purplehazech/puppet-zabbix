@@ -1,19 +1,40 @@
 # == Class: zabbix::server
 #
-# set up a zabbix server
+# Set up a Zabbix server
 #
-# @todo implement zabbix::server
+# === Parameters
+#
+# [*ensure*]
+#  present or abenst
+# [*hostname*]
+#  hostname of local machine
+# [*export*]
+#  present or absent, use storeconfigs to inform clients of server location
+# [*conf_file*]
+#  path to configuration file
+# [*template*]
+#  name of puppet template used
+# [*node_id*]
+# [*db_server*]
+#  mysql server hostname
+# [*db_database*]
+#  mysql server schema name
+# [*db_user*]
+#  mysql server username
+# [*db_password*]
+#  mysql server password
+#
 class zabbix::server (
   $ensure      = undef,
+  $hostname    = undef,
+  $export      = undef,
   $conf_file   = undef,
   $template    = undef,
   $node_id     = undef,
   $db_server   = undef,
   $db_database = undef,
   $db_user     = undef,
-  $db_password = undef,
-  $hostname    = undef,
-  $export      = undef) {
+  $db_password = undef) {
   include zabbix::params
   $ensure_real      = $ensure ? {
     undef   => $zabbix::params::server_enable,
