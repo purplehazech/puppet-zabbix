@@ -48,12 +48,12 @@ describe "zabbix_template_item" do
       :template => 'my rspec items template'
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
-    if !template.provider.exists?()
+    if not template.provider.exists?
       template.provider().create()
     end
     resource.provider().create()
-    true === resource.provider().exists?()
+    resource.provider().exists?.should be_true
     resource.provider().destroy()
-    false === resource.provider().exists?()
+    resource.provider().exists?.should be_false
   end
 end
