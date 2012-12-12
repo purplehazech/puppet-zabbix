@@ -17,6 +17,34 @@ describe "zabbix_trigger" do
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
     resource.provider().exists?().should be_false
   end
+
+  it "should return true on a newly created trigger" do
+
+    Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
+    template = Puppet::Type.type(:zabbix_template).new({
+      :name => 'my rspec triggers template',
+    })
+    if !template.provider.exists?
+      template.provider().create()
+    end
+    item = Puppet::Type.type(:zabbix_template_item).new({
+      :name => 'my rspec triggers template item',
+      :key => 'rspec.trigger.tpl.item',
+      :template => 'my rspec triggers template'
+    })
+    if !item.provider.exists?
+      item.provider().create()
+    end
+    resource = Puppet::Type.type(:zabbix_trigger).new({
+      :description => 'my existing rspec trigger',
+      :expression => '{my rspec triggers template:rspec.trigger.tpl.item.last(0)}=0'
+    })
+    if !resource.provider.exists?
+      resource.provider.create()
+    end
+    
+    resource.provider().exists?().should be_true
+  end
   
   it "should create a trigger in a template, find it and delete it again" do
     template = Puppet::Type.type(:zabbix_template).new({
