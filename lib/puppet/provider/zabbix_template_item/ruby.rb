@@ -1,21 +1,17 @@
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../lib/ruby/")
 require "zabbix"
-require "pp"
 
 Puppet::Type.type(:zabbix_template_item).provide(:ruby) do
   desc "zabbix template item provider"
 
   def exists?
     extend Zabbix
-    pp zbx.items.get_id(
-    :key_ => resource[:key],
-    :hostid => resource[:template] 
-  )
-    zbx.items.get_id(
+    existing = zbx.items.get_id(
+      :name => resource[:name],
       :key_ => resource[:key],
-      :hostid => zbx.templates.get_id( :host => resource[:template] )
+      :hostid => [zbx.templates.get_id( :host => resource[:template] )]
     ).is_a? Integer
-    false
+    return(existing)
   end
   
   def create
@@ -23,12 +19,10 @@ Puppet::Type.type(:zabbix_template_item).provide(:ruby) do
     
     apps_real = Array.new
     resource[:applications].each do |app|
-      pp app
       apps_real.push(
         zbx.applications.get_id( :name => app )
       )
     end
-    pp apps_real
     zbx.items.create(
       :applications => apps_real,
       :delay => resource[:delay], #60
@@ -49,6 +43,12 @@ Puppet::Type.type(:zabbix_template_item).provide(:ruby) do
   
   def destroy
     extend Zabbix
-    zbx.items.delete( :name => resource[:name] )
+    zbx.items.delete(
+      zbx.items.get_id(
+        :name => resource[:name],
+        :key_ => resource[:key],
+        :hostid => [zbx.templates.get_id( :host => resource[:template] )]
+      )
+    )
   end
 end
