@@ -16,7 +16,7 @@ describe "zabbix_template_item" do
       :name => 'not my rspec template item',
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
-    false == resource.provider().exists?()
+    resource.provider().exists?().should be_false
   end
 
   it "should return true on existant template items" do
@@ -29,10 +29,13 @@ describe "zabbix_template_item" do
       :template => 'my rspec items template'
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
-    if !template.provider.exists?()
+    if not template.provider().exists?
       template.provider().create()
     end
-    true == resource.provider().exists?()
+    if not resource.provider().exists?
+      resource.provider().create()
+    end
+    resource.provider().exists?.should be_true
   end
   
   it "should create a template item, find it and delete it again" do
