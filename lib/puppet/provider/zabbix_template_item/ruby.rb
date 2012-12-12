@@ -43,6 +43,12 @@ Puppet::Type.type(:zabbix_template_item).provide(:ruby) do
   
   def destroy
     extend Zabbix
-    zbx.items.delete( :name => resource[:name] )
+    zbx.items.delete(
+      zbx.items.get_id(
+        :name => resource[:name],
+        :key_ => resource[:key],
+        :hostid => [zbx.templates.get_id( :host => resource[:template] )]
+      )
+    )
   end
 end
