@@ -1,6 +1,5 @@
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../lib/ruby/")
 require "zabbix"
-require "pp"
 
 Puppet::Type.type(:zabbix_template_item).provide(:ruby) do
   desc "zabbix template item provider"
@@ -20,12 +19,10 @@ Puppet::Type.type(:zabbix_template_item).provide(:ruby) do
     
     apps_real = Array.new
     resource[:applications].each do |app|
-      pp app
       apps_real.push(
         zbx.applications.get_id( :name => app )
       )
     end
-    pp apps_real
     zbx.items.create(
       :applications => apps_real,
       :delay => resource[:delay], #60
