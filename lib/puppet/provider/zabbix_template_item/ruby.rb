@@ -8,6 +8,7 @@ Puppet::Type.type(:zabbix_template_item).provide(:ruby) do
   def exists?
     extend Zabbix
     existing = zbx.items.get_id(
+      :name => resource[:name],
       :key_ => resource[:key],
       :hostid => [zbx.templates.get_id( :host => resource[:template] )]
     ).is_a? Integer
