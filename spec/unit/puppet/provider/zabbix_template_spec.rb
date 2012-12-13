@@ -15,7 +15,7 @@ describe "zabbix_template" do
       :name => 'not rspec zabbix_template',
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
-    resource.provider().exists?().should == false
+    resource.provider().exists?().should be_false
   end
   
   it "should return true on existing templates" do
@@ -26,7 +26,7 @@ describe "zabbix_template" do
     if !resource.provider().exists?()
       resource.provider().create()
     end
-    resource.provider().exists?().should == true
+    resource.provider().exists?().should be_true
   end
   
   it "should create a template, find it and delete it again", :broken => true do
@@ -35,8 +35,8 @@ describe "zabbix_template" do
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
     resource.provider().create()
-    resource.provider().exists?().should == true
+    resource.provider().exists?().should be_true
     resource.provider().destroy()
-    resource.provider().exists?().should == false
+    resource.provider().exists?().should be_false
   end
 end
