@@ -2,7 +2,7 @@
 require "puppet"
 require "zabbixapi"
 
-# moxin for generic zabbix api stuff
+# mixin for generic zabbix api stuff
 module Zabbix
   # initialy load config and setup zabbix api
   def zbx
