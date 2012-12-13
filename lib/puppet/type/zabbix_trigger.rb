@@ -69,12 +69,4 @@ Puppet::Type.newtype(:zabbix_trigger) do
     desc 'URL associated with the trigger.'
   end
   
-  
-  autorequire(:zabbix_template_item) do
-    ["/tmp", "/dev"]
-  end
-  autorequire(:zabbix_item) do
-    ["/tmp", "/dev"]
-  end
-  
 end
