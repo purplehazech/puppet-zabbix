@@ -81,6 +81,14 @@ that i may relicense into AGPL, if this is not the case ie. when I initiate
 the pull myself and its license is not convertible to AGPL (most licenses
 , like GPLv2+ are) this gets disclosed below with a license.
 
+=== Open Issues
+
+[Trigger Api exists?]
+ The Zabbix trigger api does not support a simple way to retreive a trigger by
+ using the expanded trigger syntax, looking at Zabbix' code it does not look easy
+ to implement this in Zabbix without knowing the trigger id beforehand.
+ *Status*: no resolution, not reported to Zabbix
+
 === License
 
 2012, Lucas S. Bickel, Alle Rechte vorbehalten

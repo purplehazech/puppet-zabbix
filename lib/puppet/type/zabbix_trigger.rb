@@ -11,6 +11,12 @@ Puppet::Type.newtype(:zabbix_trigger) do
   
   newparam(:description) do
     desc 'Name of the trigger.'
+
+    validate do |value|
+        unless value =~ /.+/
+            raise ArgumentError, "%s is not a valid description" % value
+        end
+    end
   end
 
   newparam(:expression, :namevar => true) do
@@ -37,7 +43,7 @@ Puppet::Type.newtype(:zabbix_trigger) do
     defaultto 0
   end
   
-  newparam(:key) do
+  newparam(:status) do
     desc <<-EOT
       Whether the trigger is enabled or disabled.
     
@@ -61,6 +67,14 @@ Puppet::Type.newtype(:zabbix_trigger) do
   
   newparam(:url) do
     desc 'URL associated with the trigger.'
+  end
+  
+  
+  autorequire(:zabbix_template_item) do
+    ["/tmp", "/dev"]
+  end
+  autorequire(:zabbix_item) do
+    ["/tmp", "/dev"]
   end
   
 end
