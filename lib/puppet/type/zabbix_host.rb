@@ -51,7 +51,7 @@ Puppet::Type.newtype(:zabbix_host) do
     desc 'IPMI username.'
   end
   
-  newparam(:name) do
+  newparam(:hostname) do
     desc 'Visible name of the host.'
   end
   
