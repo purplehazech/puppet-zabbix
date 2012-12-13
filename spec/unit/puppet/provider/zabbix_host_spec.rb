@@ -22,8 +22,30 @@ describe "zabbix_host" do
 
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
 
+    hostgroup = Puppet::Type.type(:zabbix_hostgroup).new({
+      :name => 'rspec host group'
+    })
+    if !hostgroup.provider.exists?
+      hostgroup.provider.create()
+    end
+    
+    groups = [
+      "rspec host group"
+    ]
+    interfaces = [
+      {
+        "type" => 1,
+        "main" => 1,
+        "useip" => 1,
+        "ip" => "192.168.3.1",
+        "dns" => "",
+        "port" => "10050"
+      }
+    ]
     resource = Puppet::Type.type(:zabbix_host).new({
       :name => 'my.existing.rspec.host',
+      :interfaces => 'inties',
+      :groups => groups
     })
     if !resource.provider.exists?
       resource.provider.create()
