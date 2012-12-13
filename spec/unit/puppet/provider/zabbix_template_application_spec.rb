@@ -10,13 +10,12 @@ describe "zabbix_template_application" do
     resource.provider.class.to_s.should == "Puppet::Type::Zabbix_template_application::ProviderRuby"
   end
   
-  
   it "should return false on inexistant template apps" do
     resource = Puppet::Type.type(:zabbix_template_application).new({
       :name => 'not my rspec app',
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
-    false == resource.provider().exists?()
+    resource.provider().exists?().should be_false
   end
   
   it "should create a template app, find it and delete it again" do
@@ -32,8 +31,8 @@ describe "zabbix_template_application" do
       template.provider().create()
     end
     resource.provider().create()
-    true === resource.provider().exists?()
+    resource.provider().exists?().should be_true
     resource.provider().destroy()
-    false === resource.provider().exists?()
+    resource.provider().exists?().should be_false
   end
 end
