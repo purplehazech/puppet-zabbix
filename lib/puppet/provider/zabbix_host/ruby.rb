@@ -14,24 +14,50 @@ Puppet::Type.type(:zabbix_host).provide(:ruby) do
   
   def create
     extend Zabbix
-    require 'pp'
-    pp resource[:interfaces], resource[:groups]
-    zbx.hosts.create(
-      :host => resource[:host],
-      :ipmi_authtype => resource[:ipmi_authtype],
-      :ipmi_password => resource[:ipmi_password],
-      :ipmi_privilege => resource[:ipmi_privilege],
-      :ipmi_username => resource[:ipmi_username],
-      :hostname => resource[:hostname],
-      :proxy_hostid => resource[:proxy_hostid],
-      :status => resource[:status],
-      :groups => resource[:groups],
-      :interfaces => resource[:interfaces]
+    groups = Array.new
+    resource[:groups].each do |group|
+      groups.push({
+        :groupid => zbx.hostgroups.get_id(:name => group)
+      })
+    end
+    zbx.query(
+      :method => 'host.create',
+      :params => [
+        :host => resource[:host],
+        :status => resource[:status],
+        :interfaces => [
+          {
+          :type => 1,
+          :main =>1,
+          :useip => resource[:ip] == nil ? 0 : 1,
+          :usedns => resource[:ip] == nil ? 1 : 0,
+          :dns => resource[:host],
+          :ip => resource[:ip] == nil ? "" : resource[:ip],
+          :port => 10050,
+          }
+        ],
+        :proxy_hostid => resource[:proxy_hostid] == nil ? 0 : resource[:proxy_hostid],
+        :groups => groups,
+      ]
     )
   end
   
   def destroy
-#    extend Zabbix
-#    zbx.applications.delete( zbx.applications.get_id( :name => resource[:name] ) )
+    extend Zabbix
+    hostid = zbx.hosts.get_id(:host => resource[:host])
+    # deactivate before removing
+    zbx.query(
+      :method => 'host.update',
+      :params => [
+        :hostid => hostid,
+        :status => 1
+      ]
+    )
+    zbx.query(
+      :method => 'host.delete',
+      :params => [
+        :hostid => hostid
+      ]
+    )
   end
 end

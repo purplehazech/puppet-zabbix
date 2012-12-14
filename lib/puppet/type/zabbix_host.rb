@@ -2,6 +2,10 @@
 Puppet::Type.newtype(:zabbix_host) do
   desc <<-EOT
     Manage a host in Zabbix
+
+    Create a host in zabbix with a default main
+    interface styled after plain agent interface
+    based monitoring.
   EOT
 
   ensurable do
@@ -14,7 +18,14 @@ Puppet::Type.newtype(:zabbix_host) do
   end
   
   newparam(:ip) do
-    desc 'IP of the host.'
+    desc <<-EOT
+      IP of the host.
+
+      Set this for the default interface to be
+      ip based. Use zabbix_host_interface to add
+      additional interfaces if you want dns on
+      the main agent and an ip for others.
+    EOT
   end
   
   newparam(:groups) do
