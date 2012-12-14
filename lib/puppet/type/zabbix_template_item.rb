@@ -41,23 +41,23 @@ Puppet::Type.newtype(:zabbix_template_item) do
      Type of the item.
      
      Possible values: 
-     0 - Zabbix agent; 
-     1 - SNMPv1 agent; 
-     2 - Zabbix trapper; 
-     3 - simple check; 
-     4 - SNMPv2 agent; 
-     5 - Zabbix internal; 
-     6 - SNMPv3 agent; 
-     7 - Zabbix agent (active); 
-     8 - Zabbix aggregate; 
-     9 - web item; 
-     10 - external check; 
-     11 - database monitor; 
-     12 - IPMI agent; 
-     13 - SSH agent; 
-     14 - TELNET agent; 
-     15 - calculated; 
-     16 - JMX agent.
+     * 0 - Zabbix agent; 
+     * 1 - SNMPv1 agent; 
+     * 2 - Zabbix trapper; 
+     * 3 - simple check; 
+     * 4 - SNMPv2 agent; 
+     * 5 - Zabbix internal; 
+     * 6 - SNMPv3 agent; 
+     * 7 - Zabbix agent (active); 
+     * 8 - Zabbix aggregate; 
+     * 9 - web item; 
+     * 10 - external check; 
+     * 11 - database monitor; 
+     * 12 - IPMI agent; 
+     * 13 - SSH agent; 
+     * 14 - TELNET agent; 
+     * 15 - calculated; 
+     * 16 - JMX agent.
     EOT
     defaultto 0
     # @todo support nice strings like from the zabbix apidocs here
@@ -101,10 +101,10 @@ Puppet::Type.newtype(:zabbix_template_item) do
       Data type of the item. 
     
       Possible values: 
-      0 - (default) decimal; 
-      1 - octal; 
-      2 - hexadecimal; 
-      3 - boolean.
+      * 0 - (default) decimal; 
+      * 1 - octal; 
+      * 2 - hexadecimal; 
+      * 3 - boolean.
     EOT
   end
 
@@ -123,9 +123,9 @@ Puppet::Type.newtype(:zabbix_template_item) do
     Value that will be stored. 
     
     Possible values: 
-    0 - (default) as is; 
-    1 - Delta, speed per second; 
-    2 - Delta, simple change.
+    * 0 - (default) as is; 
+    * 1 - Delta, speed per second; 
+    * 2 - Delta, simple change.
     EOT
   end
   
