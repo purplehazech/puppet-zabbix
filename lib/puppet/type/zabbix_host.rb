@@ -37,13 +37,13 @@ Puppet::Type.newtype(:zabbix_host) do
       IPMI authentication algorithm.
     
       Possible values are:
-      -1 - (default) default;
-      0 - none;
-      1 - MD2;
-      2 - MD5
-      4 - straight;
-      5 - OEM;
-      6 - RMCP+. 
+      * -1 - (default) default;
+      * 0 - none;
+      * 1 - MD2;
+      * 2 - MD5
+      * 4 - straight;
+      * 5 - OEM;
+      * 6 - RMCP+. 
     EOT
     defaultto -1
   end
@@ -57,11 +57,11 @@ Puppet::Type.newtype(:zabbix_host) do
       IPMI privilege level.
     
       Possible values are:
-      1 - callback;
-      2 - (default) user;
-      3 - operator;
-      4 - admin;
-      5 - OEM. 
+      * 1 - callback;
+      * 2 - (default) user;
+      * 3 - operator;
+      * 4 - admin;
+      * 5 - OEM. 
     EOT
     defaultto 2
   end
@@ -83,8 +83,8 @@ Puppet::Type.newtype(:zabbix_host) do
       Status and function of the host.
     
       Possible values are:
-      0 - (default) monitored host;
-      1 - unmonitored host. 
+      * 0 - (default) monitored host;
+      * 1 - unmonitored host. 
     EOT
     defaultto 0
   end
