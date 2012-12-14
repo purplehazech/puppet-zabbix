@@ -32,19 +32,8 @@ describe "zabbix_host" do
     groups = [
       "rspec host group"
     ]
-    interfaces = [
-      {
-        "type" => 1,
-        "main" => 1,
-        "useip" => 1,
-        "ip" => "192.168.3.1",
-        "dns" => "",
-        "port" => "10050"
-      }
-    ]
     resource = Puppet::Type.type(:zabbix_host).new({
       :name => 'my.existing.rspec.host',
-      :interfaces => 'inties',
       :groups => groups
     })
     if !resource.provider.exists?
@@ -55,10 +44,21 @@ describe "zabbix_host" do
   end
   
   it "should create a host, find it and delete it again" do
+
+    Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
+
+    hostgroup = Puppet::Type.type(:zabbix_hostgroup).new({
+      :name => 'rspec host group 2'
+    })
+    if !hostgroup.provider.exists?
+      hostgroup.provider.create()
+    end
     resource = Puppet::Type.type(:zabbix_host).new({
       :name => 'my.rspec.host',
+      :groups => [
+        "rspec host group 2"
+      ]
     })
-    Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
     resource.provider().create()
     resource.provider().exists?().should be_true
     resource.provider().destroy()
