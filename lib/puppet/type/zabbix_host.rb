@@ -13,26 +13,12 @@ Puppet::Type.newtype(:zabbix_host) do
     desc 'Technical name of the host.'
   end
   
-  newparam(:groups) do
-    desc 'Host groups to add the host to.'
+  newparam(:ip) do
+    desc 'IP of the host.'
   end
   
-  newparam(:interfaces) do
-    desc <<-EOT
-      Interfaces to be created for the host.
-      
-      like so:
-        [
-                {
-                    type => 1,
-                    "main": 1,
-                    "useip": 1,
-                    "ip": "192.168.3.1",
-                    "dns": "",
-                    "port": "10050"
-                }
-        ]
-    EOT
+  newparam(:groups) do
+    desc 'Host groups to add the host to.'
   end
 
   newparam(:ipmi_authtype) do
