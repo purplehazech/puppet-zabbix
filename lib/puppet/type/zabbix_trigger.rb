@@ -33,12 +33,12 @@ Puppet::Type.newtype(:zabbix_trigger) do
       Severity of the trigger.
     
       Possible values are:
-      0 - (default) not classified;
-      1 - information;
-      2 - warning;
-      3 - average;
-      4 - high;
-      5 - disaster.
+      * 0 - (default) not classified;
+      * 1 - information;
+      * 2 - warning;
+      * 3 - average;
+      * 4 - high;
+      * 5 - disaster.
     EOT
     defaultto 0
   end
@@ -48,8 +48,8 @@ Puppet::Type.newtype(:zabbix_trigger) do
       Whether the trigger is enabled or disabled.
     
       Possible values are:
-      0 - (default) enabled;
-      1 - disabled.
+      * 0 - (default) enabled;
+      * 1 - disabled.
     EOT
   end
   
@@ -58,8 +58,8 @@ Puppet::Type.newtype(:zabbix_trigger) do
       Whether the trigger can generate multiple problem events.
     
       Possible values are:
-      0 - (default) do not generate multiple events;
-      1 - generate multiple events.
+      * 0 - (default) do not generate multiple events;
+      * 1 - generate multiple events.
     EOT
     defaultto 0
   end

@@ -122,6 +122,11 @@ class zabbix::server (
       hostname => $hostname_real
     }
     # install templates needed by different nodes
-    Zabbix::Server::Template <<| |>>
+    Zabbix_template <<| |>>
+    Zabbix_template_application <<| |>>
+    Zabbix_template_item <<| |>>
+    Zabbix_trigger <<| |>>
+    Zabbix_hostgroup <<| |>>
+    Zabbix_host <<| |>>
   }
 }
