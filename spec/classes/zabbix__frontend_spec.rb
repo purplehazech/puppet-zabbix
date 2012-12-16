@@ -58,6 +58,15 @@ describe 'zabbix::frontend' do
       })
       }
   end
+
+  context 'it should use hiera' do
+    let(:hiera_data) { 
+      { :frontend_enable => 'absent' }
+    }
+    it {
+      should_not contain_class('zabbix::frontend::vhost')
+    }
+  end
   
   context "use base uri parameter" do
     let(:params) {
