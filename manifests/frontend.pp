@@ -36,7 +36,7 @@ class zabbix::frontend (
   $base        = hiera('frontend_base', '/zabbix'),
   $vhost_class = hiera('frontend_vhost_class', 'zabbix::frontend::vhost'),
   $version     = hiera('version', $::zabbixversion),
-  $db_type     = hiera('db_type', 'MySQL'),
+  $db_type     = hiera('db_type', 'MYSQL'),
   $db_server   = hiera('db_server', 'localhost'),
   $db_port     = hiera('db_port', '0'),
   $db_database = hiera('db_database', 'zabbix'),
