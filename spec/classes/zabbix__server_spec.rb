@@ -33,6 +33,16 @@ describe 'zabbix::server' do
       }
     }
   end
+  context 'it should use hiera' do
+    let(:hiera_data) { 
+      { :server_enable => 'present' }
+    }
+    it {
+      should contain_service('zabbix-server').with({
+        :ensure => 'running'
+      })
+    }
+  end
   context 'with export present', :broken => true do
     # testing exported resources seems generally broken
     # i would like to test this side for proper exporting

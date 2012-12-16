@@ -18,7 +18,7 @@
 # [*frontend*]
 #  present or absent for sever config
 # [*api*]
-#  present or absent for api usage (needed by Zabbix_api resources)
+#  present or absent for api usage (needed by Zabbix_* resources)
 #
 # === Example Usage
 #
@@ -26,7 +26,6 @@
 #   include zabbix
 #
 # === Todos:
-# * implement zabbix server with autoprovisioning based on resource collectors
 # * get server ip from resource collecor
 # * userparams via resource collectors
 # * resource collectors
@@ -34,63 +33,33 @@
 # * res
 #
 class zabbix (
-  $ensure   = undef,
-  $agent    = undef,
-  $server   = undef,
-  $frontend = undef,
-  $api      = undef,
-  $export   = undef) {
-  include zabbix::params
-  $ensure_real   = $ensure ? {
-    undef   => $zabbix::params::ensure,
-    default => $ensure
-  }
-  $agent_real    = $agent ? {
-    undef   => $zabbix::params::agent,
-    default => $agent
-  }
-  $server_real   = $server ? {
-    undef   => $zabbix::params::server,
-    default => $server
-  }
-  $frontend_real = $frontend ? {
-    undef   => $zabbix::params::frontend,
-    default => $frontend
-  }
-  $api_real      = $api ? {
-    undef   => $zabbix::params::api,
-    default => $api
-  }
-  $export_real   = $export ? {
-    undef   => $zabbix::params::export,
-    default => $export
-  }
-
+  $ensure   = hiera('ensure', present),
+  $agent    = hiera('agent', present),
+  $server   = hiera('server', absent),
+  $frontend = hiera('frontend', absent),
+  $api      = hiera('api', present),
+  $export   = hiera('export', present)) {
   if $::operatingsystem == 'Gentoo' {
     class { 'zabbix::gentoo':
-      ensure => $ensure_real,
+      ensure => $ensure,
       before => Class['zabbix::agent']
     }
   }
 
   class { 'zabbix::agent':
-    ensure => $agent_real
-  }
-
-  package { 'zbxapi':
-    ensure   => $api_real,
-    provider => 'gem'
+    ensure => $agent,
   }
 
   class { 'zabbix::server':
-    ensure  => $server_real,
-    export  => $export_real,
-    require => [Class['zabbix::agent'], Package['zbxapi']]
+    ensure => $server,
+    export => $export,
   }
 
   class { 'zabbix::frontend':
-    ensure  => $frontend_real,
+    ensure  => $frontend,
     require => Class['zabbix::agent']
   }
 
+  Class['zabbix::agent'] -> Class['zabbix::server']
+  Class['zabbix::server'] -> Class['zabbix::frontend']
 }

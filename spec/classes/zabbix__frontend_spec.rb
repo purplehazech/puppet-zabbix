@@ -22,7 +22,6 @@ describe 'zabbix::frontend' do
       }
     }
     it {
-      should contain_class('zabbix::params')
       should contain_class('zabbix::frontend::gentoo').with({
         :ensure  => 'present',
       })
@@ -57,6 +56,17 @@ describe 'zabbix::frontend' do
         :vhost => 'two.local'
       })
       }
+  end
+
+  context 'it should use hiera' do
+    let(:hieradata) { 
+      { :frontend_base => '/yessss' }
+    }
+    it {
+      should contain_webapp_config('zabbix').with({
+        :base => '/yessss'
+      })
+    }
   end
   
   context "use base uri parameter" do

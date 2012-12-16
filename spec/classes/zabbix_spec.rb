@@ -21,7 +21,6 @@ describe 'zabbix' do
       }
     end
     it {
-      should contain_class('zabbix::params')
       should contain_class('zabbix::gentoo').with({:ensure => 'present'})
       should contain_class('zabbix::agent').with({:ensure => 'present'})
       should contain_class('zabbix::server').with({:ensure => 'absent'})
@@ -42,7 +41,6 @@ describe 'zabbix' do
       }
     end
     it {
-      should contain_class('zabbix::params')
       should contain_class('zabbix::gentoo').with({:ensure => 'present'})
       should contain_class('zabbix::agent').with({:ensure => 'present'})
       should contain_class('zabbix::server').with({:ensure => 'present'})
@@ -63,7 +61,6 @@ describe 'zabbix' do
       }
     end
     it {
-      should contain_class('zabbix::params')
       should contain_class('zabbix::gentoo').with({:ensure => 'present'})
       should contain_class('zabbix::agent').with({:ensure => 'present'})
       should contain_class('zabbix::server').with({:ensure => 'absent'})

@@ -25,54 +25,16 @@
 #  mysql server password
 #
 class zabbix::server (
-  $ensure      = hiera('server_enable'),
-  $hostname    = undef,
-  $export      = undef,
-  $conf_file   = undef,
-  $template    = undef,
-  $node_id     = undef,
-  $db_server   = undef,
-  $db_database = undef,
-  $db_user     = undef,
-  $db_password = undef) {
-  include zabbix::params
-  $conf_file_real   = $conf_file ? {
-    undef   => $zabbix::params::server_conf_file,
-    default => $conf_file
-  }
-  $template_real    = $template ? {
-    undef   => $zabbix::params::server_template,
-    default => $template
-  }
-  $node_id_real     = $node_id ? {
-    undef   => $zabbix::params::server_node_id,
-    default => $node_id
-  }
-  $db_server_real   = $db_server ? {
-    undef   => $zabbix::params::server_db_server,
-    default => $db_server
-  }
-  $db_database_real = $db_database ? {
-    undef   => $zabbix::params::server_db_database,
-    default => $db_database
-  }
-  $db_user_real     = $db_user ? {
-    undef   => $zabbix::params::server_db_user,
-    default => $db_user
-  }
-  $db_password_real = $db_password ? {
-    undef   => $zabbix::params::server_db_password,
-    default => $db_password
-  }
-  $hostname_real    = $hostname ? {
-    undef   => $zabbix::params::server_hostname,
-    default => $hostname
-  }
-  $export_real      = $export ? {
-    undef   => $zabbix::params::server_export,
-    default => $export
-  }
-
+  $ensure      = hiera('server_enable', present),
+  $hostname    = hiera('server_hostname', 'zabbix'),
+  $export      = hiera('export', present),
+  $conf_file   = hiera('server_conf_file', '/etc/zabbix/zabbix_server.conf'),
+  $template    = hiera('server_template', 'zabbix/zabbix_server.conf.erb'),
+  $node_id     = hiera('server_node_id', 0),
+  $db_server   = hiera('db_server', 'localhost'),
+  $db_database = hiera('db_database', 'zabbix'),
+  $db_user     = hiera('db_user', 'root'),
+  $db_password = hiera('db_password', '')) {
   require zabbix::agent
 
   case $::operatingsystem {
@@ -83,36 +45,36 @@ class zabbix::server (
     }
   }
 
-  package { 'activerecord':
-    ensure => $ensure,
-    before => File[$conf_file_real]
-  }
-
   $service_ensure = $ensure ? {
     absent  => stopped,
-    default => running
+    default => running,
   }
   $service_enable = $ensure ? {
     absent  => false,
-    default => true
+    default => true,
   }
 
-  file { $conf_file_real:
+  package { 'activerecord':
+    ensure => $ensure,
+  }
+
+  file { $conf_file:
     ensure  => $ensure,
-    content => template($template_real),
-    notify  => Service['zabbix-server']
+    content => template($template),
   }
 
   service { 'zabbix-server':
     ensure => $service_ensure,
-    enable => $service_enable
+    enable => $service_enable,
   }
 
-  if $export_real == present {
+  Package['activerecord'] -> File[$conf_file] ~> Service['zabbix-server']
+
+  if $export == present {
     # export myself to all agents
-    @@zabbix::agent::server { $hostname_real:
+    @@zabbix::agent::server { $hostname:
       ensure   => present,
-      hostname => $hostname_real
+      hostname => $hostname,
     }
   }
 }
