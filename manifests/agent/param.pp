@@ -44,7 +44,7 @@ define zabbix::agent::param (
     default => $file
   }
 
-  file { $file:
+  file { $file_real:
     ensure  => $ensure,
     content => template($template)
   }

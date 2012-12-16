@@ -62,7 +62,9 @@ class zabbix::agent (
   ),
   $log_file           = hiera('agent_log_file', '/var/log/zabbix-agent/zabbix_agentd.log'
   ),
-  $userparameters     = undef,
+  $userparameters     = {
+  }
+  ,
   $agent_include_path = hiera('agent_include_path', '/etc/zabbix/zabbix_agentd.d'
   ),
   $package            = hiera('agent_package', 'zabbix-agent'),
@@ -72,17 +74,16 @@ class zabbix::agent (
   validate_absolute_path($pid_file)
   validate_absolute_path($pid_file)
   validate_hash($userparameters)
-  $has_userparameters     = $userparameters ? {
-    undef   => false,
-    default => true
+
+  $has_userparameters = $::operatingsystem ? {
+    windows => false,
+    default => true,
   }
-  # compat: define stuff still used in win template
-  $cn                     = $hostname
-  $ipHostNumber           = $listen_ip
-  $zabbix_server_ip       = $server
-  $zabbix_agentd_pid_file = $pid_file
-  $zabbix_agentd_log_file = $log_file
-  $zabbix_agentd_install  = $ensure
+
+  $install_package    = $::operatingsystem ? {
+    windows => false,
+    default => true,
+  }
 
   if $::operatingsystem == 'Gentoo' {
     class { 'zabbix::agent::gentoo':
@@ -114,7 +115,7 @@ class zabbix::agent (
 
   File[$agent_include_path] ~> File[$conf_file] ~> Service[$service_name]
 
-  if $package != false {
+  if $install_package != false {
     package { $package:
       ensure => $ensure,
     }

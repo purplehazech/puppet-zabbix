@@ -50,11 +50,6 @@ class zabbix (
     ensure => $agent,
   }
 
-  package { 'zabbixapi':
-    ensure   => $api,
-    provider => 'gem',
-  }
-
   class { 'zabbix::server':
     ensure => $server,
     export => $export,
@@ -65,6 +60,6 @@ class zabbix (
     require => Class['zabbix::agent']
   }
 
-  Class['zabbix-agent'] -> Package['zbxapi'] -> Class['zabbix::server']
+  Class['zabbix::agent'] -> Class['zabbix::server']
   Class['zabbix::server'] -> Class['zabbix::frontend']
 }
