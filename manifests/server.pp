@@ -25,7 +25,7 @@
 #  mysql server password
 #
 class zabbix::server (
-  $ensure      = undef,
+  $ensure      = hiera('server_enable'),
   $hostname    = undef,
   $export      = undef,
   $conf_file   = undef,
@@ -36,10 +36,6 @@ class zabbix::server (
   $db_user     = undef,
   $db_password = undef) {
   include zabbix::params
-  $ensure_real      = $ensure ? {
-    undef   => $zabbix::params::server_enable,
-    default => $ensure
-  }
   $conf_file_real   = $conf_file ? {
     undef   => $zabbix::params::server_conf_file,
     default => $conf_file
@@ -82,7 +78,7 @@ class zabbix::server (
   case $::operatingsystem {
     'Gentoo' : {
       class { 'zabbix::server::gentoo':
-        ensure => $ensure_real
+        ensure => $ensure
       }
     }
   }
@@ -92,17 +88,17 @@ class zabbix::server (
     before => File[$conf_file_real]
   }
 
-  $service_ensure = $ensure_real ? {
+  $service_ensure = $ensure ? {
     absent  => stopped,
     default => running
   }
-  $service_enable = $ensure_real ? {
+  $service_enable = $ensure ? {
     absent  => false,
     default => true
   }
 
   file { $conf_file_real:
-    ensure  => $ensure_real,
+    ensure  => $ensure,
     content => template($template_real),
     notify  => Service['zabbix-server']
   }
@@ -118,8 +114,5 @@ class zabbix::server (
       ensure   => present,
       hostname => $hostname_real
     }
-    # install templates needed by different nodes
-    Zabbix::Server::Template <<| |>>
   }
 }
- 
