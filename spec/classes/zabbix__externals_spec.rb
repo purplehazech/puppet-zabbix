@@ -13,12 +13,6 @@ describe 'zabbix::externals' do
     }
   end
   
-  context 'should load params' do
-    it {
-      should contain_class('zabbix::params')
-    }
-  end
-  
   context 'should export zabbix api configs', :broken => true do
     it {
       # i believe @@ stuff is mostly untestable as of now
