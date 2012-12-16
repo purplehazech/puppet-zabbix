@@ -32,46 +32,8 @@
 #   class zabbix::foot inherits zabbix::params
 #
 class zabbix::params {
-  # == facter imports
-  #
-  # grab vars from facter
-  #
-  # === zabbixversion_fact
-  #
-  # grab version from facter, this might fix poor broken travis
-  $zabbixversion_fact   = $::zabbixversion ? {
-    undef   => '2.0.3', # golden default that needs updating
-    default => $::zabbixversion # the real thang
-  }
-
-  # == global settings
-  $ensure               = present
-  $agent                = present
-  $server               = absent
-  $frontend             = absent
-  $api                  = $::operatingsystem ? {
-    windows => absent,
-    default => present
-  }
-
-  # == export
-  #
-  # use export globally
-  #
-  $export               = present
-
-  $db_type              = 'MYSQL'
-  $db_server            = 'localhost'
-  $db_port              = '0'
-  $db_database          = 'zabbix'
-  $db_user              = 'root'
-  $db_password          = ''
   # global network settings
   $server_hostname      = 'zabbix'
-
-  $frontend_url         = 'http://frontend.hostname/zabbix'
-  $frontend_user        = 'Admin'
-  $frontend_password    = 'zabbix'
 
   # agent settings
   $agent_ensure         = present
