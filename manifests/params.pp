@@ -112,45 +112,6 @@ class zabbix::params {
   $agent_param_template = 'zabbix/zabbix_agent_userparam.conf.erb'
   $agent_param_command  = 'echo "Hello World!"'
 
-  # == server settings
-  #
-  # settings for the server, if enabled
-  #
-  # === server_enable
-  #
-  # install and manage server, present, absent
-  $server_enable        = present
-
-  # == server_conf_file
-  #
-  # config file for server
-  #
-  $server_conf_file     = '/etc/zabbix/zabbix_server.conf'
-
-  # == server_template
-  #
-  # template for conf file
-  #
-  $server_template      = 'zabbix/zabbix_server.conf.erb'
-
-  #
-  # == server_node_id
-  #
-  # node id for multi master setups
-  #
-  $server_node_id       = 0
-
-  # == server_export
-  #
-  # export resources on server, present or absent
-  #
-  $server_export        = $export
-
-  $server_db_server     = $db_server
-  $server_db_database   = $db_database
-  $server_db_user       = $db_user
-  $server_db_password   = $db_password
-
   # == frontend settings
   #
   # contains setting pertaining to the front end install
