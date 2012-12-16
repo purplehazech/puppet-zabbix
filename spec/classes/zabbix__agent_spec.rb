@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'zabbix::agent' do
   
   context "on debian" do
+    include_context "hieradata"
     let(:facts) { 
       {
         :operatingsystem => 'Debian'
@@ -18,6 +19,7 @@ describe 'zabbix::agent' do
     }
   end
   context "on gentoo" do
+    include_context "hieradata"
     let(:facts) { 
       {
         :operatingsystem => 'Gentoo'
@@ -34,6 +36,7 @@ describe 'zabbix::agent' do
   end
   
   context "on windows" do
+    include_context "hieradata"
     let(:facts) { 
       {
         :operatingsystem => 'windows'

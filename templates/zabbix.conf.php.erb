@@ -2,17 +2,17 @@
 // Zabbix GUI configuration file
 global $DB;
 
-$DB["TYPE"]                     = '<%= db_type_real %>';
-$DB["SERVER"]                   = '<%= db_server_real %>';
-$DB["PORT"]                     = '<%= db_port_real %>';
-$DB["DATABASE"]                 = '<%= db_database_real %>';
-$DB["USER"]                     = '<%= db_user_real %>';
-$DB["PASSWORD"]                 = '<%= db_password_real %>';
+$DB["TYPE"]                     = '<%= db_type %>';
+$DB["SERVER"]                   = '<%= db_server %>';
+$DB["PORT"]                     = '<%= db_port %>';
+$DB["DATABASE"]                 = '<%= db_database %>';
+$DB["USER"]                     = '<%= db_user %>';
+$DB["PASSWORD"]                 = '<%= db_password %>';
 // SCHEMA is relevant only for IBM_DB2 database
 $DB["SCHEMA"]                   = '';
 
-$ZBX_SERVER                     = '<%= server_host_real %>';
+$ZBX_SERVER                     = '<%= server_host %>';
 $ZBX_SERVER_PORT                = '10051';
-$ZBX_SERVER_NAME                = '<%= server_name_real %>';
+$ZBX_SERVER_NAME                = '<%= server_name %>';
 
 $IMAGE_FORMAT_DEFAULT   = IMAGE_FORMAT_PNG;

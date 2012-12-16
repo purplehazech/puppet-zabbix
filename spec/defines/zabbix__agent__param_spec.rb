@@ -10,7 +10,6 @@ describe 'zabbix::agent::param' do
       }
     }
     it {
-      should contain_class('zabbix::params')
       should contain_file('/etc/zabbix/zabbix_agentd.d/10_foo.bar.baz.conf').with({
         :ensure => 'present'
       })
