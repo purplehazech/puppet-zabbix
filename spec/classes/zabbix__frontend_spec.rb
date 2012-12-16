@@ -59,12 +59,14 @@ describe 'zabbix::frontend' do
       }
   end
 
-  context 'it should use hiera' do
+  context 'it should use hiera', :broken => true do
     let(:hiera_data) { 
-      { :frontend_enable => 'absent' }
+      { :frontend_base => '/yessss' }
     }
     it {
-      should_not contain_class('zabbix::frontend::vhost')
+      should contain_webapp_config('zabbix').with({
+        :base => '/yessss'
+      })
     }
   end
   
