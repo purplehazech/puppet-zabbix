@@ -1,50 +1,32 @@
 # == Class: zabbix::frontend::vhost
 #
 class zabbix::frontend::vhost (
-  $ensure   = undef,
-  $hostname = undef,
+  $ensure   = hiera('frontend_enable', present),
+  $hostname = hiera('frontend_hostname', $::fqdn),
   $docroot  = undef,
-  $port     = undef) {
-  include zabbix::params
-  $ensure_real = $ensure ? {
-    undef   => $zabbix::params::frontend,
-    default => $ensure
-  }
-  validate_re($ensure_real, [absent, present])
-  $hostname_real = $hostname ? {
-    undef   => $zabbix::params::frontend_hostname,
-    default => $hostname
-  }
-  validate_string($hostname_real)
+  $port     = hiera('frontend_port', '80')) {
+  validate_re($ensure, [absent, present])
+  validate_string($hostname)
 
-  if $hostname_real == $zabbix::params::frontend_hostname {
-    $config_docroot = $zabbix::params::frontend_docroot
-  } else {
-    $config_docroot = "/var/www/${hostname_real}/htdocs"
-  }
   $docroot_real = $docroot ? {
-    undef   => $config_docroot,
+    undef   => "/var/www/${hostname}/htdocs",
     default => $docroot
   }
   validate_absolute_path($docroot_real)
-  $port_real = $port ? {
-    undef   => $zabbix::params::frontend_port,
-    default => $port
-  }
 
   include apache
 
-  apache::vhost { $hostname_real:
-    vhost_name => $hostname_real,
+  apache::vhost { $hostname:
+    vhost_name => $hostname,
     docroot    => $docroot_real,
-    port       => $port_real,
+    port       => $port,
     ssl        => false
   }
 
   apache::vhost::include::php { 'zabbix':
-    vhost_name => $hostname_real,
+    vhost_name => $hostname,
     values     => [
-      "date.timezone \"${timezone}\"",
+      "date.timezone \"${::timezone}\"",
       'post_max_size "32M"',
       'max_execution_time "600"',
       'max_input_time "600"']

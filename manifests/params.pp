@@ -69,6 +69,10 @@ class zabbix::params {
   # global network settings
   $server_hostname      = 'zabbix'
 
+  $frontend_url         = 'http://frontend.hostname/zabbix'
+  $frontend_user        = 'Admin'
+  $frontend_password    = 'zabbix'
+
   # agent settings
   $agent_ensure         = present
   $agent_hostname       = $::operatingsystem ? {
@@ -111,62 +115,4 @@ class zabbix::params {
   $agent_param_index    = '10'
   $agent_param_template = 'zabbix/zabbix_agent_userparam.conf.erb'
   $agent_param_command  = 'echo "Hello World!"'
-
-  # == frontend settings
-  #
-  # contains setting pertaining to the front end install
-  #
-  # === frontend_ensure
-  #
-  # install frontend on node, present or absent
-  #
-  $frontend_ensure      = present
-
-  # === frontend_vhost_class
-  #
-  # What class to use for creating vhosts. The provided default
-  # creates an apache base server and hosts zabbix on /zabbix.
-  #
-  $frontend_vhost_class = 'zabbix::puppet::vhost'
-
-  # === frontend_version
-  #
-  # what version of the frontend to install, skip make this module ignore
-  # everything.
-  #
-  # @todo find a friendly way to get the answer from webapp-config and implement
-  #       said thing nicely
-  #
-  $frontend_version     = $::operatingsystem ? {
-    windows => 'skip',
-    default => $zabbixversion_fact
-  }
-
-  # === frontend_node
-  #
-  # under what fqdn this will get hosted
-  #
-  $frontend_hostname    = $fqdn
-
-  # === frontend_docroot
-  #
-  # docroot of the frontends vhost
-  #
-  $frontend_docroot     = "/var/www/${frontend_hostname}/htdocs"
-
-  # === frontend_base
-  #
-  # base request uri for frontend
-  #
-  $frontend_base        = '/zabbix'
-  $frontend_port        = '80'
-  $frontend_url         = "http://${frontend_hostname}/zabbix"
-  $frontend_user        = 'Admin'
-  $frontend_password    = 'zabbix'
-  $frontend_db_type     = $db_type
-  $frontend_db_server   = $db_server
-  $frontend_db_port     = $db_port
-  $frontend_db_database = $db_database
-  $frontend_db_user     = $db_user
-  $frontend_db_password = $db_password
 }
