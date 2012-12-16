@@ -48,6 +48,7 @@
 # === Issues
 #
 # * no validation whatsoever due to non working plugin sync on my winxp boxes
+# * no hiera support due to windows, i clearly need to revisit windows
 # * only really tested on gentoo, some debian flavors and partly on some winxp
 #
 class zabbix::agent (
