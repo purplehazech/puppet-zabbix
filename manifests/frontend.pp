@@ -42,8 +42,6 @@ class zabbix::frontend (
   $db_database = hiera('db_database', 'zabbix'),
   $db_user     = hiera('db_user', 'root'),
   $db_password = hiera('db_password', '')) {
-  include zabbix::params
-
   validate_re($ensure, [absent, present])
   validate_string($server_host)
   validate_string($server_name)

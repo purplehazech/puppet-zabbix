@@ -47,122 +47,77 @@
 #
 # === Issues
 #
-# * no validation whatsoever due to non working plugin sync on my winxp boxes
-# * no hiera support due to windows, i clearly need to revisit windows
 # * only really tested on gentoo, some debian flavors and partly on some winxp
 #
 class zabbix::agent (
-  $ensure             = undef,
-  $hostname           = undef,
-  $server             = undef,
-  $listen_ip          = undef,
-  $template           = undef,
-  $conf_file          = undef,
-  $pid_file           = undef,
-  $log_file           = undef,
+  $ensure             = hiera('agent_ensure', present),
+  $hostname           = hiera('agent_hostname', $::hostname),
+  $server             = hiera('server_hostname', 'zabbix'),
+  $listen_ip          = hiera('agent_listen_ip', '0.0.0.0'),
+  $template           = hiera('agent_template', 'zabbix/zabbix_agentd.conf.erb'
+  ),
+  $conf_file          = hiera('agent_conf_file', '/etc/zabbix/zabbix_agent.conf'
+  ),
+  $pid_file           = hiera('agent_pid_file', '/var/run/zabbix-agent/zabbix_agentd.pid'
+  ),
+  $log_file           = hiera('agent_log_file', '/var/log/zabbix-agent/zabbix_agentd.log'
+  ),
   $userparameters     = undef,
-  $agent_include_path = undef,
-  $package            = undef,
-  $service_name       = undef) {
-  include zabbix::params
-  $ensure_real             = $ensure ? {
-    undef   => $zabbix::params::agent_ensure,
-    default => $ensure
-  }
-  # validate_re($ensure_real, [absent, present])
-  $hostname_real           = $ensure ? {
-    undef   => $zabbix::params::agent_hostname,
-    default => $hostname
-  }
-  $server_ip_real          = $server ? {
-    undef   => $zabbix::params::server_hostname,
-    default => $server
-  }
-  $listen_ip_real          = $listen_ip ? {
-    undef   => $zabbix::params::agent_listen_ip,
-    default => $listen_ip
-  }
-  $template_real           = $template ? {
-    undef   => $zabbix::params::agent_template,
-    default => $template
-  }
-  $conf_file_real          = $conf_file ? {
-    undef   => $zabbix::params::agent_conf_file,
-    default => $conf_file
-  }
-  # validate_absolute_path($conf_file_real)
-  $pid_file_real           = $pid_file ? {
-    undef   => $zabbix::params::agent_pid_file,
-    default => $pid_file
-  }
-  # validate_absolute_path($pid_file_real)
-  $log_file_real           = $log_file ? {
-    undef   => $zabbix::params::agent_log_file,
-    default => $log_file
-  }
-  # validate_absolute_path($pid_file_real)
-  $userparameters_real     = $userparameters ? {
-    undef   => $zabbix::params::agent_userparameters,
-    default => $userparameters
-  }
-  # validate_hash($userparameters_real)
-  $has_userparameters      = $userparameters_real ? {
+  $agent_include_path = hiera('agent_include_path', '/etc/zabbix/zabbix_agentd.d'
+  ),
+  $package            = hiera('agent_package', 'zabbix-agent'),
+  $service_name       = hiera('agent_service_name', 'zabbix-agent')) {
+  validate_re($ensure, [absent, present])
+  validate_absolute_path($conf_file)
+  validate_absolute_path($pid_file)
+  validate_absolute_path($pid_file)
+  validate_hash($userparameters)
+  $has_userparameters     = $userparameters ? {
     undef   => false,
     default => true
   }
-  $agent_include_path_real = $agent_include_path ? {
-    undef   => $zabbix::params::agent_include_path,
-    default => $agent_include_path
-  }
-  $package_real            = $package ? {
-    undef   => $zabbix::params::agent_package,
-    default => $package
-  }
-  $service_name_real       = $service_name ? {
-    undef   => $zabbix::params::agent_service_name,
-    default => $service_name
-  }
-  emerg($service_name_real)
   # compat: define stuff still used in win template
-  $cn                     = $hostname_real
-  $ipHostNumber           = $listen_ip_real
-  $zabbix_server_ip       = $server_ip_real
-  $zabbix_agentd_pid_file = $pid_file_real
-  $zabbix_agentd_log_file = $log_file_real
-  $zabbix_agentd_install  = $ensure_real
+  $cn                     = $hostname
+  $ipHostNumber           = $listen_ip
+  $zabbix_server_ip       = $server
+  $zabbix_agentd_pid_file = $pid_file
+  $zabbix_agentd_log_file = $log_file
+  $zabbix_agentd_install  = $ensure
 
   if $::operatingsystem == 'Gentoo' {
     class { 'zabbix::agent::gentoo':
-      ensure => $ensure_real
+      ensure => $ensure
     }
   }
 
-  file { $agent_include_path_real:
+  file { $agent_include_path:
     ensure => directory,
-    notify => Service[$service_name_real]
-  } -> file { $conf_file_real:
-    content => template("zabbix/${template_real}"),
-    notify  => Service[$service_name_real];
   }
 
-  if $package_real != false {
-    package { $package_real:
-      ensure => $ensure_real,
-      before => File[$conf_file_real]
-    }
+  file { $conf_file:
+    content => template($template),
   }
 
-  $service_ensure = $ensure_real ? {
+  $service_ensure = $ensure ? {
     present => running,
     default => stopped
   }
-  $service_enable = $ensure_real ? {
+  $service_enable = $ensure ? {
     present => true,
     default => false
   }
 
-  service { $service_name_real:
+  service { $service_name:
     ensure => $service_ensure,
     enable => $service_enable
+  }
+
+  File[$agent_include_path] ~> File[$conf_file] ~> Service[$service_name]
+
+  if $package != false {
+    package { $package:
+      ensure => $ensure,
+    }
+    Package[$package] -> File[$conf_file]
   }
 }
