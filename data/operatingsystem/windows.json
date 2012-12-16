@@ -1,3 +1,4 @@
 {
   "frontend_version" : "skip",
+  "agent_server_ensure" : "absent"
 }
