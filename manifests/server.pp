@@ -26,7 +26,7 @@
 #
 class zabbix::server (
   $ensure      = hiera('server_enable', present),
-  $hostname    = hiera('server_hostname', '/etc/zabbix/zabbix_server.conf'),
+  $hostname    = hiera('server_hostname', 'zabbix'),
   $export      = hiera('export', present),
   $conf_file   = hiera('server_conf_file', '/etc/zabbix/zabbix_server.conf'),
   $template    = hiera('server_template', 'zabbix/zabbix_server.conf.erb'),
