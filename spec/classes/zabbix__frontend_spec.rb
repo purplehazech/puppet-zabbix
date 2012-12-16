@@ -22,7 +22,6 @@ describe 'zabbix::frontend' do
       }
     }
     it {
-      should contain_class('zabbix::params')
       should contain_class('zabbix::frontend::gentoo').with({
         :ensure  => 'present',
       })
@@ -59,8 +58,8 @@ describe 'zabbix::frontend' do
       }
   end
 
-  context 'it should use hiera', :broken => true do
-    let(:hiera_data) { 
+  context 'it should use hiera' do
+    let(:hieradata) { 
       { :frontend_base => '/yessss' }
     }
     it {
