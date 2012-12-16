@@ -71,10 +71,4 @@ class zabbix::params {
     windows => 'Zabbix Agent',
     Gentoo  => 'zabbix-agentd',
     default => 'zabbix-agent'
-  }
-  # agent_param settings
-  $agent_param_ensure   = 'present'
-  $agent_param_index    = '10'
-  $agent_param_template = 'zabbix/zabbix_agent_userparam.conf.erb'
-  $agent_param_command  = 'echo "Hello World!"'
-}
+  } }
