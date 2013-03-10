@@ -25,7 +25,7 @@
 #  mysql server password
 #
 class zabbix::server (
-  $ensure      = hiera('server_enable', present),
+  $ensure      = hiera('server_enable', absent),
   $hostname    = hiera('server_hostname', 'zabbix'),
   $export      = hiera('export', present),
   $conf_file   = hiera('server_conf_file', '/etc/zabbix/zabbix_server.conf'),
