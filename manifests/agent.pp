@@ -54,19 +54,13 @@ class zabbix::agent (
   $hostname           = hiera('agent_hostname', $::hostname),
   $server             = hiera('server_hostname', 'zabbix'),
   $listen_ip          = hiera('agent_listen_ip', '0.0.0.0'),
-  $template           = hiera('agent_template', 'zabbix/zabbix_agentd.conf.erb'
-  ),
-  $conf_file          = hiera('agent_conf_file', '/etc/zabbix/zabbix_agent.conf'
-  ),
-  $pid_file           = hiera('agent_pid_file', '/var/run/zabbix-agent/zabbix_agentd.pid'
-  ),
-  $log_file           = hiera('agent_log_file', '/var/log/zabbix-agent/zabbix_agentd.log'
-  ),
-  $userparameters     = {
-  }
-  ,
-  $agent_include_path = hiera('agent_include_path', '/etc/zabbix/zabbix_agentd.d'
-  ),
+  $template           = hiera('agent_template', 'zabbix/zabbix_agentd.conf.erb'),
+  $conf_file          = hiera('agent_conf_file', '/etc/zabbix/zabbix_agent.conf'),
+  $pid_file           = hiera('agent_pid_file', '/var/run/zabbix-agent/zabbix_agentd.pid'),
+  $log_file           = hiera('agent_log_file', '/var/log/zabbix-agent/zabbix_agentd.log'),
+  $userparameters     = {},
+  $agent_include_path = hiera('agent_include_path', '/etc/zabbix/zabbix_agentd.d'),
+  $server_include_path= hiera('server_include_path', '/etc/zabbix/agent_server.conf'),
   $package            = hiera('agent_package', 'zabbix-agent'),
   $service_name       = hiera('agent_service_name', 'zabbix-agent')) {
   validate_re($ensure, [absent, present])
@@ -94,10 +88,13 @@ class zabbix::agent (
   file { $agent_include_path:
     ensure => directory,
   }
-
+  
+  Zabbix::Agent::Server <<| |>>
+  
   file { $conf_file:
     content => template($template),
   }
+  
 
   $service_ensure = $ensure ? {
     present => running,
