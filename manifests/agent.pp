@@ -61,7 +61,7 @@ class zabbix::agent (
   $userparameters     = {},
   $agent_include_path = hiera('agent_include_path', '/etc/zabbix/zabbix_agentd.d'),
   $server_include_path= hiera('server_include_path', '/etc/zabbix/agent_server.conf'),
-  $package            = hiera('agent_package', 'zabbix-agent'),
+  $package            = hiera('agent_package', 'zabbix'),
   $service_name       = hiera('agent_service_name', 'zabbix-agent')) {
   validate_re($ensure, [absent, present])
   validate_absolute_path($conf_file)
