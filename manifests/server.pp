@@ -25,7 +25,7 @@
 #  mysql server password
 #
 class zabbix::server (
-  $ensure      = hiera('server_enable', absent),
+  $ensure      = hiera('server_enable', present),
   $hostname    = hiera('server_hostname', 'zabbix'),
   $export      = hiera('export', present),
   $conf_file   = hiera('server_conf_file', '/etc/zabbix/zabbix_server.conf'),
@@ -36,8 +36,12 @@ class zabbix::server (
   $db_user     = hiera('db_user', 'root'),
   $db_password = hiera('db_password', '')) {
   
-  include activerecord
-  require zabbix::agent
+  if ($ensure == present) {
+    include activerecord
+    require zabbix::agent
+    
+    Class['activerecord'] -> File[$conf_file]
+  }
 
   case $::operatingsystem {
     'Gentoo' : {
@@ -66,7 +70,7 @@ class zabbix::server (
     enable => $service_enable,
   }
 
-  Class['activerecord'] -> File[$conf_file] ~> Service['zabbix-server']
+  File[$conf_file] ~> Service['zabbix-server']
 
   if $export == present {
     # export myself to all agents
