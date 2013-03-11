@@ -87,6 +87,9 @@ class zabbix::agent (
 
   file { $agent_include_path:
     ensure => directory,
+    mode   => '0500',
+    owner  => 'zabbix',
+    group  => 'zabbix'
   }
   
   Zabbix::Agent::Server <<| |>>
