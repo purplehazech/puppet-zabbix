@@ -55,7 +55,7 @@ class zabbix::agent (
   $server             = hiera('server_hostname', 'zabbix'),
   $listen_ip          = hiera('agent_listen_ip', '0.0.0.0'),
   $template           = hiera('agent_template', 'zabbix/zabbix_agentd.conf.erb'),
-  $conf_file          = hiera('agent_conf_file', '/etc/zabbix/zabbix_agent.conf'),
+  $conf_file          = hiera('agent_conf_file', '/etc/zabbix/zabbix_agentd.conf'),
   $pid_file           = hiera('agent_pid_file', '/var/run/zabbix-agent/zabbix_agentd.pid'),
   $log_file           = hiera('agent_log_file', '/var/log/zabbix-agent/zabbix_agentd.log'),
   $userparameters     = {},
