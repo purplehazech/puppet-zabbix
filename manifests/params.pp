@@ -1,19 +1,11 @@
-# Class: zabbix::params
+# == Class: zabbix::params
 #
-#   The zabbix configuration settings.
-#
-# Parameters:
-#
-# Actions:
-#
-# Requires:
-#
-# Sample Usage:
+# The zabbix configuration settings.
 #
 class zabbix::params {
   $default_agent_package =  $::osfamily ? {
-                  'Debian' => 'zabbix-agent',
-                  default  => 'zabbix'
+    'Debian' => 'zabbix-agent',
+    default  => 'zabbix'
   }
 
   #agent parameters
@@ -60,23 +52,4 @@ class zabbix::params {
   $frontend                    = hiera('frontend', absent)
   $api                         = hiera('api', present)
   $export                      = hiera('export', present)
-  
-  case $::osfamily {
-    'RedHat': {
-    }
-
-    'Suse': {
-    }
-
-    'Debian': {
-    }
-
-    'FreeBSD': {
-    }
-
-    default: {
-
-    }
-  }
-
 }
