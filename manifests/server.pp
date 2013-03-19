@@ -49,6 +49,11 @@ class zabbix::server (
         ensure => $ensure
       }
     }
+    'Debian' : {
+      class { 'zabbix::debian':
+        ensure => $ensure
+      }
+    }
   }
 
   $service_ensure = $ensure ? {

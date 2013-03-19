@@ -40,13 +40,22 @@ class zabbix (
   $api      = $zabbix::params::api,
   $export   = $zabbix::params::export) inherits zabbix::params {
     
-  if $::operatingsystem == 'Gentoo' {
-    class { 'zabbix::gentoo':
-      ensure => $ensure,
-      before => Class['zabbix::agent']
+    
+  case $::operatingsystem {
+    'Gentoo' : {
+      class { 'zabbix::gentoo':
+        ensure => $ensure,
+        before => Class['zabbix::agent']
+      }
+    }
+    'Debian' : {
+      class { 'zabbix::debian':
+        ensure => $ensure,
+        before => Class['zabbix::agent']
+      }
     }
   }
-
+    
   class { 'zabbix::agent':
     ensure => $agent,
   }

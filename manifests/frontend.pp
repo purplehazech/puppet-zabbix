@@ -47,11 +47,18 @@ class zabbix::frontend (
   validate_string($server_name)
   validate_string($hostname)
   validate_re($ensure, ['^[0-9].[0-9].[0-9]', present, absent, 'skip'])
-
-   if $::operatingsystem == 'Gentoo' {
-     class { 'zabbix::frontend::gentoo':
-       ensure => $ensure
-     }
+  
+  case $::operatingsystem {
+    'Gentoo' : {
+      class { 'zabbix::frontend::gentoo':
+        ensure => $ensure
+      }
+    }
+    'Debian' : {
+      class { 'zabbix::debian':
+        ensure => $ensure
+      }
+    }
   }
 
   if $vhost_class != 'zabbix::frontend::vhost' {

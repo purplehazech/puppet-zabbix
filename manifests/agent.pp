@@ -79,9 +79,16 @@ class zabbix::agent (
     default => true,
   }
 
-  if $::operatingsystem == 'Gentoo' {
-    class { 'zabbix::agent::gentoo':
-      ensure => $ensure
+  case $::operatingsystem {
+    'Gentoo' : {
+      class { 'zabbix::agent::gentoo':
+        ensure => $ensure
+      }
+    }
+    'Debian' : {
+      class { 'zabbix::debian':
+        ensure => $ensure
+      }
     }
   }
 
