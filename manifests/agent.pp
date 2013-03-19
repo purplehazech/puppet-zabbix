@@ -50,19 +50,19 @@
 # * only really tested on gentoo, some debian flavors and partly on some winxp
 #
 class zabbix::agent (
-  $ensure             = hiera('agent_ensure', present),
-  $hostname           = hiera('agent_hostname', $::hostname),
-  $server             = hiera('server_hostname', 'zabbix'),
-  $listen_ip          = hiera('agent_listen_ip', '0.0.0.0'),
-  $template           = hiera('agent_template', 'zabbix/zabbix_agentd.conf.erb'),
-  $conf_file          = hiera('agent_conf_file', '/etc/zabbix/zabbix_agentd.conf'),
-  $pid_file           = hiera('agent_pid_file', '/var/run/zabbix/zabbix_agentd.pid'),
-  $log_file           = hiera('agent_log_file', '/var/log/zabbix/zabbix_agentd.log'),
-  $userparameters     = {},
-  $agent_include_path = hiera('agent_include_path', '/etc/zabbix/zabbix_agentd.d'),
-  $server_include_path= hiera('server_include_path', '/etc/zabbix/agent_server.conf'),
-  $package            = hiera('agent_package', 'zabbix'),
-  $service_name       = hiera('agent_service_name', 'zabbix-agentd')) {
+  $ensure             = $zabbix::params::agent_ensure,
+  $hostname           = $zabbix::params::agent_hostname,
+  $server             = $zabbix::params::server_hostname,
+  $listen_ip          = $zabbix::params::agent_listen_ip,
+  $template           = $zabbix::params::agent_template,
+  $conf_file          = $zabbix::params::agent_conf_file,
+  $pid_file           = $zabbix::params::agent_pid_file,
+  $log_file           = $zabbix::params::agent_log_file,
+  $userparameters     = $zabbix::params::userparameters,
+  $agent_include_path = $zabbix::params::agent_include_path,
+  $server_include_path= $zabbix::params::server_include_path,
+  $package            = $zabbix::params::agent_package,
+  $service_name       = $zabbix::params::agent_service_name) inherits zabbix::params {
   validate_re($ensure, [absent, present])
   validate_absolute_path($conf_file)
   validate_absolute_path($pid_file)

@@ -29,19 +29,19 @@
 #  base path for web request_uri
 #
 class zabbix::frontend (
-  $ensure      = hiera('frontend_enable', 'present'),
-  $server_host = hiera('server_hostname', 'zabbix'),
-  $server_name = hiera('server_name', 'Zabbix Server'),
-  $hostname    = hiera('frontend_hostname', $::fqdn),
-  $base        = hiera('frontend_base', '/zabbix'),
-  $vhost_class = hiera('frontend_vhost_class', 'zabbix::frontend::vhost'),
-  $version     = hiera('version', $::zabbixversion),
-  $db_type     = hiera('db_type', 'MYSQL'),
-  $db_server   = hiera('db_server', 'localhost'),
-  $db_port     = hiera('db_port', '0'),
-  $db_database = hiera('db_database', 'zabbix'),
-  $db_user     = hiera('db_user', 'root'),
-  $db_password = hiera('db_password', '')) {
+  $ensure      = $zabbix::params::frontend_ensure,
+  $server_host = $zabbix::params::server_hostname,
+  $server_name = $zabbix::params::server_name,
+  $hostname    = $zabbix::params::frontend_hostname,
+  $base        = $zabbix::params::frontend_base,
+  $vhost_class = $zabbix::params::frontend_vhost_class,
+  $version     = $zabbix::params::version,
+  $db_type     = $zabbix::params::db_type,
+  $db_server   = $zabbix::params::db_server,
+  $db_port     = $zabbix::params::db_port,
+  $db_database = $zabbix::params::db_database,
+  $db_user     = $zabbix::params::db_user,
+  $db_password = $zabbix::params::db_password) inherits zabbix::params  {
   validate_re($ensure, [absent, present])
   validate_string($server_host)
   validate_string($server_name)

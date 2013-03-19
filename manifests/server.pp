@@ -25,16 +25,16 @@
 #  mysql server password
 #
 class zabbix::server (
-  $ensure      = hiera('server_enable', present),
-  $hostname    = hiera('server_hostname', 'zabbix'),
-  $export      = hiera('export', present),
-  $conf_file   = hiera('server_conf_file', '/etc/zabbix/zabbix_server.conf'),
-  $template    = hiera('server_template', 'zabbix/zabbix_server.conf.erb'),
-  $node_id     = hiera('server_node_id', 0),
-  $db_server   = hiera('db_server', 'localhost'),
-  $db_database = hiera('db_database', 'zabbix'),
-  $db_user     = hiera('db_user', 'root'),
-  $db_password = hiera('db_password', '')) {
+  $ensure      = $zabbix::params::server_ensure,
+  $hostname    = $zabbix::params::server_hostname,
+  $export      = $zabbix::params::export,
+  $conf_file   = $zabbix::params::server_conf_file,
+  $template    = $zabbix::params::server_template,
+  $node_id     = $zabbix::params::server_node_id,
+  $db_server   = $zabbix::params::db_server,
+  $db_database = $zabbix::params::db_database,
+  $db_user     = $zabbix::params::db_user,
+  $db_password = $zabbix::params::db_password) inherits zabbix::params {
   
   if ($ensure == present) {
     include activerecord

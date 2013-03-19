@@ -33,12 +33,12 @@
 # * res
 #
 class zabbix (
-  $ensure   = hiera('ensure', present),
-  $agent    = hiera('agent', present),
-  $server   = hiera('server', absent),
-  $frontend = hiera('frontend', absent),
-  $api      = hiera('api', present),
-  $export   = hiera('export', present)) {
+  $ensure   = $zabbix::params::ensure,
+  $agent    = $zabbix::params::agent,
+  $server   = $zabbix::params::server,
+  $frontend = $zabbix::params::frontend,
+  $api      = $zabbix::params::api,
+  $export   = $zabbix::params::export) inherits zabbix::params {
     
   if $::operatingsystem == 'Gentoo' {
     class { 'zabbix::gentoo':
