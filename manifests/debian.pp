@@ -4,7 +4,7 @@
 #
 # This adds a repository for the current puppet version
 #
-class zabbix::debian ($ensure) {
+class zabbix::debian () {
   if $::lsbdistcodename == 'squeeze' {
     apt::source { 'zabbixzone':
       location   => 'http://repo.zabbixzone.com/debian',

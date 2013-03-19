@@ -86,9 +86,7 @@ class zabbix::agent (
       }
     }
     'Debian' : {
-      class { 'zabbix::debian':
-        ensure => $ensure
-      }
+      include zabbix::debian
     }
   }
 

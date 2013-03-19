@@ -50,9 +50,7 @@ class zabbix::server (
       }
     }
     'Debian' : {
-      class { 'zabbix::debian':
-        ensure => $ensure
-      }
+      include zabbix::debian
     }
   }
 

@@ -49,10 +49,8 @@ class zabbix (
       }
     }
     'Debian' : {
-      class { 'zabbix::debian':
-        ensure => $ensure,
-        before => Class['zabbix::agent']
-      }
+      include zabbix::debian
+      Class['zabbix::debian'] -> Class['zabbix::agent']
     }
   }
     

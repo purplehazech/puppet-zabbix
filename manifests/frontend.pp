@@ -55,9 +55,7 @@ class zabbix::frontend (
       }
     }
     'Debian' : {
-      class { 'zabbix::debian':
-        ensure => $ensure
-      }
+      include zabbix::debian
     }
   }
 
