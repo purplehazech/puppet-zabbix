@@ -11,6 +11,11 @@
 # Sample Usage:
 #
 class zabbix::params {
+  $default_agent_package =  $::osfamily ? {
+                  'Debian' => 'zabbix-agent',
+                  default  => 'zabbix'
+  }
+
   #agent parameters
   $agent_ensure                = hiera('agent_ensure', present)
   $agent_hostname              = hiera('agent_hostname', $::hostname)
@@ -20,14 +25,7 @@ class zabbix::params {
   $agent_pid_file              = hiera('agent_pid_file', '/var/run/zabbix/zabbix_agentd.pid')
   $agent_log_file              = hiera('agent_log_file', '/var/log/zabbix/zabbix_agentd.log')
   $agent_include_path          = hiera('agent_include_path', '/etc/zabbix/zabbix_agentd.d')
-  case $::osfamily {
-    'Debian': {
-      $agent_package               = hiera('agent_package', 'zabbix-agent')
-    }
-    default: {
-      $agent_package               = hiera('agent_package', 'zabbix')
-    }
-  }
+  $agent_package               = hiera('agent_package', $default_agent_package)
   $agent_service_name          = hiera('agent_service_name', 'zabbix-agentd')
   $userparameters              = {}
   
