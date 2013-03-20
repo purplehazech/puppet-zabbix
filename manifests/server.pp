@@ -100,7 +100,7 @@ class zabbix::server (
   }
   
   if $db_type == 'MYSQL' {
-    $mysql_command="mysql -u ${db_user} -p ${db_password} -h ${db_server} -D ${db_database}"
+    $mysql_command="mysql --user=${db_user} --password=${db_password} --hhost=${db_server} ${db_database}"
     
     exec { "zabbix-server-schema":
       command => "${mysql_command} < ${server_base_dir}/schema.sql",
