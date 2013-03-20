@@ -41,6 +41,7 @@ class zabbix::params {
   $frontend_base               = hiera('frontend_base', '/zabbix')
   $frontend_vhost_class        = hiera('frontend_vhost_class', 'zabbix::frontend::vhost')
   $frontend_package            = hiera('frontend_package', 'zabbix-frontend-php')
+  $frontend_conf_file            = hiera('frontend_conf_file', '')
   
   #common parameters
   $version                     = hiera('version', $::zabbixversion)

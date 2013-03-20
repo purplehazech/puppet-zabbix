@@ -37,6 +37,7 @@ class zabbix::frontend (
   $vhost_class = $zabbix::params::frontend_vhost_class,
   $version     = $zabbix::params::version,
   $package     = $zabbix::params::frontend_package,
+  $conf_file   = $zabbix::params::frontend_conf_file,
   $db_type     = $zabbix::params::db_type,
   $db_server   = $zabbix::params::db_server,
   $db_port     = $zabbix::params::db_port,
@@ -60,11 +61,43 @@ class zabbix::frontend (
     }
   }
   
+  $basedir = "/var/www/${hostname}/htdocs${base}"
+  
+  if $conf_file == '' {
+    $real_conf_file =  $::osfamily ? {
+      'Debian' => '/etc/zabbix/web/zabbix.conf.php',
+      default  => "${basedir}/conf/zabbix.conf.php"
+    }
+  } else {
+    $real_conf_file = $conf_file
+  }
+  
+  if ($version != 'skip') {
+    if $::operatingsystem == 'Gentoo' {
+      #Gentoo uses webapp-config
+      webapp_config { 'zabbix':
+        action  => $webapp_action,
+        vhost   => $hostname,
+        version => $version,
+        app     => 'zabbix',
+        base    => $base,
+        depends => []
+      }
+    } else {
+      #for others this might work.
+       file { $basedir:
+            ensure => link,
+            target => "/usr/share/zabbix",
+            ;
+        
+        }
+    }
+  }
+  
   if $::operatingsystem == 'Gentoo' {
     $webapp_config = Webapp_config['zabbix']
   } else {
-    # This is just a placeholder until I know what to do here.
-    $webapp_config = Class['zabbix::debian']
+    $webapp_config = File[$basedir]
   }
   
   $install_package    = $::operatingsystem ? {
@@ -90,29 +123,16 @@ class zabbix::frontend (
     default => noop
   }
 
-  $conf_file = "/var/www/${hostname}/htdocs${base}/conf/zabbix.conf.php"
-
-  file { $conf_file:
+  file { $real_conf_file:
     ensure  => $ensure,
     content => template('zabbix/zabbix.conf.php.erb'),
     require => $webapp_config
   }
 
-  if ($version != 'skip' and $::operatingsystem == 'Gentoo') {
-    webapp_config { 'zabbix':
-      action  => $webapp_action,
-      vhost   => $hostname,
-      version => $version,
-      app     => 'zabbix',
-      base    => $base,
-      depends => []
-    }
-  }
-  
   if $install_package != false {
     package { $package:
       ensure => $ensure,
     }
-    Package[$package] -> File[$conf_file]
+    Package[$package] -> File[$real_conf_file]
   }
 }
