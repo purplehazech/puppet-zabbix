@@ -36,6 +36,7 @@ class zabbix::frontend (
   $base        = $zabbix::params::frontend_base,
   $vhost_class = $zabbix::params::frontend_vhost_class,
   $version     = $zabbix::params::version,
+  $package     = $zabbix::params::frontend_package
   $db_type     = $zabbix::params::db_type,
   $db_server   = $zabbix::params::db_server,
   $db_port     = $zabbix::params::db_port,
@@ -57,6 +58,11 @@ class zabbix::frontend (
     'Debian' : {
       include zabbix::debian
     }
+  }
+  
+  $install_package    = $::operatingsystem ? {
+    windows => false,
+    default => true,
   }
 
   if $vhost_class != 'zabbix::frontend::vhost' {
@@ -93,5 +99,12 @@ class zabbix::frontend (
       base    => $base,
       depends => []
     }
+  }
+  
+  if $install_package != false {
+    package { $package:
+      ensure => $ensure,
+    }
+    Package[$package] -> File[$conf_file]
   }
 }
