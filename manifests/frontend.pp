@@ -98,7 +98,7 @@ class zabbix::frontend (
     require => $webapp_config
   }
 
-  if ($version != 'skip' && $::operatingsystem == 'Gentoo') {
+  if ($version != 'skip' and $::operatingsystem == 'Gentoo') {
     webapp_config { 'zabbix':
       action  => $webapp_action,
       vhost   => $hostname,
