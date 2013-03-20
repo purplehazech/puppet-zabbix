@@ -9,4 +9,3 @@ Facter.add("zabbixversion") do
       array[array.size-1]
     end
   end
-end
