@@ -31,10 +31,24 @@ class zabbix::server (
   $conf_file   = $zabbix::params::server_conf_file,
   $template    = $zabbix::params::server_template,
   $node_id     = $zabbix::params::server_node_id,
+  $package     = $zabbix::params::server_package,
+  $db_type     = $zabbix::params::db_type,
   $db_server   = $zabbix::params::db_server,
   $db_database = $zabbix::params::db_database,
   $db_user     = $zabbix::params::db_user,
   $db_password = $zabbix::params::db_password) inherits zabbix::params {
+  
+  $install_package    = $::operatingsystem ? {
+    windows => false,
+    default => true,
+  }
+  
+  if $package == '' {
+    $lc_db_type = downcase($db_type)
+    $real_package = "zabbix-server-${lc_db_type}"
+  } else {
+    $real_package = $package
+  }
   
   if ($ensure == present) {
     include activerecord
@@ -74,7 +88,37 @@ class zabbix::server (
   }
 
   File[$conf_file] ~> Service['zabbix-server']
-
+  
+  if $install_package != false {
+    package { $real_package:
+      ensure => $ensure,
+      notify => Exec["zabbix-server-schema"]
+    }
+    Package[$real_package] -> File[$conf_file]
+  }
+  
+  if $db_type == 'MYSQL' {
+  
+    $mysql_command="mysql -u ${db_user} -p ${db_password} -h ${db_server} -D ${db_database} < /usr/share/zabbix-server-mysql/"
+    
+    exec { "zabbix-server-schema":
+      command => "${mysql_command}schema.sql",
+      refreshonly => true, 
+      notify => Exec["zabbix-server-data"], 
+    }
+      
+    exec { "zabbix-server-data":
+      command => "${mysql_command}data.sql",
+      refreshonly => true, 
+      notify => Exec["zabbix-server-images"], 
+    }
+    
+    exec { "zabbix-server-images":
+      command => "${mysql_command}images.sql",
+      refreshonly => true, 
+    }
+  }
+  
   if $export == present {
     # export myself to all agents
     @@zabbix::agent::server { $hostname:
