@@ -105,19 +105,19 @@ class zabbix::server (
     exec { "zabbix-server-schema":
       command => "${mysql_command} < ${server_base_dir}/schema.sql",
       refreshonly => true, 
-      notify => Exec["zabbix-server-data"], 
-    }
-      
-    exec { "zabbix-server-data":
-      command => "${mysql_command} < ${server_base_dir}/data.sql",
-      refreshonly => true, 
       notify => Exec["zabbix-server-images"], 
     }
     
     exec { "zabbix-server-images":
       command => "${mysql_command} < ${server_base_dir}/images.sql",
       refreshonly => true, 
+      notify => Exec["zabbix-server-data"], 
     }
+    
+    exec { "zabbix-server-data":
+      command => "${mysql_command} < ${server_base_dir}/data.sql",
+      refreshonly => true, 
+    }    
   }
   
   if $export == present {
