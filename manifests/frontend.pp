@@ -60,6 +60,13 @@ class zabbix::frontend (
     }
   }
   
+  if $::operatingsystem == 'Gentoo' {
+    $webapp_config = Webapp_config['zabbix']
+  } else {
+    # This is just a placeholder until I know what to do here.
+    $webapp_config = Class['zabbix::debian']
+  }
+  
   $install_package    = $::operatingsystem ? {
     windows => false,
     default => true,
@@ -69,11 +76,10 @@ class zabbix::frontend (
     class { $vhost_class:
     }
   } else {
-    #
     class { 'zabbix::frontend::vhost':
       ensure   => $ensure,
       hostname => $hostname,
-      before   => Webapp_config['zabbix']
+      before   => $webapp_config
     }
 
   }
@@ -89,10 +95,10 @@ class zabbix::frontend (
   file { $conf_file:
     ensure  => $ensure,
     content => template('zabbix/zabbix.conf.php.erb'),
-    require => Webapp_config['zabbix']
+    require => $webapp_config
   }
 
-  if ($version != 'skip') {
+  if ($version != 'skip' && $::operatingsystem == 'Gentoo') {
     webapp_config { 'zabbix':
       action  => $webapp_action,
       vhost   => $hostname,
