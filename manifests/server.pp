@@ -43,8 +43,10 @@ class zabbix::server (
     default => true,
   }
   
+  $lc_db_type = downcase($db_type)
+  $server_base_dir = "/usr/share/zabbix-server-${lc_db_type}"
+  
   if $package == '' {
-    $lc_db_type = downcase($db_type)
     $real_package = "zabbix-server-${lc_db_type}"
   } else {
     $real_package = $package
@@ -98,23 +100,22 @@ class zabbix::server (
   }
   
   if $db_type == 'MYSQL' {
-  
-    $mysql_command="mysql -u ${db_user} -p ${db_password} -h ${db_server} -D ${db_database} < /usr/share/zabbix-server-mysql/"
+    $mysql_command="mysql -u ${db_user} -p ${db_password} -h ${db_server} -D ${db_database}"
     
     exec { "zabbix-server-schema":
-      command => "${mysql_command}schema.sql",
+      command => "${mysql_command} < ${server_base_dir}/schema.sql",
       refreshonly => true, 
       notify => Exec["zabbix-server-data"], 
     }
       
     exec { "zabbix-server-data":
-      command => "${mysql_command}data.sql",
+      command => "${mysql_command} < ${server_base_dir}/data.sql",
       refreshonly => true, 
       notify => Exec["zabbix-server-images"], 
     }
     
     exec { "zabbix-server-images":
-      command => "${mysql_command}images.sql",
+      command => "${mysql_command} < ${server_base_dir}/images.sql",
       refreshonly => true, 
     }
   }
