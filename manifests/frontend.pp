@@ -84,7 +84,9 @@ class zabbix::frontend (
     default => noop
   }
 
-  file { "/var/www/${hostname}/htdocs${base}/conf/zabbix.conf.php":
+  $conf_file = "/var/www/${hostname}/htdocs${base}/conf/zabbix.conf.php"
+
+  file { $conf_file:
     ensure  => $ensure,
     content => template('zabbix/zabbix.conf.php.erb'),
     require => Webapp_config['zabbix']
