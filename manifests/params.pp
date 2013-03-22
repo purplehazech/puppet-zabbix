@@ -34,6 +34,7 @@ class zabbix::params {
   $server_template             = hiera('server_template', 'zabbix/zabbix_server.conf.erb')
   $server_node_id              = hiera('server_node_id', 0)
   $server_ensure               = hiera('server_enable', present)
+  $server_package              = hiera('server_enable', '')
   
   #frontent parameters
   $frontend_ensure             = hiera('frontend_enable', 'present')
@@ -41,6 +42,8 @@ class zabbix::params {
   $frontend_base               = hiera('frontend_base', '/zabbix')
   $frontend_vhost_class        = hiera('frontend_vhost_class', 'zabbix::frontend::vhost')
   $frontend_package            = hiera('frontend_package', 'zabbix-frontend-php')
+  $frontend_conf_file          = hiera('frontend_conf_file', '')
+  $frontend_port               = hiera('frontend_port', '80')
   
   #common parameters
   $version                     = hiera('version', $::zabbixversion)
