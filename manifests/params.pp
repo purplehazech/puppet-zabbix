@@ -18,7 +18,7 @@ class zabbix::params {
     default  => '/var/log/zabbix/zabbix_agentd.log'
   }
   
-  $default_agent_pid_file =  $::osfamily ? {
+  $default_agent_pid_file =  $::operatingsystem ? {
     'Debian' => '/var/run/zabbix-agent/zabbix_agentd.pid',
     default  => '/var/run/zabbix/zabbix_agentd.pid'
   }
