@@ -13,26 +13,14 @@ class zabbix::params {
     default  => 'zabbix-agentd'
   }
   
-  $default_agent_log_file =  $::osfamily ? {
-    'Debian' => '/var/log/zabbix-agent/zabbix_agentd.log',
-    default  => '/var/log/zabbix/zabbix_agentd.log'
-  }
-  
-  $default_agent_pid_file =  $::operatingsystem ? {
-    'Debian' => '/var/run/zabbix-agent/zabbix_agentd.pid',
-    default  => '/var/run/zabbix/zabbix_agentd.pid'
-  }
-
-
-
   #agent parameters
   $agent_ensure                = hiera('agent_ensure', present)
   $agent_hostname              = hiera('agent_hostname', $::hostname)
   $agent_listen_ip             = hiera('agent_listen_ip', '0.0.0.0')
   $agent_template              = hiera('agent_template', 'zabbix/zabbix_agentd.conf.erb')
   $agent_conf_file             = hiera('agent_conf_file', '/etc/zabbix/zabbix_agentd.conf')
-  $agent_pid_file              = hiera('agent_pid_file', $default_agent_pid_file)
-  $agent_log_file              = hiera('agent_log_file', $default_agent_log_file)
+  $agent_pid_file              = hiera('agent_pid_file', '/var/run/zabbix/zabbix_agentd.pid')
+  $agent_log_file              = hiera('agent_log_file', '/var/log/zabbix/zabbix_agentd.')
   $agent_include_path          = hiera('agent_include_path', '/etc/zabbix/zabbix_agentd.d')
   $agent_package               = hiera('agent_package', $default_agent_package)
   $agent_service_name          = hiera('agent_service_name', $default_agent_service_name)
