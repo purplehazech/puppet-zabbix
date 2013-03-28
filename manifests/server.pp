@@ -54,7 +54,6 @@ class zabbix::server (
   
   if ($ensure == present) {
     include activerecord
-    require zabbix::agent
     
     Class['activerecord'] -> File[$conf_file]
   }
