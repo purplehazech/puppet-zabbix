@@ -15,6 +15,9 @@ class zabbix::frontend::gentoo ($ensure) {
   } -> file { '/etc/portage/package.use/10_zabbix__frontend_dev_lang_php_apache':
     ensure  => $ensure,
     content => 'dev-lang/php apache2'
+  } -> file { '/etc/portage/package.use/10_zabbix__frontend_dev_lang_php_mysql':
+    ensure  => $ensure,
+    content => 'dev-lang/php mysql'
   } -> file { '/etc/portage/package.use/10_gd-zabbix__frontend_media_libs_gd':
     ensure  => $ensure,
     content => 'media-libs/gd png'
