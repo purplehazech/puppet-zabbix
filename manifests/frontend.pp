@@ -34,7 +34,6 @@ class zabbix::frontend (
   $server_name = hiera('server_name', 'Zabbix Server'),
   $hostname    = hiera('frontend_hostname', $::fqdn),
   $base        = hiera('frontend_base', '/zabbix'),
-  $vhost_class = hiera('frontend_vhost_class', 'zabbix::frontend::vhost'),
   $version     = hiera('version', $::zabbixversion),
   $db_type     = hiera('db_type', 'MYSQL'),
   $db_server   = hiera('db_server', 'localhost'),
@@ -50,19 +49,6 @@ class zabbix::frontend (
 
   class { 'zabbix::frontend::gentoo':
     ensure => $ensure
-  }
-
-  if $vhost_class != 'zabbix::frontend::vhost' {
-    class { $vhost_class:
-    }
-  } else {
-    #
-    class { 'zabbix::frontend::vhost':
-      ensure   => $ensure,
-      hostname => $hostname,
-      before   => Webapp_config['zabbix']
-    }
-
   }
 
   $webapp_action = $ensure ? {
