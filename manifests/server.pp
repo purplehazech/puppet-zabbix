@@ -64,10 +64,22 @@ class zabbix::server (
     ensure  => $ensure,
     content => template($template),
   }
+  
+  mysql::db { $db_database :
+    user     => $db_user,
+    password => $db_password,
+    host     => $db_server,
+    grant    => ['all'],
+    enforce_sql => [
+      '/usr/share/zabbix/database/create/schema/mysql.sql',
+      '/usr/share/zabbix/database/create/data/images_mysql.sql'
+    ]
+  }
 
   service { 'zabbix-server':
-    ensure => $service_ensure,
-    enable => $service_enable,
+    ensure  => $service_ensure,
+    enable  => $service_enable,
+    require => Mysql::Db[$db_database]
   }
 
   File[$conf_file] ~> Service['zabbix-server']
