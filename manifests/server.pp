@@ -34,7 +34,8 @@ class zabbix::server (
   $db_server   = hiera('db_server', 'localhost'),
   $db_database = hiera('db_database', 'zabbix'),
   $db_user     = hiera('db_user', 'root'),
-  $db_password = hiera('db_password', '')) {
+  $db_password = hiera('db_password', '')
+) {
   
   if ($ensure == present) {
     include activerecord
@@ -71,8 +72,8 @@ class zabbix::server (
     host     => $db_server,
     grant    => ['all'],
     enforce_sql => [
-      '/usr/share/zabbix/database/create/schema/mysql.sql',
-      '/usr/share/zabbix/database/create/data/images_mysql.sql'
+      '/usr/share/zabbix/database/mysql/schema.sql',
+      '/usr/share/zabbix/database/mysql/images.sql'
     ]
   }
 
