@@ -7,7 +7,6 @@ else
 end
 
 gem 'puppet', puppetversion
-gem 'hiera-module-json', '~> 0.0.2'
  
 group :test do
   gem 'rake', '>= 0.9.0'
