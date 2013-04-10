@@ -20,8 +20,8 @@ class zabbix::params {
       default => hiera('agent_listen_ip', '0.0.0.0')
   }
   $agent_source_ip             = $use_ipv6 ? {
-      true => hiera('agent_source_ip', $::ipaddress),
-      default => hiera('agent_source_ip', $::ipaddress6)
+      true => hiera('agent_source_ip', $::ipaddress6),
+      default => hiera('agent_source_ip', $::ipaddress)
   }
 
   $agent_ensure                = hiera('agent_ensure', present)
