@@ -12,11 +12,14 @@ class zabbix::params {
     'Debian' => 'zabbix-agent',
     default  => 'zabbix-agentd'
   }
-  
+
   #agent parameters
   $agent_ensure                = hiera('agent_ensure', present)
   $agent_hostname              = hiera('agent_hostname', $::hostname)
   $agent_listen_ip             = hiera('agent_listen_ip', '0.0.0.0')
+  $agent_listen_ip6             = hiera('agent_listen_ip', '::')
+  $agent_source_ip             = hiera('agent_source_ip', $::ipaddress)
+  $agent_source_ip6             = hiera('agent_source_ip', $::ipaddress6)
   $agent_template              = hiera('agent_template', 'zabbix/zabbix_agentd.conf.erb')
   $agent_conf_file             = hiera('agent_conf_file', '/etc/zabbix/zabbix_agentd.conf')
   $agent_pid_file              = hiera('agent_pid_file', '/var/run/zabbix/zabbix_agentd.pid')

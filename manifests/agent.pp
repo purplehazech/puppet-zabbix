@@ -54,6 +54,7 @@ class zabbix::agent (
   $hostname           = $zabbix::params::agent_hostname,
   $server             = $zabbix::params::server_hostname,
   $listen_ip          = $zabbix::params::agent_listen_ip,
+  $source_ip          = $zabbix::params::agent_source_ip,
   $template           = $zabbix::params::agent_template,
   $conf_file          = $zabbix::params::agent_conf_file,
   $pid_file           = $zabbix::params::agent_pid_file,
