@@ -38,9 +38,8 @@ class zabbix (
   $server   = $zabbix::params::server,
   $frontend = $zabbix::params::frontend,
   $api      = $zabbix::params::api,
-  $export   = $zabbix::params::export) inherits zabbix::params {
-    
-    
+  $export   = $zabbix::params::export) {
+
   case $::operatingsystem {
     'Gentoo' : {
       class { 'zabbix::gentoo':
@@ -52,8 +51,11 @@ class zabbix (
       include zabbix::debian
       Class['zabbix::debian'] -> Class['zabbix::agent']
     }
+    default : {
+      # getting ignored :(
+    }
   }
-    
+
   class { 'zabbix::agent':
     ensure => $agent,
   }
@@ -65,7 +67,7 @@ class zabbix (
     }
     Class['zabbix::agent'] -> Class['zabbix::server']
   }
-  
+
   if ($frontend == present) {
     class { 'zabbix::frontend':
       ensure  => $frontend,
@@ -73,7 +75,7 @@ class zabbix (
     }
     Class['zabbix::server'] -> Class['zabbix::frontend']
   }
-  
+
   class { 'zabbix::api':
     ensure  => $api,
   }
