@@ -25,19 +25,6 @@
 #  mysql server password
 #
 class zabbix::server (
-<<<<<<< HEAD
-  $ensure      = hiera('server_enable', present),
-  $hostname    = hiera('server_hostname', 'zabbix'),
-  $export      = hiera('export', present),
-  $conf_file   = hiera('server_conf_file', '/etc/zabbix/zabbix_server.conf'),
-  $template    = hiera('server_template', 'zabbix/zabbix_server.conf.erb'),
-  $node_id     = hiera('server_node_id', 0),
-  $db_server   = hiera('db_server', 'localhost'),
-  $db_database = hiera('db_database', 'zabbix'),
-  $db_user     = hiera('db_user', 'root'),
-  $db_password = hiera('db_password', '')
-) {
-=======
   $ensure      = $zabbix::params::server_ensure,
   $hostname    = $zabbix::params::server_hostname,
   $export      = $zabbix::params::export,
@@ -64,7 +51,6 @@ class zabbix::server (
   } else {
     $real_package = $package
   }
->>>>>>> FETCH_HEAD
   
   if ($ensure == present) {
     include activerecord
