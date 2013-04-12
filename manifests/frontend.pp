@@ -43,13 +43,13 @@ class zabbix::frontend (
   $db_port     = $zabbix::params::db_port,
   $db_database = $zabbix::params::db_database,
   $db_user     = $zabbix::params::db_user,
-  $db_password = $zabbix::params::db_password) inherits zabbix::params {
+  $db_password = $zabbix::params::db_password) {
   validate_re($ensure, [absent, present])
   validate_string($server_host)
   validate_string($server_name)
   validate_string($hostname)
   validate_re($ensure, ['^[0-9].[0-9].[0-9]', present, absent, 'skip'])
-  
+
   case $::operatingsystem {
     'Gentoo' : {
       class { 'zabbix::frontend::gentoo':
@@ -58,11 +58,14 @@ class zabbix::frontend (
     }
     'Debian','Ubuntu' : {
       include zabbix::debian
+    },
+    default : {
+      # i haz default
     }
   }
-  
+
   $basedir = "/var/www/${hostname}/htdocs${base}"
-  
+
   if $conf_file == '' {
     $real_conf_file =  $::osfamily ? {
       'Debian' => '/etc/zabbix/web/zabbix.conf.php',
@@ -71,7 +74,7 @@ class zabbix::frontend (
   } else {
     $real_conf_file = $conf_file
   }
-  
+
   if ($version != 'skip') {
     if $::operatingsystem == 'Gentoo' {
       #Gentoo uses webapp-config
@@ -85,21 +88,19 @@ class zabbix::frontend (
       }
     } else {
       #for others this might work.
-       file { $basedir:
-            ensure => link,
-            target => "/usr/share/zabbix",
-            ;
-        
-        }
+      file { $basedir:
+        ensure => link,
+        target => '/usr/share/zabbix',
+      }
     }
   }
-  
+
   if $::operatingsystem == 'Gentoo' {
     $webapp_config = Webapp_config['zabbix']
   } else {
     $webapp_config = File[$basedir]
   }
-  
+
   $install_package    = $::operatingsystem ? {
     windows => false,
     default => true,
