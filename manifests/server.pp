@@ -36,7 +36,7 @@ class zabbix::server (
   $db_server   = $zabbix::params::db_server,
   $db_database = $zabbix::params::db_database,
   $db_user     = $zabbix::params::db_user,
-  $db_password = $zabbix::params::db_password) {
+  $db_password = $zabbix::params::db_password) inherits zabbix::params {
 
   $install_package    = $::operatingsystem ? {
     windows => false,

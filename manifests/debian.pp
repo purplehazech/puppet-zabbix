@@ -4,7 +4,7 @@
 #
 # This adds a repository for the current zabbix version
 #
-class zabbix::debian () {
+class zabbix::debian () inherits zabbix::params {
   apt::source { 'zabbixzone':
     location   => 'http://repo.zabbixzone.com/debian',
     repos      => 'main contrib non-free',

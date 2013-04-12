@@ -2,7 +2,7 @@
 #
 # Gentoo specific use flags for frontend
 #
-class zabbix::frontend::gentoo ($ensure = present) {
+class zabbix::frontend::gentoo ($ensure = present) inherits zabbix::params {
   file { '/etc/portage/package.use/10_zabbix__frontend':
     ensure  => $ensure,
     content => 'net-analyzer/zabbix ldap mysql frontend snmp'

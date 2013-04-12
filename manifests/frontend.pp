@@ -43,7 +43,8 @@ class zabbix::frontend (
   $db_port     = $zabbix::params::db_port,
   $db_database = $zabbix::params::db_database,
   $db_user     = $zabbix::params::db_user,
-  $db_password = $zabbix::params::db_password) {
+  $db_password = $zabbix::params::db_password) inherits zabbix::params {
+
   validate_re($ensure, [absent, present])
   validate_string($server_host)
   validate_string($server_name)
@@ -58,7 +59,7 @@ class zabbix::frontend (
     }
     'Debian','Ubuntu' : {
       include zabbix::debian
-    },
+    }
     default : {
       # i haz default
     }
@@ -77,7 +78,7 @@ class zabbix::frontend (
 
   if ($version != 'skip') {
     if $::operatingsystem == 'Gentoo' {
-      #Gentoo uses webapp-config
+      # Gentoo uses webapp-config
       webapp_config { 'zabbix':
         action  => $webapp_action,
         vhost   => $hostname,

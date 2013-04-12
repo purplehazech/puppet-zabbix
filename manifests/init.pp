@@ -38,7 +38,7 @@ class zabbix (
   $server   = $zabbix::params::server,
   $frontend = $zabbix::params::frontend,
   $api      = $zabbix::params::api,
-  $export   = $zabbix::params::export) {
+  $export   = $zabbix::params::export) inherits zabbix::params {
 
   case $::operatingsystem {
     'Gentoo' : {

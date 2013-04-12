@@ -16,7 +16,7 @@ class zabbix::bundle (
   $ensure = 'present',
   $items  = {
   }
-) {
+) inherits zabbix::params {
   $ensure_real = $ensure
 
   @@zabbix::server::template { $name:

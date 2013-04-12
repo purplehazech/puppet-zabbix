@@ -16,8 +16,8 @@
 # [*params*]
 #   enable uerparameters, default true
 #
-class zabbix::externals ($ensure = undef, $api = undef) {
-  include zabbix::params
+class zabbix::externals ($ensure = undef, $api = undef) inherits zabbix::params {
+
   $ensure_real = $ensure ? {
     undef   => $zabbix::params::api,
     default => $api

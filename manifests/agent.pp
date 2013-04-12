@@ -63,7 +63,7 @@ class zabbix::agent (
   $agent_include_path = $zabbix::params::agent_include_path,
   $server_include_path= $zabbix::params::server_include_path,
   $package            = $zabbix::params::agent_package,
-  $service_name       = $zabbix::params::agent_service_name) {
+  $service_name       = $zabbix::params::agent_service_name) inherits zabbix::params {
 
   validate_re($ensure, [absent, present])
   validate_absolute_path($conf_file)
