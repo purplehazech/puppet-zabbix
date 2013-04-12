@@ -8,8 +8,8 @@ define zabbix::agent::server (
   $port         = hiera('agent_server_port', 10051),
   $include_path = hiera('server_include_path', '/etc/zabbix/agent_server.conf')
 ) {
-  
-  file { $include_path: 
+
+  file { $include_path:
     content => template('zabbix/zabbix_agent_server_include.conf.erb')
   }
 }
