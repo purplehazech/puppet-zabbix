@@ -5,7 +5,8 @@ class zabbix::frontend::vhost (
   $hostname = $zabbix::params::frontend_hostname,
   $docroot  = undef,
   $port     = $zabbix::params::frontend_port,
-  $timezone = $zabbix::params::timezone) inherits zabbix::params {
+  $timezone = $zabbix::params::timezone) {
+
   validate_re($ensure, [absent, present])
   validate_string($hostname)
 
@@ -14,7 +15,7 @@ class zabbix::frontend::vhost (
     default => $docroot
   }
   validate_absolute_path($docroot_real)
-  
+
   if ($ensure == present) {
     include apache
 

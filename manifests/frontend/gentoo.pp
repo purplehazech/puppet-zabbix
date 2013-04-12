@@ -12,7 +12,7 @@ class zabbix::frontend::gentoo ($ensure = present) {
   } -> file { '/etc/portage/package.use/10_zabbix__frontend_dev_lang_php_xml':
     ensure  => $ensure,
     content => 'dev-lang/php xmlwriter xmlreader'
-  } -> file { '/etc/portage/package.use/10_zabbix__frontend_dev_lang_php_apache':
+  } -> file { '/etc/portage/package.use/10_zabbix__frontend_php_apache':
     ensure  => $ensure,
     content => 'dev-lang/php apache2'
   } -> file { '/etc/portage/package.use/10_zabbix__frontend_dev_lang_php_mysql':
