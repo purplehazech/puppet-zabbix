@@ -14,7 +14,9 @@ module Zabbix
     zbx = ZabbixApi.connect(
       :url => config.fetch('zabbix_url', 'http://localhost/zabbix/api_jsonrpc.php'),
       :user => config.fetch('zabbix_user','Admin'),
-      :password => config.fetch('zabbix_password', 'zabbix')
+      :password => config.fetch('zabbix_password', 'zabbix'),
+      :http_user => config.fetch('zabbix_http_user', nil),
+      :http_password => config.fetch('zabbix_http_password', nil)
     )
     return zbx
   end
