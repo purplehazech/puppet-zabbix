@@ -67,6 +67,9 @@ class zabbix::server (
     'Debian','Ubuntu' : {
       include zabbix::debian
     }
+    default  : {
+      # fail silently for now
+    }
   }
 
   $service_ensure = $ensure ? {
@@ -125,5 +128,12 @@ class zabbix::server (
       ensure   => present,
       hostname => $hostname,
     }
+    # install templates needed by different nodes
+    Zabbix_template <<| |>>
+    Zabbix_template_application <<| |>>
+    Zabbix_template_item <<| |>>
+    Zabbix_trigger <<| |>>
+    Zabbix_hostgroup <<| |>>
+    Zabbix_host <<| |>>
   }
 }

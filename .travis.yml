@@ -3,10 +3,16 @@ rvm:
   - 1.9.3
 before_script:
   - curl https://github.com/rodjek/rspec-puppet/pull/61.patch | patch -d `bundle show rspec-puppet` -p 1 -t
+  - curl https://github.com/vadv/zabbixapi/pull/6.patch | patch -d `bundle show zabbixapi` -p 1 -t
+  - sudo apt-get update -y
+  - sudo apt-get install -y zabbix-server-mysql zabbix-frontend-php
+  - mysql -u root -e "use zabbix; insert into users_groups(usrgrpid, userid) values(10,1);"
+  - curl -fsSL https://raw.github.com/gist/8f0df0d1824ea25a3827/zabbix.php | sudo tee /usr/share/zabbix/conf/zabbix.conf.php
 script:
-  - "rake spec"
+  - "bundle exec rake lint"
+  - "bundle exec rake spec"
 env:
-  - PUPPET_VERSION=3.0.1 # Breaks due to rodjek/rspec-puppet#58
+  - PUPPET_VERSION=3.0.1
   - PUPPET_VERSION=3.0.0
   - PUPPET_VERSION=2.7.18
   - PUPPET_VERSION=2.7.20

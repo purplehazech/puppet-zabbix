@@ -6,7 +6,7 @@
 # since i have decided not to touch /etc/portage/package.keywords
 # automatically.
 #
-class zabbix::gentoo ($ensure) {
+class zabbix::gentoo ($ensure = present) {
   file { '/etc/portage/package.use/10_zabbix':
     ensure  => $ensure,
     content => 'net-analyzer/zabbix curl'
