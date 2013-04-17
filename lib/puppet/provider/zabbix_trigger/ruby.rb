@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../lib/ruby/")
+$LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../../lib/ruby/")
 require "zabbix"
 
 
