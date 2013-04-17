@@ -127,4 +127,17 @@ class zabbix::agent (
     }
     Package[$package] -> File[$conf_file]
   }
+
+  zabbix_host_interface { "${hostname}_default_ipv4":
+    host => $hostname,
+    ip => $ipaddress,
+    dns => $fqdn
+  }
+  
+  zabbix_host_interface { "${hostname}_default_ipv6":
+    host => $hostname,
+    ip => $ipaddress6,
+    dns => $fqdn
+  }
+
 }
