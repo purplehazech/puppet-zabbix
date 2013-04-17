@@ -43,6 +43,14 @@ Puppet::Type.newtype(:zabbix_api) do
   newparam(:password) do
     desc 'zabbix users password'
   end
+ 
+  newparam(:http_user) do
+    desc 'zabbix http basic auth user'
+  end
+  
+  newparam(:http_password) do
+    desc 'zabbix http basic auth password'
+  end
   
   newparam(:host) do
     desc 'host to operate on in cases like items'
