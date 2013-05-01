@@ -2,7 +2,7 @@
 #
 # create files for aptitude
 #
-# This adds a repository for the current puppet version
+# This adds a repository for the current zabbix version
 #
 class zabbix::debian () {
   apt::source { 'zabbixzone':

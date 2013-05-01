@@ -1,11 +1,11 @@
-$LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../../lib/ruby/")
-require "zabbix"
-
-
-require 'pp'
 
 Puppet::Type.type(:zabbix_trigger).provide(:ruby) do
   desc "zabbix trigger provider"
+  confine :feature => :zabbixapi
+
+  $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../../lib/ruby/")
+  require "zabbix"
+  require 'pp'
 
   def exists?
     by_expression(

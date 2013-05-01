@@ -1,9 +1,12 @@
-$LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../../lib/ruby/")
-require "zabbix"
-require "pp"
-
 Puppet::Type.type(:zabbix_host_interface).provide(:ruby) do
   desc "zabbix_host_interface type"
+  confine :feature => :zabbixapi
+  
+  $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../../lib/ruby/")
+  require "zabbix"
+  require "pp"
+
+
 
   def exists?
     extend Zabbix
