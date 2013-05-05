@@ -73,4 +73,9 @@ class zabbix (
     }
     Class['zabbix::server'] -> Class['zabbix::frontend']
   }
+  
+  class { 'zabbix::api':
+    ensure  => $api,
+  }
+
 }

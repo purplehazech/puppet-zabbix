@@ -94,10 +94,6 @@ class zabbix::server (
   File[$conf_file] ~> Service['zabbix-server']
   
   if $install_package != false {
-    package { 'zabbixapi':
-      ensure   => 'latest',
-      provider => 'gem',
-    }
     package { $real_package:
       ensure => $ensure,
       notify => Exec["zabbix-server-schema"]

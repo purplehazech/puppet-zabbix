@@ -53,7 +53,14 @@ class zabbix::params {
   $frontend_package            = hiera('frontend_package', 'zabbix-frontend-php')
   $frontend_conf_file          = hiera('frontend_conf_file', '')
   $frontend_port               = hiera('frontend_port', '80')
-  
+ 
+  #api parameters
+  $api_ensure                  = hiera('api_enable', 'present')
+  $api_username                = hiera('api_username', 'admin')
+  $api_password                = hiera('api_username', 'zabbix')
+  $api_http_username           = hiera('api_username', $api_username)
+  $api_http_password           = hiera('api_username', $api_password)
+
   #common parameters
   $version                     = hiera('version', $::zabbixversion)
   $db_type                     = hiera('db_type', 'MYSQL')

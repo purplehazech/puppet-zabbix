@@ -122,10 +122,6 @@ class zabbix::agent (
   File[$agent_include_path] ~> File[$conf_file] ~> Service[$service_name]
 
   if $install_package != false {
-    package { 'zabbixapi':
-        ensure   => 'latest',
-        provider => 'gem',
-    }
     package { $package:
       ensure => $ensure,
     }
