@@ -3,7 +3,7 @@
 #
 Puppet::Type.type(:zabbix_api).provide(:ruby) do
   confine :feature => :zabbixapi
-  require "zbxapi"
+  require "zabbix"
 
   def exists?
     case resource[:type]
