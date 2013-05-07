@@ -3,6 +3,8 @@
 #
 Puppet::Type.type(:zabbix_api).provide(:ruby) do
   confine :feature => :zabbixapi
+
+  $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../../lib/ruby/")
   require "zabbix"
 
   def exists?
