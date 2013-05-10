@@ -4,7 +4,7 @@ class zabbix::frontend::vhost (
   $ensure   = $zabbix::params::frontend_ensure,
   $hostname = $zabbix::params::frontend_hostname,
   $docroot  = undef,
-  $port     = $zabbix::params::frontend_port
+  $port     = $zabbix::params::frontend_port,
   $timezone = $zabbix::params::timezone) inherits zabbix::params {
   validate_re($ensure, [absent, present])
   validate_string($hostname)
