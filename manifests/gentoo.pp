@@ -9,7 +9,6 @@
 class zabbix::gentoo ($ensure = present) {
   file { '/etc/portage/package.use/10_zabbix':
     ensure  => $ensure,
-    content => 'net-analyzer/zabbix curl',
-    before  => Package['zabbix']
+    content => 'net-analyzer/zabbix curl'
   }
 }

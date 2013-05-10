@@ -4,7 +4,8 @@ class zabbix::frontend::vhost (
   $ensure   = hiera('frontend_enable', present),
   $hostname = hiera('frontend_hostname', $::fqdn),
   $docroot  = undef,
-  $port     = hiera('frontend_port', '80')) {
+  $port     = hiera('frontend_port', '80'),
+  $timezone = hiera('frontend_timezone', 'UTC')) {
   validate_re($ensure, [absent, present])
   validate_string($hostname)
 
@@ -13,22 +14,24 @@ class zabbix::frontend::vhost (
     default => $docroot
   }
   validate_absolute_path($docroot_real)
+  
+  if ($ensure == present) {
+    include apache
 
-  include apache
+    apache::vhost { $hostname:
+      vhost_name => $hostname,
+      docroot    => $docroot_real,
+      port       => $port,
+      ssl        => false
+    }
 
-  apache::vhost { $hostname:
-    vhost_name => $hostname,
-    docroot    => $docroot_real,
-    port       => $port,
-    ssl        => false
-  }
-
-  apache::vhost::include::php { 'zabbix':
-    vhost_name => $hostname,
-    values     => [
-      "date.timezone \"${::timezone}\"",
-      'post_max_size "32M"',
-      'max_execution_time "600"',
-      'max_input_time "600"']
+    apache::vhost::include::php { 'zabbix':
+      vhost_name => $hostname,
+      values     => [
+        "date.timezone \"${timezone}\"",
+        'post_max_size "32M"',
+        'max_execution_time "600"',
+        'max_input_time "600"']
+    }
   }
 }

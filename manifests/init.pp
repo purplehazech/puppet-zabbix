@@ -39,6 +39,7 @@ class zabbix (
   $frontend = hiera('frontend', absent),
   $api      = hiera('api', present),
   $export   = hiera('export', present)) {
+    
   if $::operatingsystem == 'Gentoo' {
     class { 'zabbix::gentoo':
       ensure => $ensure,
@@ -50,16 +51,19 @@ class zabbix (
     ensure => $agent,
   }
 
-  class { 'zabbix::server':
-    ensure => $server,
-    export => $export,
+  if ($server == present) {
+    class { 'zabbix::server':
+      ensure => $server,
+      export => $export,
+    }
+    Class['zabbix::agent'] -> Class['zabbix::server']
   }
-
-  class { 'zabbix::frontend':
-    ensure  => $frontend,
-    require => Class['zabbix::agent']
+  
+  if ($frontend == present) {
+    class { 'zabbix::frontend':
+      ensure  => $frontend,
+      require => Class['zabbix::agent']
+    }
+    Class['zabbix::server'] -> Class['zabbix::frontend']
   }
-
-  Class['zabbix::agent'] -> Class['zabbix::server']
-  Class['zabbix::server'] -> Class['zabbix::frontend']
 }

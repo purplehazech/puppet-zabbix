@@ -34,8 +34,15 @@ class zabbix::server (
   $db_server   = hiera('db_server', 'localhost'),
   $db_database = hiera('db_database', 'zabbix'),
   $db_user     = hiera('db_user', 'root'),
-  $db_password = hiera('db_password', '')) {
-  require zabbix::agent
+  $db_password = hiera('db_password', '')
+) {
+  
+  if ($ensure == present) {
+    include activerecord
+    require zabbix::agent
+    
+    Class['activerecord'] -> File[$conf_file]
+  }
 
   case $::operatingsystem {
     'Gentoo' : {
@@ -57,21 +64,29 @@ class zabbix::server (
     default => true,
   }
 
-  package { 'activerecord':
-    ensure => $ensure,
-  }
-
   file { $conf_file:
     ensure  => $ensure,
     content => template($template),
   }
-
-  service { 'zabbix-server':
-    ensure => $service_ensure,
-    enable => $service_enable,
+  
+  mysql::db { $db_database :
+    user     => $db_user,
+    password => $db_password,
+    host     => $db_server,
+    grant    => ['all'],
+    enforce_sql => [
+      '/usr/share/zabbix/database/mysql/schema.sql',
+      '/usr/share/zabbix/database/mysql/images.sql'
+    ]
   }
 
-  Package['activerecord'] -> File[$conf_file] ~> Service['zabbix-server']
+  service { 'zabbix-server':
+    ensure  => $service_ensure,
+    enable  => $service_enable,
+    require => Mysql::Db[$db_database]
+  }
+
+  File[$conf_file] ~> Service['zabbix-server']
 
   if $export == present {
     # export myself to all agents

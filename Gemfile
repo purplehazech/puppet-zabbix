@@ -7,11 +7,7 @@ else
 end
 
 gem 'puppet', puppetversion
-gem 'hiera-module-json', '~> 0.0.2'
 gem 'zabbixapi', ['>= 0.4.9']
-# may be removed as soon as zabbixapi >= 0.5.1 is out
-# see vadv/zabbixapi#7 for details :)
-gem 'json', '~> 1.7.5'
  
 group :test do
   gem 'rake', '>= 0.9.0'
