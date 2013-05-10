@@ -29,26 +29,92 @@
 #  base path for web request_uri
 #
 class zabbix::frontend (
-  $ensure      = hiera('frontend_enable', 'present'),
-  $server_host = hiera('server_hostname', 'zabbix'),
-  $server_name = hiera('server_name', 'Zabbix Server'),
-  $hostname    = hiera('frontend_hostname', $::fqdn),
-  $base        = hiera('frontend_base', '/zabbix'),
-  $version     = hiera('version', $::zabbixversion),
-  $db_type     = hiera('db_type', 'MYSQL'),
-  $db_server   = hiera('db_server', 'localhost'),
-  $db_port     = hiera('db_port', '0'),
-  $db_database = hiera('db_database', 'zabbix'),
-  $db_user     = hiera('db_user', 'root'),
-  $db_password = hiera('db_password', '')) {
+  $ensure      = $zabbix::params::frontend_ensure,
+  $server_host = $zabbix::params::server_hostname,
+  $server_name = $zabbix::params::server_name,
+  $hostname    = $zabbix::params::frontend_hostname,
+  $base        = $zabbix::params::frontend_base,
+  $vhost_class = $zabbix::params::frontend_vhost_class,
+  $version     = $zabbix::params::version,
+  $package     = $zabbix::params::frontend_package,
+  $conf_file   = $zabbix::params::frontend_conf_file,
+  $db_type     = $zabbix::params::db_type,
+  $db_server   = $zabbix::params::db_server,
+  $db_port     = $zabbix::params::db_port,
+  $db_database = $zabbix::params::db_database,
+  $db_user     = $zabbix::params::db_user,
+  $db_password = $zabbix::params::db_password) inherits zabbix::params {
   validate_re($ensure, [absent, present])
   validate_string($server_host)
   validate_string($server_name)
   validate_string($hostname)
   validate_re($ensure, ['^[0-9].[0-9].[0-9]', present, absent, 'skip'])
+  
+  case $::operatingsystem {
+    'Gentoo' : {
+      class { 'zabbix::frontend::gentoo':
+        ensure => $ensure
+      }
+    }
+    'Debian','Ubuntu' : {
+      include zabbix::debian
+    }
+  }
+  
+  $basedir = "/var/www/${hostname}/htdocs${base}"
+  
+  if $conf_file == '' {
+    $real_conf_file =  $::osfamily ? {
+      'Debian' => '/etc/zabbix/web/zabbix.conf.php',
+      default  => "${basedir}/conf/zabbix.conf.php"
+    }
+  } else {
+    $real_conf_file = $conf_file
+  }
+  
+  if ($version != 'skip') {
+    if $::operatingsystem == 'Gentoo' {
+      #Gentoo uses webapp-config
+      webapp_config { 'zabbix':
+        action  => $webapp_action,
+        vhost   => $hostname,
+        version => $version,
+        app     => 'zabbix',
+        base    => $base,
+        depends => []
+      }
+    } else {
+      #for others this might work.
+       file { $basedir:
+            ensure => link,
+            target => "/usr/share/zabbix",
+            ;
+        
+        }
+    }
+  }
+  
+  if $::operatingsystem == 'Gentoo' {
+    $webapp_config = Webapp_config['zabbix']
+  } else {
+    $webapp_config = File[$basedir]
+  }
+  
+  $install_package    = $::operatingsystem ? {
+    windows => false,
+    default => true,
+  }
 
-  class { 'zabbix::frontend::gentoo':
-    ensure => $ensure
+  if $vhost_class != 'zabbix::frontend::vhost' {
+    class { $vhost_class:
+    }
+  } else {
+    class { 'zabbix::frontend::vhost':
+      ensure   => $ensure,
+      hostname => $hostname,
+      before   => $webapp_config
+    }
+
   }
 
   $webapp_action = $ensure ? {
@@ -57,20 +123,16 @@ class zabbix::frontend (
     default => noop
   }
 
-  file { "/var/www/${hostname}/htdocs${base}/conf/zabbix.conf.php":
+  file { $real_conf_file:
     ensure  => $ensure,
     content => template('zabbix/zabbix.conf.php.erb'),
-    require => Webapp_config['zabbix']
+    require => $webapp_config
   }
 
-  if ($version != 'skip') {
-    webapp_config { 'zabbix':
-      action  => $webapp_action,
-      vhost   => $hostname,
-      version => $version,
-      app     => 'zabbix',
-      base    => $base,
-      depends => []
+  if $install_package != false {
+    package { $package:
+      ensure => $ensure,
     }
+    Package[$package] -> File[$real_conf_file]
   }
 }

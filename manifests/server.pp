@@ -25,6 +25,7 @@
 #  mysql server password
 #
 class zabbix::server (
+<<<<<<< HEAD
   $ensure      = hiera('server_enable', present),
   $hostname    = hiera('server_hostname', 'zabbix'),
   $export      = hiera('export', present),
@@ -36,10 +37,37 @@ class zabbix::server (
   $db_user     = hiera('db_user', 'root'),
   $db_password = hiera('db_password', '')
 ) {
+=======
+  $ensure      = $zabbix::params::server_ensure,
+  $hostname    = $zabbix::params::server_hostname,
+  $export      = $zabbix::params::export,
+  $conf_file   = $zabbix::params::server_conf_file,
+  $template    = $zabbix::params::server_template,
+  $node_id     = $zabbix::params::server_node_id,
+  $package     = $zabbix::params::server_package,
+  $db_type     = $zabbix::params::db_type,
+  $db_server   = $zabbix::params::db_server,
+  $db_database = $zabbix::params::db_database,
+  $db_user     = $zabbix::params::db_user,
+  $db_password = $zabbix::params::db_password) inherits zabbix::params {
+  
+  $install_package    = $::operatingsystem ? {
+    windows => false,
+    default => true,
+  }
+  
+  $lc_db_type = downcase($db_type)
+  $server_base_dir = "/usr/share/zabbix-server-${lc_db_type}"
+  
+  if $package == '' {
+    $real_package = "zabbix-server-${lc_db_type}"
+  } else {
+    $real_package = $package
+  }
+>>>>>>> FETCH_HEAD
   
   if ($ensure == present) {
     include activerecord
-    require zabbix::agent
     
     Class['activerecord'] -> File[$conf_file]
   }
@@ -49,6 +77,9 @@ class zabbix::server (
       class { 'zabbix::server::gentoo':
         ensure => $ensure
       }
+    }
+    'Debian','Ubuntu' : {
+      include zabbix::debian
     }
     default  : {
       # fail silently for now
@@ -87,7 +118,36 @@ class zabbix::server (
   }
 
   File[$conf_file] ~> Service['zabbix-server']
-
+  
+  if $install_package != false {
+    package { $real_package:
+      ensure => $ensure,
+      notify => Exec["zabbix-server-schema"]
+    }
+    Package[$real_package] -> File[$conf_file]
+  }
+  
+  if $db_type == 'MYSQL' {
+    $mysql_command="mysql --user=${db_user} --password=${db_password} --host=${db_server} ${db_database}"
+    
+    exec { "zabbix-server-schema":
+      command => "${mysql_command} < ${server_base_dir}/schema.sql",
+      refreshonly => true, 
+      notify => Exec["zabbix-server-images"], 
+    }
+    
+    exec { "zabbix-server-images":
+      command => "${mysql_command} < ${server_base_dir}/images.sql",
+      refreshonly => true, 
+      notify => Exec["zabbix-server-data"], 
+    }
+    
+    exec { "zabbix-server-data":
+      command => "${mysql_command} < ${server_base_dir}/data.sql",
+      refreshonly => true, 
+    }    
+  }
+  
   if $export == present {
     # export myself to all agents
     @@zabbix::agent::server { $hostname:

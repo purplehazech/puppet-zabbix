@@ -1,11 +1,11 @@
 # == Class: zabbix::frontend::vhost
 #
 class zabbix::frontend::vhost (
-  $ensure   = hiera('frontend_enable', present),
-  $hostname = hiera('frontend_hostname', $::fqdn),
+  $ensure   = $zabbix::params::frontend_ensure,
+  $hostname = $zabbix::params::frontend_hostname,
   $docroot  = undef,
-  $port     = hiera('frontend_port', '80'),
-  $timezone = hiera('frontend_timezone', 'UTC')) {
+  $port     = $zabbix::params::frontend_port
+  $timezone = $zabbix::params::timezone) inherits zabbix::params {
   validate_re($ensure, [absent, present])
   validate_string($hostname)
 
