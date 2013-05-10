@@ -53,7 +53,7 @@ class zabbix::params {
   $frontend_package            = hiera('frontend_package', 'zabbix-frontend-php')
   $frontend_conf_file          = hiera('frontend_conf_file', '')
   $frontend_port               = hiera('frontend_port', '80')
-  $frontend_timezone           = hiera('frontend_timezone', 'UTC')
+  $frontend_timezone           = hiera('frontend_timezone', $timezone)
  
   #api parameters
   $api_ensure                  = hiera('api_enable', 'present')
