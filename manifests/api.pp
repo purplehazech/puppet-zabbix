@@ -5,8 +5,8 @@
 # === Parameters
 # [*ensure*]
 #  present, absent to use package manager or false to disable package resource
-# [*server*]
-#  server to send changes to
+# [*url*]
+#  url for the zabbix jsonrpc api
 # [*username*]
 #  zabbix password for the server
 # [*password*]
@@ -15,6 +15,8 @@
 #  http password for the server
 # [*http_password*]
 #  http password for the server
+# [*debug*]
+#  should we enable debug messages 
 #
 # === Issues
 #
@@ -22,11 +24,12 @@
 #
 class zabbix::api (
   $ensure             = $zabbix::params::api_ensure,
-  $server             = $zabbix::params::server_hostname,
+  $url                = $zabbix::params::api_url,
   $username           = $zabbix::params::api_username,
   $password           = $zabbix::params::api_password,
-  $http_username           = $zabbix::params::api_http_username,
-  $http_password           = $zabbix::params::api_http_password) inherits zabbix::params {
+  $http_username      = $zabbix::params::api_http_username,
+  $http_password      = $zabbix::params::api_http_password,
+  $debug              = $zabbix::params::api_debug) inherits zabbix::params {
   validate_re($ensure, [absent, present])
 
   file { "/etc/puppet/zabbix.yaml":

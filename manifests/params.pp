@@ -56,10 +56,12 @@ class zabbix::params {
  
   #api parameters
   $api_ensure                  = hiera('api_enable', 'present')
-  $api_username                = hiera('api_username', 'admin')
-  $api_password                = hiera('api_username', 'zabbix')
-  $api_http_username           = hiera('api_username', $api_username)
-  $api_http_password           = hiera('api_username', $api_password)
+  $api_url                     = hiera('api_url', 'https://zabbix/api_jsonrpc.php')
+  $api_http_username           = hiera('api_username', false)
+  $api_http_password           = hiera('api_username', false)
+  $api_username                = hiera('api_username', $api_http_username)
+  $api_password                = hiera('api_username', $api_http_password)
+  $api_debug                   = hiera('api_debug', 'false')
 
   #common parameters
   $version                     = hiera('version', $::zabbixversion)

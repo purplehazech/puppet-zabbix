@@ -6,8 +6,6 @@ Puppet::Type.type(:zabbix_host_interface).provide(:ruby) do
   require "zabbix"
   require "pp"
 
-
-
   def exists?
     extend Zabbix
     hostid = zbx.hosts.get_id(:host => resource[:host])

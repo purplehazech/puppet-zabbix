@@ -17,7 +17,8 @@ module Zabbix
       :user => config.fetch('zabbix_user','Admin'),
       :password => config.fetch('zabbix_password', 'zabbix'),
       :http_user => config.fetch('zabbix_http_user', nil),
-      :http_password => config.fetch('zabbix_http_password', nil)
+      :http_password => config.fetch('zabbix_http_password', nil),
+      :debug => config.fetch('zabbix_debug', false)
     )
     return zbx
   end
