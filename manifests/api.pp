@@ -15,7 +15,7 @@
 #  http password for the server
 # [*http_password*]
 #  http password for the server
-# [*debug*]
+# [*api_debug*]
 #  should we enable debug messages 
 #
 # === Issues
@@ -29,7 +29,7 @@ class zabbix::api (
   $password           = $zabbix::params::api_password,
   $http_username      = $zabbix::params::api_http_username,
   $http_password      = $zabbix::params::api_http_password,
-  $debug              = $zabbix::params::api_debug) inherits zabbix::params {
+  $api_debug          = $zabbix::params::api_debug) inherits zabbix::params {
   validate_re($ensure, [absent, present])
 
   file { "/etc/puppet/zabbix.yaml":
