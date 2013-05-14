@@ -28,8 +28,7 @@ class zabbix::api (
   $username           = $zabbix::params::api_username,
   $password           = $zabbix::params::api_password,
   $http_username      = $zabbix::params::api_http_username,
-  $http_password      = $zabbix::params::api_http_password,
-  $debug              = $zabbix::params::api_debug) inherits zabbix::params {
+  $http_password      = $zabbix::params::api_http_password) inherits zabbix::params {
   validate_re($ensure, [absent, present])
 
   file { "/etc/puppet/zabbix.yaml":

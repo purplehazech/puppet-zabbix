@@ -61,7 +61,6 @@ class zabbix::params {
   $api_http_password           = hiera('api_username', false)
   $api_username                = hiera('api_username', $api_http_username)
   $api_password                = hiera('api_username', $api_http_password)
-  $api_debug                   = hiera('api_debug', 'false')
 
   #common parameters
   $version                     = hiera('version', $::zabbixversion)
