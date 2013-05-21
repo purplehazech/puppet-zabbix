@@ -102,6 +102,7 @@ class zabbix::agent (
   
   file { $conf_file:
     content => template($template),
+    notify => Service[$service_name]
   }
   
 
