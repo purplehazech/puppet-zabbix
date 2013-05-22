@@ -8,7 +8,7 @@ module Zabbix
     require "zabbixapi" 
 
 
-    config_file = File.join(File.dirname(Puppet.settings[:config]), "zabbix.yaml")
+    config_file = File.join(File.dirname(Puppet.settings[:config]), "zabbix.api.yaml")
     raise(Puppet::ParseError, "Zabbix report config file #{config_file} not readable") unless File.exist?(config_file)
     config = YAML.load_file(config_file)
 

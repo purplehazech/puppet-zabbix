@@ -1,11 +1,4 @@
 ---
-zabbix_url: '<%= url %>'
-zabbix_user: '<%= username %>'
-zabbix_password: '<%= password %>'
-<% if http_username %>
-zabbix_http_user: '<%= http_username %>'
-zabbix_http_password: '<%= http_password %>' 
-<% end %>
-<% if api_debug %>
-zabbix_debug: true
-<% end %>
+zabbix_host: '<%= host %>'
+zabbix_port: '<%= port %>'
+zabbix_sender: '<%= sender %>'
