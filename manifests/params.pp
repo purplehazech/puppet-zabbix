@@ -67,6 +67,13 @@ class zabbix::params {
   $api_password                = hiera('api_username', $api_http_password)
   $api_debug                   = hiera('api_debug', false)
 
+
+  #reports parameters
+  $reports_ensure              = hiera('reports_enable', 'present')
+  $reports_host                = hiera('reports_host', $server_hostname)
+  $reports_port                = hiera('reports_port', '10051')
+  $reports_sender              = hiera('reports_sender', '/usr/bin/zabbix_sender')
+
   #common parameters
   $version                     = hiera('version', $::zabbixversion)
   $db_type                     = hiera('db_type', 'MYSQL')
@@ -82,5 +89,6 @@ class zabbix::params {
   $server                      = hiera('server', absent)
   $frontend                    = hiera('frontend', absent)
   $api                         = hiera('api', present)
+  $reports                     = hiera('reports', absent)
   $export                      = hiera('export', present)
 }
