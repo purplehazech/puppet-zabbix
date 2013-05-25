@@ -34,9 +34,9 @@ class zabbix::api (
 
   file { "/etc/puppet/zabbix.api.yaml":
     content => template("zabbix/zabbix.api.yaml.erb"),
-    mode   => '0500',
+    mode   => '0440',
     owner  => 'zabbix',
-    group  => 'zabbix',
+    group  => 'puppet',
     require => Package['zabbixapi']
   }
 

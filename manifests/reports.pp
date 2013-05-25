@@ -24,9 +24,9 @@ class zabbix::reports (
 
   file { "/etc/puppet/zabbix.yaml":
     content => template("zabbix/zabbix.yaml.erb"),
-    mode   => '0500',
+    mode   => '0440',
     owner  => 'zabbix',
-    group  => 'zabbix',
+    group  => 'puppet',
     require => Package['zabbix-sender']
   }
 
