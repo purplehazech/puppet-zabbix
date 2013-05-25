@@ -1,17 +1,16 @@
-Puppet::Type.type(:zabbix_template_item).provide(:ruby) do
-  desc "zabbix template item provider"
+Puppet::Type.type(:zabbix_item).provide(:ruby) do
+  desc "zabbix item provider"
   confine :feature => :zabbixapi
   
   $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../../lib/ruby/")
   require "zabbix"
-
 
   def exists?
     extend Zabbix
     existing = zbx.items.get_id(
       :name => resource[:name],
       :key_ => resource[:key],
-      :hostid => [zbx.templates.get_id( :host => resource[:template] )]
+      :hostid => [get_template_or_host_id(resource[:host])]
     ).is_a? Integer
     return(existing)
   end
@@ -28,7 +27,7 @@ Puppet::Type.type(:zabbix_template_item).provide(:ruby) do
     zbx.items.create(
       :applications => apps_real,
       :delay => resource[:delay], #60
-      :hostid => zbx.templates.get_id( :host => resource[:template] ),
+      :hostid => get_template_or_host_id(resource[:host]),
       :interfaceid => resource[:interface],
       :key_ => resource[:key],
       :name => resource[:name],
@@ -49,7 +48,7 @@ Puppet::Type.type(:zabbix_template_item).provide(:ruby) do
       zbx.items.get_id(
         :name => resource[:name],
         :key_ => resource[:key],
-        :hostid => [zbx.templates.get_id( :host => resource[:template] )]
+        :hostid => [get_template_or_host_id(resource[:host])]
       )
     )
   end

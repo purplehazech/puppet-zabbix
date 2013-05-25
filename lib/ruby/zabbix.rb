@@ -23,4 +23,19 @@ module Zabbix
     return zbx
   end
 
+  def get_template_or_host_id(hostname)
+      result = zbx.query(
+          :method => "host.get",
+          :params => {
+              :templated_hosts => 1,
+              :filter => {
+                  :host => hostname  
+              },
+              :output => "extend"
+          }
+      )
+      id = nil
+      result.each { |item| id = item["hostid"].to_i if item["host"] == hostname }
+      id
+  end
 end

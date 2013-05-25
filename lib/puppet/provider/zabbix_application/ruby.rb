@@ -1,11 +1,10 @@
-Puppet::Type.type(:zabbix_template_application).provide(:ruby) do
-  desc "zabbix_template type"
+Puppet::Type.type(:zabbix_application).provide(:ruby) do
+  desc "zabbix_application type"
   confine :feature => :zabbixapi
 
   $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../../lib/ruby/")
   require "zabbix"
   require "pp"
-
 
   def exists?
     extend Zabbix
@@ -18,9 +17,7 @@ Puppet::Type.type(:zabbix_template_application).provide(:ruby) do
     extend Zabbix
     zbx.applications.create(
       :name => resource[:name], 
-      :hostid => zbx.templates.get_id(
-        :host => resource[:host] 
-      )
+      :hostid => get_template_or_host_id(resource[:host])
     )
   end
   

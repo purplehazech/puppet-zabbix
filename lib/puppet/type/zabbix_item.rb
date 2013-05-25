@@ -19,8 +19,8 @@ Puppet::Type.newtype(:zabbix_template_item) do
     defaultto 60
   end
   
-  newparam(:template) do
-    desc 'ID of the template that the item belongs to.'
+  newparam(:host) do
+    desc 'ID of the host or template that the item belongs to.'
   end
   
   newparam(:interface) do

@@ -1,7 +1,7 @@
 
-Puppet::Type.newtype(:zabbix_template_application) do
+Puppet::Type.newtype(:zabbix_application) do
   desc <<-EOT
-    Manage a template application in Zabbix
+    Manage a application in Zabbix
   EOT
 
   ensurable do
