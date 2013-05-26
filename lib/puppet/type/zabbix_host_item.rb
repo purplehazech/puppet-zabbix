@@ -1,5 +1,5 @@
 
-Puppet::Type.newtype(:zabbix_host_item, :parent => :zabbix_item) do
+Puppet::Type.newtype(:zabbix_host_item, :parent => Puppet::Type.type(:zabbix_item)) do
   desc <<-EOT
     Manage a host item in Zabbix
   EOT

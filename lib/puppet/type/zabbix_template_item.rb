@@ -1,5 +1,5 @@
 
-Puppet::Type.newtype(:zabbix_template_item, :parent => :zabbix_item) do
+Puppet::Type.newtype(:zabbix_template_item, :parent => Puppet::Type.type(:zabbix_item)) do
   desc <<-EOT
     Manage a template item in Zabbix
   EOT

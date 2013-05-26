@@ -27,7 +27,7 @@ module Zabbix
     return zbx
   end
 
-  def get_id(hostname, type=ID_BOTH){
+  def get_id(hostname, type=ID_BOTH)
     case type
     when ID_TEMPLATE
       return zbx.hosts.get_id(:host => hostname)
@@ -36,7 +36,7 @@ module Zabbix
     else
       return get_template_or_host_id(hostname)
     end
-  }
+  end
 
   def get_template_or_host_id(hostname)
       result = zbx.query(
