@@ -10,7 +10,7 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
     existing = zbx.items.get_id(
       :name => resource[:name],
       :key_ => resource[:key],
-      :hostid => [get_template_or_host_id(resource[:host])]
+      :hostid => [get_id(resource[:host], resource[:host_type])]
     ).is_a? Integer
     return(existing)
   end
@@ -27,7 +27,7 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
     zbx.items.create(
       :applications => apps_real,
       :delay => resource[:delay], #60
-      :hostid => get_template_or_host_id(resource[:host]),
+      :hostid => get_id(resource[:host], resource[:host_type]),
       :interfaceid => resource[:interface],
       :key_ => resource[:key],
       :name => resource[:name],
@@ -48,7 +48,7 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
       zbx.items.get_id(
         :name => resource[:name],
         :key_ => resource[:key],
-        :hostid => [get_template_or_host_id(resource[:host])]
+        :hostid => [get_id(resource[:host], resource[:host_type])]
       )
     )
   end

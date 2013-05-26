@@ -17,7 +17,7 @@ Puppet::Type.type(:zabbix_application).provide(:ruby) do
     extend Zabbix
     zbx.applications.create(
       :name => resource[:name], 
-      :hostid => get_template_or_host_id(resource[:host])
+      :hostid => get_id(resource[:host], resource[:host_type])
     )
   end
   

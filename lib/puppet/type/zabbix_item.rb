@@ -22,6 +22,18 @@ Puppet::Type.newtype(:zabbix_item) do
   newparam(:host) do
     desc 'ID of the host or template that the item belongs to.'
   end
+
+  newparam(:host_type) do
+    desc <<-EOT
+     Type of the host.
+     
+     Possible values: 
+     * 0 - can be both; 
+     * 1 - host; 
+     * 2 - template; 
+    EOT
+    defaultto 0
+  end
   
   newparam(:interface) do
     desc 'ID of the item\'s host interface.'

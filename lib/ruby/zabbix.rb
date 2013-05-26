@@ -2,6 +2,10 @@ require "puppet"
 
 # mixin for generic zabbix api stuff
 module Zabbix
+  ID_BOTH = 0
+  ID_HOST = 1
+  ID_TEMPLATE = 2
+
   # initialy load config and setup zabbix api
   def zbx
     return nil if ! Puppet.features.zabbixapi?
@@ -22,6 +26,17 @@ module Zabbix
     )
     return zbx
   end
+
+  def get_id(hostname, type=ID_BOTH){
+    case type
+    when ID_TEMPLATE
+      return zbx.hosts.get_id(:host => hostname)
+    when ID_HOST
+      return zbx.templates.get_id(:host => hostname) 
+    else
+      return get_template_or_host_id(hostname)
+    end
+  }
 
   def get_template_or_host_id(hostname)
       result = zbx.query(
