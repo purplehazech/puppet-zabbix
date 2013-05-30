@@ -107,6 +107,7 @@ class zabbix::agent (
 
   file { $conf_file:
     content => template($template),
+    notify => Service[$service_name]
   }
 
   $service_ensure = $ensure ? {
@@ -132,16 +133,16 @@ class zabbix::agent (
     Package[$package] -> File[$conf_file]
   }
 
-  zabbix_host_interface { "${hostname}_default_ipv4":
-    host => $hostname,
-    ip   => $::ipaddress,
-    dns  => $::fqdn
+  zabbix_host_interface { "default_ipv4":
+    host => $::fqdn,
+    ip => $::ipaddress,
+    dns => $::fqdn
   }
-
-  zabbix_host_interface { "${hostname}_default_ipv6":
-    host => $hostname,
-    ip   => $::ipaddress6,
-    dns  => $::fqdn
+  
+  zabbix_host_interface { "default_ipv6":
+    host => $::fqdn,
+    ip => $::ipaddress6,
+    dns => $::fqdn
   }
 
 }

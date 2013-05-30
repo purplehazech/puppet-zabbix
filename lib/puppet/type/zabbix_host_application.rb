@@ -1,7 +1,7 @@
 
-Puppet::Type.newtype(:zabbix_template_item, :parent => Puppet::Type.type(:zabbix_item)) do
+Puppet::Type.newtype(:zabbix_host_application, :parent => Puppet::Type.type(:zabbix_application)) do
   desc <<-EOT
-    Manage a template item in Zabbix
+    Manage a host application in Zabbix
   EOT
 
   newparam(:host_type) do
@@ -13,6 +13,7 @@ Puppet::Type.newtype(:zabbix_template_item, :parent => Puppet::Type.type(:zabbix
      * 1 - host; 
      * 2 - template; 
     EOT
-    defaultto 2
+    defaultto 1
   end
+  
 end

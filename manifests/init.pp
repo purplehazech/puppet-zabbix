@@ -80,4 +80,8 @@ class zabbix (
     ensure  => $api,
   }
 
+  class { 'zabbix::reports':
+    ensure  => $reports,
+  }
+
 }
