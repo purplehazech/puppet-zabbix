@@ -38,6 +38,7 @@ class zabbix (
   $server   = $zabbix::params::server,
   $frontend = $zabbix::params::frontend,
   $api      = $zabbix::params::api,
+  $reports  = $zabbix::params::reports,
   $export   = $zabbix::params::export) inherits zabbix::params {
 
   case $::operatingsystem {
