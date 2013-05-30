@@ -15,15 +15,19 @@ class zabbix::params {
 
   #agent parameters
   $use_ipv6                    = hiera('use_ipv6', true)
-  $agent_listen_ip             = $use_ipv6 ? {
-      true => hiera('agent_listen_ip', $::ipaddress6),
-      default => hiera('agent_listen_ip', $::ipaddress)
+  $use_ipv4                    = hiera('use_ipv4', true)
+  if $use_ipv6 and $use_ipv4 {
+   $default_agent_listen_ip = "$::ipaddress6,$::ipaddress"
+  }elsif $use_ipv6 {
+   $default_agent_listen_ip = $::ipaddress6
+  } else {
+   $default_agent_listen_ip = $::ipaddress
   }
   $agent_source_ip             = $use_ipv6 ? {
       true => hiera('agent_source_ip', $::ipaddress6),
       default => hiera('agent_source_ip', $::ipaddress)
   }
-
+  $agent_listen_ip             = hiera('agent_listen_ip', $default_agent_listen_ip)
   $agent_ensure                = hiera('agent_ensure', present)
   $agent_hostname              = hiera('agent_hostname', $::hostname)
   $agent_template              = hiera('agent_template', 'zabbix/zabbix_agentd.conf.erb')
@@ -57,10 +61,19 @@ class zabbix::params {
  
   #api parameters
   $api_ensure                  = hiera('api_enable', 'present')
-  $api_username                = hiera('api_username', 'admin')
-  $api_password                = hiera('api_username', 'zabbix')
-  $api_http_username           = hiera('api_username', $api_username)
-  $api_http_password           = hiera('api_username', $api_password)
+  $api_url                     = hiera('api_url', 'https://zabbix/api_jsonrpc.php')
+  $api_http_username           = hiera('api_username', false)
+  $api_http_password           = hiera('api_username', false)
+  $api_username                = hiera('api_username', $api_http_username)
+  $api_password                = hiera('api_username', $api_http_password)
+  $api_debug                   = hiera('api_debug', false)
+
+
+  #reports parameters
+  $reports_ensure              = hiera('reports_enable', 'present')
+  $reports_host                = hiera('reports_host', $server_hostname)
+  $reports_port                = hiera('reports_port', '10051')
+  $reports_sender              = hiera('reports_sender', '/usr/bin/zabbix_sender')
 
   #common parameters
   $version                     = hiera('version', $::zabbixversion)
@@ -77,5 +90,6 @@ class zabbix::params {
   $server                      = hiera('server', absent)
   $frontend                    = hiera('frontend', absent)
   $api                         = hiera('api', present)
+  $reports                     = hiera('reports', absent)
   $export                      = hiera('export', present)
 }

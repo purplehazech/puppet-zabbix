@@ -102,6 +102,7 @@ class zabbix::agent (
   
   file { $conf_file:
     content => template($template),
+    notify => Service[$service_name]
   }
   
 
@@ -128,14 +129,14 @@ class zabbix::agent (
     Package[$package] -> File[$conf_file]
   }
 
-  zabbix_host_interface { "${hostname}_default_ipv4":
-    host => $hostname,
+  zabbix_host_interface { "default_ipv4":
+    host => $fqdn,
     ip => $ipaddress,
     dns => $fqdn
   }
   
-  zabbix_host_interface { "${hostname}_default_ipv6":
-    host => $hostname,
+  zabbix_host_interface { "default_ipv6":
+    host => $fqdn,
     ip => $ipaddress6,
     dns => $fqdn
   }

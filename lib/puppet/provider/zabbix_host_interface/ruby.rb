@@ -6,18 +6,16 @@ Puppet::Type.type(:zabbix_host_interface).provide(:ruby) do
   require "zabbix"
   require "pp"
 
-
-
   def exists?
     extend Zabbix
     hostid = zbx.hosts.get_id(:host => resource[:host])
     return zbx.query(
       :method => 'hostinterface.exists',
-      :params => [
+      :params => {
         :hostid => hostid,
         :dns => resource[:dns],
         :ip => resource[:ip]
-      ]
+      }
     )
   end
   
@@ -26,7 +24,7 @@ Puppet::Type.type(:zabbix_host_interface).provide(:ruby) do
     hostid = zbx.hosts.get_id(:host => resource[:host])
     zbx.query(
       :method => 'hostinterface.create',
-      :params => [
+      :params => {
         :hostid => hostid,
         :ip => resource[:ip] == nil ? "" : resource[:ip],
         :dns => resource[:dns] == nil ? "" : resource[:dns],
@@ -34,7 +32,7 @@ Puppet::Type.type(:zabbix_host_interface).provide(:ruby) do
         :type => resource[:type],
         :main => resource[:main],
         :useip => resource[:useip]
-      ]
+      }
     )
   end
   
@@ -43,14 +41,14 @@ Puppet::Type.type(:zabbix_host_interface).provide(:ruby) do
     hostid = zbx.hosts.get_id(:host => resource[:host])
     return zbx.query(
       :method => 'hostinterface.massremove',
-      :params => [
+      :params => {
         :hostids => [hostid],
         :interfaces => [
           :ip => resource[:ip] == nil ? "" : resource[:ip],
           :dns => resource[:dns] == nil ? "" : resource[:dns],
           :port => resource[:port]
         ]
-      ]
+      }
     )
   end
 end
