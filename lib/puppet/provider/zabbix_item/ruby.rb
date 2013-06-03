@@ -17,18 +17,40 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
   
   def create
     extend Zabbix
+    host_id = get_id(resource[:host], resource[:host_type])
     
     apps_real = Array.new
     resource[:applications].each do |app|
       apps_real.push(
-        zbx.applications.get_id( :name => app )
+        zbx.applications.get_id( :name => app, :hostid => host_id )
       )
     end
+    
+    interfaces = zbx.query(
+      :method => "hostinterface.get",
+      :params => {
+        :hostids => [host_id],
+        :output => "extend"
+      }
+    )
+    interface_id = nil 
+    interface=resource[:interface]
+    interface=interface.to_i if (interface.is_a? String) && /^[-+]?\d+$/ === interface
+    if (interface.is_a? Integer) && resource[:interface] != 0
+      #the user specified a interface
+      interface_id = interface
+    else
+      interfaces.each { |item| interface_id = item["interfaceid"] if item["ip"] == interface}
+    end
+
+    #as default we use the first interface defined
+    interface_id = interfaces[0]["interfaceid"] if interface_id.nil?
+
     zbx.items.create(
       :applications => apps_real,
       :delay => resource[:delay], #60
-      :hostid => get_id(resource[:host], resource[:host_type]),
-      :interfaceid => resource[:interface],
+      :hostid => host_id,
+      :interfaceid => interface_id,
       :key_ => resource[:key],
       :name => resource[:name],
       :type => resource[:type],
