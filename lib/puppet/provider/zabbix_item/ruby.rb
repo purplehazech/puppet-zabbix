@@ -7,11 +7,17 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
 
   def exists?
     extend Zabbix
-    existing = zbx.items.get_id(
-      :name => resource[:name],
-      :key_ => resource[:key],
-      :hostid => [get_id(resource[:host], resource[:host_type])]
-    ).is_a? Integer
+    existing = zbx.query(
+      :method => "item.get",
+      :params => {
+        :filter => {
+          :name => resource[:name],
+          :key_ => resource[:key],
+          :hostid => [get_id(resource[:host], resource[:host_type])]
+        },
+        :output => "extend"
+      }
+    ).length > 0
     return(existing)
   end
   
