@@ -8,6 +8,7 @@ Puppet::Type.type(:zabbix_trigger).provide(:ruby) do
   require 'pp'
 
   def exists?
+    extend Zabbix
     zbx.client.api_request(
       :method => "trigger.exists",
       :params => {
