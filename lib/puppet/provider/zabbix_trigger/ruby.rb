@@ -8,9 +8,11 @@ Puppet::Type.type(:zabbix_trigger).provide(:ruby) do
   require 'pp'
 
   def exists?
-    by_expression(
-      :expression => resource[:expression]
-    )  != nil
+    zbx.client.api_request(
+      :method => "trigger.exists",
+      :params => {
+        :expression => resource[:expression],
+      })
   end
   
   def create
@@ -28,25 +30,19 @@ Puppet::Type.type(:zabbix_trigger).provide(:ruby) do
   
   def destroy
     extend Zabbix
-    trigger = by_expression(
-      :expression => resource[:expression]
-    )
-    zbx.triggers.delete(
-      trigger["triggerid"]
-    )
-  end
-
-  def by_expression(data)
-    extend Zabbix
+    #When destroying we have to find the trigger by description and expression and then destroy by id
     result = zbx.client.api_request(
       :method => "trigger.get",
       :params => {
-        :filter => data,
+        :filter => {:description => resource[:description]},
         :output => "extend",
         :expandExpression => "data"
-      })
-    trigger = nil
-    result.each { |template| trigger = template if template["expression"] == data[:expression] }
-    trigger
+      }
+    )
+    trigger_ids = []
+    result.each { |trigger| trigger_ids.push(trigger["triggerid"]) if trigger["expression"] == data[:expression] }
+    zbx.triggers.delete(
+      trigger_ids
+    )
   end
 end
