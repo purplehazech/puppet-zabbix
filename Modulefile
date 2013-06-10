@@ -11,4 +11,4 @@ dependency 'puppetlabs/stdlib', '~3.2.0'
 dependency 'hairmare/webapp_config', '>=1.0.0'
 dependency 'purplehazech/apache', '>=0.5.1'
 dependency 'purplehazech/activerecord', '>=0.1.0'
-dependency 'puppetlabs/mysql', '>=0.6.1
+dependency 'puppetlabs/mysql', '>=0.6.1'
