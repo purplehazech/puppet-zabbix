@@ -146,4 +146,13 @@ Puppet::Type.newtype(:zabbix_item) do
       Description of the item.
     EOT
   end
+
+  autorequire(:zabbix_host) do
+    [self[:host]]
+  end
+  
+  autorequire(:zabbix_template) do
+    [self[:host]]
+  end
+
 end

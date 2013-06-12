@@ -15,4 +15,8 @@ Puppet::Type.newtype(:zabbix_host_item, :parent => Puppet::Type.type(:zabbix_ite
     EOT
     defaultto 1
   end
+
+  autorequire(:zabbix_host) do
+    [self[:host]]
+  end
 end
