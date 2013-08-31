@@ -18,6 +18,7 @@ Puppet::Type.type(:zabbix_trigger).provide(:ruby) do
   
   def create
     extend Zabbix
+    dependencies => resource[:dependencies].collect{ |triggerid| {"triggerid" => triggerid}}
     zbx.triggers.create(
       :description => resource[:description],
       :expression => resource[:expression],
@@ -25,7 +26,8 @@ Puppet::Type.type(:zabbix_trigger).provide(:ruby) do
       :priority => resource[:priority],
       :status => resource[:status],
       :type => resource[:type],
-      :url => resource[:url]
+      :url => resource[:url],
+      :dependencies => dependencies
     )
   end
   
