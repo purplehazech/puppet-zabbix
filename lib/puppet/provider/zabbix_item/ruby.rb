@@ -26,6 +26,7 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
     host_id = get_id(resource[:host], resource[:host_type])
     
     apps_real = Array.new
+    resource[:applications]=[resource[:applications]] if !(resource[:applications].is_a? Array)
     resource[:applications].each do |app|
       apps_real.push(
         zbx.applications.get_id( :name => app, :hostid => host_id )
