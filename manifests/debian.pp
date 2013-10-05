@@ -5,8 +5,9 @@
 # This adds a repository for the current zabbix version
 #
 class zabbix::debian () {
+  $diststring=downcase($lsbdistid)
   apt::source { 'zabbix':
-    location   => "http//repo.zabbix.com/zabbix/2.0/$lsbdistid",
+    location   => "http://repo.zabbix.com/zabbix/2.0/$diststring",
     repos      => 'main contrib non-free',
     release    => $lsbdistcodename,
 	key        => '79EA5ED4',
