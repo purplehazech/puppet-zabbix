@@ -29,6 +29,8 @@
 #  name of package to install
 # [*service_name*]
 #  name of service to start
+# [*groups*]
+#  the groups the agent should be in in zabbix
 #
 # === Example Usage:
 #
@@ -63,7 +65,8 @@ class zabbix::agent (
   $agent_include_path = $zabbix::params::agent_include_path,
   $server_include_path= $zabbix::params::server_include_path,
   $package            = $zabbix::params::agent_package,
-  $service_name       = $zabbix::params::agent_service_name) inherits zabbix::params {
+  $service_name       = $zabbix::params::agent_service_name,
+  $groups             = $zabbix::params::agent_groups) inherits zabbix::params {
   validate_re($ensure, [absent, present])
   validate_absolute_path($conf_file)
   validate_absolute_path($pid_file)
@@ -129,16 +132,23 @@ class zabbix::agent (
     Package[$package] -> File[$conf_file]
   }
 
+  zabbix_host { $fqdn:
+    ip     => $source_ip,
+    groups => $groups
+  }
+
   zabbix_host_interface { "default_ipv4":
-    host => $fqdn,
-    ip => $ipaddress,
-    dns => $fqdn
+    host    => $fqdn,
+    ip      => $ipaddress,
+    dns     => $fqdn,
+    require => Zabbix_host[$fqdn]
   }
   
   zabbix_host_interface { "default_ipv6":
     host => $fqdn,
     ip => $ipaddress6,
-    dns => $fqdn
+    dns => $fqdn,
+    require => Zabbix_host[$fqdn]
   }
 
 }
