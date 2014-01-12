@@ -62,31 +62,26 @@
 # * only really tested on gentoo, some debian flavors and partly on some winxp
 #
 class zabbix::agent (
-  $ensure             = lookup('zabbix::agent::ensure', present),
-  $hostname           = lookup('zabbix::agent::hostname', $::hostname),
-  $server             = lookup('zabbix::server::hostname', 'zabbix'),
-  $use_ipv4           = lookup('zabbix::use_ipv4', true),
-  $use_ipv6           = lookup('zabbix::use_ipv4', true),
-  $listen_ipv4        = lookup('zabbix::agent::listen_ipv4', $::ipaddress),
-  $listen_ipv6        = lookup('zabbix::agent::listen_ipv6', $::ipaddress6),
-  $source_ipv4        = lookup('zabbix::agent::source_ipv4', $::ipaddress),
-  $source_ipv6        = lookup('zabbix::agent::source_ipv6', $::ipaddress6),
-  $template           = lookup(
-    'zabbix::agent::template', 'zabbix/zabbix_agentd.conf.erb'),
-  $conf_file          = lookup(
-    'zabbix::agent::conf_file', '/etc/zabbix/zabbix_agentd.conf'),
-  $pid_file           = lookup(
-    'zabbix::agent::pid_file', '/var/run/zabbix/zabbix_agentd.pid'),
-  $log_file           = lookup(
-    'zabbix::agent::log_file', '/var/log/zabbix/zabbix_agentd.log'),
-  $userparameters     = lookup('zabbix::agent::userparameters', {}),
-  $agent_include_path = lookup(
-    'zabbix::agent::include_path', '/etc/zabbix/zabbix_agentd.d'),
-  $server_include_path= lookup(
-    'zabbix::server::include_path', '/etc/zabbix/agent_server.conf'),
-  $package            = lookup('zabbix::agent_package', 'zabbix-agent'),
-  $service_name       = lookup('zabbix::agent_service_name', 'zabbix-agent'),
-  $groups             = lookup('zabbix::agent_groups', [])) {
+  $ensure             = lookup('agent_ensure',         Boolean),
+  $hostname           = lookup('agent_hostname',       String ),
+  $server             = lookup('server_hostname',      String ),
+  $use_ipv4           = lookup('use_ipv4',             Boolean),
+  $use_ipv6           = lookup('use_ipv4',             Boolean),
+  $listen_ipv4        = lookup('agent_listen_ipv4',    String ),
+  $listen_ipv6        = lookup('agent_listen_ipv6',    String ),
+  $source_ipv4        = lookup('agent_source_ipv4',    String ),
+  $source_ipv6        = lookup('agent_source_ipv6',    String ),
+  $template           = lookup('agent_template',       String ),
+  $conf_file          = lookup('agent_conf_file',      String ),
+  $pid_file           = lookup('agent_pid_file',       String ),
+  $log_file           = lookup('agent_log_file',       String ),
+  $userparameters     = lookup('agent_userparameters'         ),
+  $agent_include_path = lookup('agent_include_path',   String ),
+  $server_include_path= lookup('server_include_path',  String ),
+  $package            = lookup('agent_package',        String ),
+  $service_name       = lookup('agent_service_name',   String ),
+  $groups             = lookup('agent_groups',         Array  )
+) {
 
   validate_re($ensure, [absent, present])
   validate_absolute_path($conf_file)
