@@ -13,20 +13,20 @@
 #  path of the zabbix sender binary
 # === Issues
 #
-# * only really tested on some debian flavors 
+# * only really tested on some debian flavors
 #
 class zabbix::reports (
-  $ensure             = $zabbix::params::reports_ensure,
-  $host                = $zabbix::params::reports_host,
-  $port           = $zabbix::params::reports_port,
-  $sender          = $zabbix::params::reports_sender) inherits zabbix::params {
+  $ensure = $zabbix::params::reports_ensure,
+  $host   = $zabbix::params::reports_host,
+  $port   = $zabbix::params::reports_port,
+  $sender = $zabbix::params::reports_sender) inherits zabbix::params {
   validate_re($ensure, [absent, present])
 
-  file { "/etc/puppet/zabbix.yaml":
-    content => template("zabbix/zabbix.yaml.erb"),
-    mode   => '0440',
-    owner  => 'zabbix',
-    group  => 'puppet',
+  file { '/etc/puppet/zabbix.yaml':
+    content => template('zabbix/zabbix.yaml.erb'),
+    mode    => '0440',
+    owner   => 'zabbix',
+    group   => 'puppet',
     require => Package['zabbix-sender']
   }
 

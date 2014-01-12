@@ -1,6 +1,6 @@
 # == Class: zabbix::api
 #
-# Install and manage a zabbix library. It enables you to use zabbix in puppet. 
+# Install and manage a zabbix library. It enables you to use zabbix in puppet.
 #
 # === Parameters
 # [*ensure*]
@@ -16,11 +16,11 @@
 # [*http_password*]
 #  http password for the server
 # [*api_debug*]
-#  should we enable debug messages 
+#  should we enable debug messages
 #
 # === Issues
 #
-# * only really tested on some debian flavors 
+# * only really tested on some debian flavors
 #
 class zabbix::api (
   $ensure             = $zabbix::params::api_ensure,
@@ -32,25 +32,25 @@ class zabbix::api (
   $api_debug          = $zabbix::params::api_debug) inherits zabbix::params {
   validate_re($ensure, [absent, present])
 
-  file { "/etc/puppet/zabbix.api.yaml":
-    content => template("zabbix/zabbix.api.yaml.erb"),
-    mode   => '0440',
-    owner  => 'zabbix',
-    group  => 'puppet',
+  file { '/etc/puppet/zabbix.api.yaml':
+    content => template('zabbix/zabbix.api.yaml.erb'),
+    mode    => '0440',
+    owner   => 'zabbix',
+    group   => 'puppet',
     require => Package['zabbixapi']
   }
 
   #ensure the configuration file is enabled before we use the api
-  File["/etc/puppet/zabbix.api.yaml"] -> Zabbix_api <| |>
-  File["/etc/puppet/zabbix.api.yaml"] -> Zabbix_host <| |>
-  File["/etc/puppet/zabbix.api.yaml"] -> Zabbix_host_interface <| |>
-  File["/etc/puppet/zabbix.api.yaml"] -> Zabbix_hostgroup <| |>
-  File["/etc/puppet/zabbix.api.yaml"] -> Zabbix_mediatype <| |>
-  File["/etc/puppet/zabbix.api.yaml"] -> Zabbix_template <| |>
-  File["/etc/puppet/zabbix.api.yaml"] -> Zabbix_template_application <| |>
-  File["/etc/puppet/zabbix.api.yaml"] -> Zabbix_template_item <| |>
-  File["/etc/puppet/zabbix.api.yaml"] -> Zabbix_trigger <| |>
-  
+  File['/etc/puppet/zabbix.api.yaml'] -> Zabbix_api <| |>
+  File['/etc/puppet/zabbix.api.yaml'] -> Zabbix_host <| |>
+  File['/etc/puppet/zabbix.api.yaml'] -> Zabbix_host_interface <| |>
+  File['/etc/puppet/zabbix.api.yaml'] -> Zabbix_hostgroup <| |>
+  File['/etc/puppet/zabbix.api.yaml'] -> Zabbix_mediatype <| |>
+  File['/etc/puppet/zabbix.api.yaml'] -> Zabbix_template <| |>
+  File['/etc/puppet/zabbix.api.yaml'] -> Zabbix_template_application <| |>
+  File['/etc/puppet/zabbix.api.yaml'] -> Zabbix_template_item <| |>
+  File['/etc/puppet/zabbix.api.yaml'] -> Zabbix_trigger <| |>
+
   package { 'zabbixapi':
     ensure   => 'latest',
     provider => 'gem',

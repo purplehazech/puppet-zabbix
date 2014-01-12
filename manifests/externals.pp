@@ -16,8 +16,11 @@
 # [*params*]
 #   enable uerparameters, default true
 #
-class zabbix::externals ($ensure = undef, $api = undef) {
-  include zabbix::params
+class zabbix::externals (
+  $ensure = undef,
+  $api    = undef
+) inherits zabbix::params {
+
   $ensure_real = $ensure ? {
     undef   => $zabbix::params::api,
     default => $api
@@ -39,7 +42,7 @@ class zabbix::externals ($ensure = undef, $api = undef) {
     }
 
     @@zabbix_template_item { 'Puppet Run Date':
-      description  => 'The timestamp of the latest puppet run.',
+      description  => 'The timestamp of the latest run.',
       key          => 'puppet.run.timestamp',
       applications => ['Puppet'],
       type         => 2,
@@ -47,7 +50,7 @@ class zabbix::externals ($ensure = undef, $api = undef) {
     }
 
     @@zabbix_template_item { 'Puppet Run Status':
-      description  => 'The status of the latest puppet run.',
+      description  => 'The status of the latest run.',
       key          => 'puppet.run.status',
       applications => ['Puppet'],
       type         => 2,
@@ -55,7 +58,7 @@ class zabbix::externals ($ensure = undef, $api = undef) {
     }
 
     @@zabbix_template_item { 'Puppet Run Total Time':
-      description  => 'The total time in seconds for the puppet run to complete.',
+      description  => 'The total time in seconds for the run to complete.',
       key          => 'puppet.run.time',
       applications => ['Puppet'],
       type         => 2,
@@ -63,7 +66,7 @@ class zabbix::externals ($ensure = undef, $api = undef) {
     }
 
     @@zabbix_template_item { 'Puppet Version':
-      description  => 'The puppet version string reported in the last puppet run.',
+      description  => 'The puppet version string reported in the last run.',
       key          => 'puppet.version',
       applications => ['Puppet'],
       type         => 2,
@@ -81,7 +84,8 @@ class zabbix::externals ($ensure = undef, $api = undef) {
     #      value_type => 3
     #    }
 
-    $trigger_run = '{Template_Puppet_Agent:puppet.run.time_since_last.prev(0)}>5400'
+    $last_time = '{Template_Puppet_Agent:puppet.run.time_since_last.prev(0)}'
+    $trigger_run = "${last_time}>5400"
 
     @@zabbix_trigger { $trigger_run:
       description => 'Puppet has not run recently on {HOSTNAME}',
@@ -91,7 +95,9 @@ class zabbix::externals ($ensure = undef, $api = undef) {
       type        => 0,
     }
 
-    $trigger_change = '{Template_Puppet_Agent:puppet.run.status.strlen(0)}=7 & {Template_Puppet_Agent:puppet.run.status.str(changed)}=1'
+    $len_check = '{Template_Puppet_Agent:puppet.run.status.strlen(0)}=7'
+    $str_check = '{Template_Puppet_Agent:puppet.run.status.str(changed)}=1'
+    $trigger_change = "${len_check} & ${str_check}"
 
     @@zabbix_trigger { $trigger_change:
       description => 'Puppet run had changes on {HOSTNAME}',
@@ -118,7 +124,7 @@ class zabbix::externals ($ensure = undef, $api = undef) {
 
     # and host for self
     # @todo needs to be parametrized to be useful
-    @@zabbix_host { $fqdn:
+    @@zabbix_host { $::fqdn:
       status => 0,
       groups => $hostgroups
     }

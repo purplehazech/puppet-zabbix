@@ -63,7 +63,9 @@ class zabbix::agent (
   $agent_include_path = $zabbix::params::agent_include_path,
   $server_include_path= $zabbix::params::server_include_path,
   $package            = $zabbix::params::agent_package,
-  $service_name       = $zabbix::params::agent_service_name) inherits zabbix::params {
+  $service_name       = $zabbix::params::agent_service_name
+) inherits zabbix::params {
+
   validate_re($ensure, [absent, present])
   validate_absolute_path($conf_file)
   validate_absolute_path($pid_file)
@@ -89,6 +91,9 @@ class zabbix::agent (
     'Debian','Ubuntu' : {
       include zabbix::debian
     }
+    default : {
+      # ignore unknown boxen
+    }
   }
 
   file { $agent_include_path:
@@ -97,14 +102,14 @@ class zabbix::agent (
     owner  => 'zabbix',
     group  => 'zabbix'
   }
-  
+
+  # pull in configuration exported by server
   Zabbix::Agent::Server <<| |>>
-  
+
   file { $conf_file:
     content => template($template),
-    notify => Service[$service_name]
+    notify  => Service[$service_name]
   }
-  
 
   $service_ensure = $ensure ? {
     present => running,
@@ -129,16 +134,16 @@ class zabbix::agent (
     Package[$package] -> File[$conf_file]
   }
 
-  zabbix_host_interface { "default_ipv4":
-    host => $fqdn,
-    ip => $ipaddress,
-    dns => $fqdn
+  zabbix_host_interface { 'default_ipv4':
+    host => $::fqdn,
+    ip   => $::ipaddress,
+    dns  => $::fqdn
   }
-  
-  zabbix_host_interface { "default_ipv6":
-    host => $fqdn,
-    ip => $ipaddress6,
-    dns => $fqdn
+
+  zabbix_host_interface { 'default_ipv6':
+    host => $::fqdn,
+    ip   => $::ipaddress6,
+    dns  => $::fqdn
   }
 
 }
