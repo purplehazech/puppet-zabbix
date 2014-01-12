@@ -1,6 +1,7 @@
 {
   "use_ipv4": true,
   "use_ipv6": true,
+  "use_api": true,
 
   "agent_ensure": true,
   "agent_hostname": "${::hostname}",
