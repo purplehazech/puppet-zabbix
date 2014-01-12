@@ -10,6 +10,8 @@
 #  hostname to report as
 # [*server*]
 #  server to send reports to
+# [*use_api*]
+#  enable use of api, default = true
 # [*use_ipv4*]
 #  use ipv4, default = true
 # [*use_ipv6*]
@@ -62,28 +64,29 @@
 # * only really tested on gentoo, some debian flavors and partly on some winxp
 #
 class zabbix::agent (
-  $ensure             = lookup('agent_ensure',         Boolean),
-  $hostname           = lookup('agent_hostname',       String ),
-  $server             = lookup('server_hostname',      String ),
-  $use_ipv4           = lookup('use_ipv4',             Boolean),
-  $use_ipv6           = lookup('use_ipv4',             Boolean),
-  $listen_ipv4        = lookup('agent_listen_ipv4',    String ),
-  $listen_ipv6        = lookup('agent_listen_ipv6',    String ),
-  $source_ipv4        = lookup('agent_source_ipv4',    String ),
-  $source_ipv6        = lookup('agent_source_ipv6',    String ),
-  $template           = lookup('agent_template',       String ),
-  $conf_file          = lookup('agent_conf_file',      String ),
-  $pid_file           = lookup('agent_pid_file',       String ),
-  $log_file           = lookup('agent_log_file',       String ),
-  $userparameters     = lookup('agent_userparameters'         ),
-  $agent_include_path = lookup('agent_include_path',   String ),
-  $server_include_path= lookup('server_include_path',  String ),
-  $package            = lookup('agent_package',        String ),
-  $service_name       = lookup('agent_service_name',   String ),
-  $groups             = lookup('agent_groups',         Array  )
+  $ensure             = lookup('agent_ensure',         'Boolean'),
+  $hostname           = lookup('agent_hostname',       'String' ),
+  $server             = lookup('server_hostname',      'String' ),
+  $use_api            = lookup('use_api',              'Boolean'),
+  $use_ipv4           = lookup('use_ipv4',             'Boolean'),
+  $use_ipv6           = lookup('use_ipv4',             'Boolean'),
+  $listen_ipv4        = lookup('agent_listen_ipv4',    'String' ),
+  $listen_ipv6        = lookup('agent_listen_ipv6',    'String' ),
+  $source_ipv4        = lookup('agent_source_ipv4',    'String' ),
+  $source_ipv6        = lookup('agent_source_ipv6',    'String' ),
+  $template           = lookup('agent_template',       'String' ),
+  $conf_file          = lookup('agent_conf_file',      'String' ),
+  $pid_file           = lookup('agent_pid_file',       'String' ),
+  $log_file           = lookup('agent_log_file',       'String' ),
+  $userparameters     = lookup('agent_userparameters'           ),
+  $agent_include_path = lookup('agent_include_path',   'String' ),
+  $server_include_path= lookup('server_include_path',  'String' ),
+  $package            = lookup('agent_package',        'String' ),
+  $service_name       = lookup('agent_service_name',   'String' ),
+  $groups             = lookup('agent_groups',         'Array'  )
 ) {
 
-  validate_re($ensure, [absent, present])
+  validate_bool($ensure)
   validate_absolute_path($conf_file)
   validate_absolute_path($pid_file)
   validate_absolute_path($pid_file)
@@ -147,28 +150,35 @@ class zabbix::agent (
 
   File[$agent_include_path] ~> File[$conf_file] ~> Service[$service_name]
 
+  $package_ensure = $ensure ? {
+    true  => installed,
+    false => absent
+  }
+
   package { $package:
-    ensure => $ensure,
+    ensure => $package_ensure,
   }
   Package[$package] -> File[$conf_file]
 
-  zabbix_host_interface { 'default_ipv4':
-    host    => $::fqdn,
-    ip      => $::ipaddress,
-    dns     => $::fqdn,
-    require => Zabbix_host[$::fqdn]
-  }
+  if ($use_api) {
+    zabbix_host_interface { 'default_ipv4':
+      host    => $::fqdn,
+      ip      => $::ipaddress,
+      dns     => $::fqdn,
+      require => Zabbix_host[$::fqdn]
+    }
 
-  zabbix_host_interface { 'default_ipv6':
-    host    => $::fqdn,
-    ip      => $::ipaddress6,
-    dns     => $::fqdn,
-    require => Zabbix_host[$::fqdn]
-  }
+    zabbix_host_interface { 'default_ipv6':
+      host    => $::fqdn,
+      ip      => $::ipaddress6,
+      dns     => $::fqdn,
+      require => Zabbix_host[$::fqdn]
+    }
 
-  zabbix_host { $::fqdn:
-    ip     => $source_ip,
-    groups => $groups
+    zabbix_host { $::fqdn:
+      ip     => $source_ip,
+      groups => $groups
+    }
   }
 
 }
