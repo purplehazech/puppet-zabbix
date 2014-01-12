@@ -102,15 +102,6 @@ class zabbix::agent (
   } else {
     $listen_ip = $listen_ipv4
   }
-
-  $has_userparameters = $::operatingsystem ? {
-    windows => false,
-    default => true,
-  }
-
-  $install_package    = $::operatingsystem ? {
-    windows => false,
-    default => true,
   $source_ip = $use_ipv6 ? {
     true    => $source_ipv6,
     default => $source_ipv4
@@ -161,12 +152,10 @@ class zabbix::agent (
 
   File[$agent_include_path] ~> File[$conf_file] ~> Service[$service_name]
 
-  if $install_package != false {
-    package { $package:
-      ensure => $ensure,
-    }
-    Package[$package] -> File[$conf_file]
+  package { $package:
+    ensure => $ensure,
   }
+  Package[$package] -> File[$conf_file]
 
   zabbix_host_interface { 'default_ipv4':
     host    => $::fqdn,

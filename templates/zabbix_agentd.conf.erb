@@ -65,9 +65,7 @@ LogFile=<%= log_file %>
 # Must be between 1 and 30
 
 Timeout=3
-<% if has_userparameters %>
 Include=<%= agent_include_path %>
-<% end %>
 
 ####### USER-DEFINED MONITORED PARAMETERS #######
 # Format: UserParameter=<key>,<shell command>
