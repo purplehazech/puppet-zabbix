@@ -68,5 +68,10 @@ Puppet::Type.newtype(:zabbix_trigger) do
   newparam(:url) do
     desc 'URL associated with the trigger.'
   end
-  
+ 
+  newparam(:dependencies) do
+    desc 'An array of triggerids that this trigger depends on.'
+    defaultto []
+  end
+ 
 end

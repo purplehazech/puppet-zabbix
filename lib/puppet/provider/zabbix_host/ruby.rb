@@ -17,7 +17,9 @@ Puppet::Type.type(:zabbix_host).provide(:ruby) do
   def create
     extend Zabbix
     groups = Array.new
-    resource[:groups].each do |group|
+    group_names = resource[:groups]
+    group_names = [group_names] if ! group_names.is_a? Array
+    group_names.each do |group|
       groups.push({
         :groupid => zbx.hostgroups.get_id(:name => group)
       })

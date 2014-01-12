@@ -50,6 +50,7 @@ class zabbix::params {
   )
   $agent_package      = hiera('agent_package', $default_agent_package)
   $agent_service_name = hiera('agent_service_name', $default_agent_service_name)
+  $agent_groups       = hiera('agent_groups', ['Linux servers'])
   $userparameters     = {}
 
   #server parameters

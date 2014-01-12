@@ -16,4 +16,7 @@ Puppet::Type.newtype(:zabbix_template_application, :parent => Puppet::Type.type(
     defaultto 2
   end
   
+  autorequire(:zabbix_template) do
+    [self[:host]]
+  end  
 end

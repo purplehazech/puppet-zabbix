@@ -71,5 +71,8 @@ Puppet::Type.newtype(:zabbix_host_interface) do
     EOT
     defaultto 1
   end
-
+  
+  autorequire(:zabbix_host) do
+    [self[:host]]
+  end
 end
