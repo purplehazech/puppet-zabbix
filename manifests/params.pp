@@ -3,55 +3,17 @@
 # The zabbix configuration settings.
 #
 class zabbix::params {
+
+  # @todo refactor into hiera2
   $default_agent_package =  $::osfamily ? {
     'Debian' => 'zabbix-agent',
     default  => 'zabbix'
   }
-
   $default_agent_service_name =  $::osfamily ? {
     'Debian' => 'zabbix-agent',
     default  => 'zabbix-agentd'
   }
-
-  #agent parameters
-  $use_ipv6                    = hiera('use_ipv6', true)
-  $use_ipv4                    = hiera('use_ipv4', true)
-  if $use_ipv6 and $use_ipv4 {
-    $default_agent_listen_ip = "${::ipaddress6},${::ipaddress}"
-  }elsif $use_ipv6 {
-    $default_agent_listen_ip = $::ipaddress6
-  } else {
-    $default_agent_listen_ip = $::ipaddress
-  }
-  $agent_source_ip             = $use_ipv6 ? {
-    true    => hiera('agent_source_ip', $::ipaddress6),
-    default => hiera('agent_source_ip', $::ipaddress)
-  }
-  $agent_listen_ip    = hiera('agent_listen_ip', $default_agent_listen_ip)
-
-  $agent_ensure       = hiera('agent_ensure', present)
-  $agent_hostname     = hiera('agent_hostname', $::hostname)
-  $agent_template     = hiera('agent_template', 'zabbix/zabbix_agentd.conf.erb')
-  $agent_conf_file    = hiera(
-    'agent_conf_file',
-    '/etc/zabbix/zabbix_agentd.conf'
-  )
-  $agent_pid_file     = hiera(
-    'agent_pid_file',
-    '/var/run/zabbix/zabbix_agentd.pid'
-  )
-  $agent_log_file     = hiera(
-    'agent_log_file',
-    '/var/log/zabbix/zabbix_agentd.'
-  )
-  $agent_include_path = hiera(
-    'agent_include_path',
-    '/etc/zabbix/zabbix_agentd.d'
-  )
-  $agent_package      = hiera('agent_package', $default_agent_package)
-  $agent_service_name = hiera('agent_service_name', $default_agent_service_name)
   $agent_groups       = hiera('agent_groups', ['Linux servers'])
-  $userparameters     = {}
 
   #server parameters
   $server_hostname     = hiera('server_hostname', 'zabbix')

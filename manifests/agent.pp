@@ -52,26 +52,49 @@
 # * only really tested on gentoo, some debian flavors and partly on some winxp
 #
 class zabbix::agent (
-  $ensure             = $zabbix::params::agent_ensure,
-  $hostname           = $zabbix::params::agent_hostname,
-  $server             = $zabbix::params::server_hostname,
-  $listen_ip          = $zabbix::params::agent_listen_ip,
-  $source_ip          = $zabbix::params::agent_source_ip,
-  $template           = $zabbix::params::agent_template,
-  $conf_file          = $zabbix::params::agent_conf_file,
-  $pid_file           = $zabbix::params::agent_pid_file,
-  $log_file           = $zabbix::params::agent_log_file,
-  $userparameters     = $zabbix::params::userparameters,
-  $agent_include_path = $zabbix::params::agent_include_path,
-  $server_include_path= $zabbix::params::server_include_path,
-  $package            = $zabbix::params::agent_package,
-  $service_name       = $zabbix::params::agent_service_name,
-  $groups             = $zabbix::params::agent_groups) {
+  $ensure             = hiera('zabbix_agent_ensure', present),
+  $hostname           = hiera('zabbix_agent_hostname', $::hostname),
+  $server             = hiera('zabbix_server_hostname', 'zabbix'),
+  $use_ipv4           = hiera('use_ipv4', true),
+  $use_ipv6           = hiera('use_ipv4', true),
+  $listen_ipv4        = hiera('zabbix_agent_listen_ipv4', $::ipaddress),
+  $listen_ipv6        = hiera('zabbix_agent_listen_ipv6', $::ipaddress6),
+  $source_ipv4        = hiera('zabbix_agent_source_ipv4', $::ipaddress),
+  $source_ipv6        = hiera('zabbix_agent_source_ipv6', $::ipaddress6),
+  $template           = hiera(
+    'zabbix_agent_template', 'zabbix/zabbix_agentd.conf.erb'),
+  $conf_file          = hiera(
+    'zabbix_agent_conf_file', '/etc/zabbix/zabbix_agentd.conf'),
+  $pid_file           = hiera(
+    'zabbix_agent_pid_file', '/var/run/zabbix/zabbix_agentd.pid'),
+  $log_file           = hiera(
+    'zabbix_agent_log_file', '/var/log/zabbix/zabbix_agentd.log'),
+  $userparameters     = hiera('zabbix_userparameters', {}),
+  $agent_include_path = hiera(
+    'zabbix_agent_include_path', '/etc/zabbix/zabbix_agentd.d'),
+  $server_include_path= hiera(
+    'zabbix_server_include_path', '/etc/zabbix/agent_server.conf'),
+  $package            = hiera2('zabbix_agent_package', 'zabbix-agent'),
+  $service_name       = hiera2('zabbix_agent_service_name', 'zabbix-agent'),
+  $groups             = hiera2('zabbix_agent_groups', [])) {
   validate_re($ensure, [absent, present])
   validate_absolute_path($conf_file)
   validate_absolute_path($pid_file)
   validate_absolute_path($pid_file)
   validate_hash($userparameters)
+
+  # prepare ipv4/6
+  if $use_ipv6 and $use_ipv4 {
+    $listen_ip = "${listen_ipv4},${listen_ipv6}"
+  } elsif $use_ipv6 {
+    $listen_ip = $listen_ipv6
+  } else {
+    $listen_ip = $listen_ipv4
+  }
+  $source_ip             = $use_ipv6 ? {
+    true    => hiera('agent_source_ip', $source_ipv6),
+    default => hiera('agent_source_ip', $source_ipv4)
+  }
 
   $has_userparameters = $::operatingsystem ? {
     windows => false,
