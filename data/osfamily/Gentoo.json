@@ -1,0 +1,4 @@
+{ 
+  "agent_package": "zabbix",
+  "agent_service_name": "zabbix-agentd"
+}
