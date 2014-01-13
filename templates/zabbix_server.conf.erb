@@ -7,7 +7,7 @@
 # This defines unique NodeID in distributed setup,
 # Default value 0 (standalone server)
 # This parameter must be between 0 and 999
-NodeID=<%= node_id %>
+NodeID=<%= @node_id %>
 
 # Number of pre-forked instances of pollers
 # Default value is 5
@@ -135,20 +135,20 @@ AlertScriptsPath=/home/zabbix/bin/
 # Database host name
 # Default is localhost
 
-DBHost=<%= db_server %>
+DBHost=<%= @db_server %>
 
 # Database name
 # SQLite3 note: path to database file must be provided. DBUser and DBPassword are ignored.
-DBName=<%= db_database %>
+DBName=<%= @db_database %>
 
 # Database user
 
-DBUser=<%= db_user %>
+DBUser=<%= @db_user %>
 
 # Database password
 # Comment this line if no password used
 
-DBPassword=<%= db_password %>
+DBPassword=<%= @db_password %>
 
 # Connect to MySQL using Unix socket?
 
