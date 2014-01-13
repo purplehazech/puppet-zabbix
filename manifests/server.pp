@@ -41,9 +41,6 @@ class zabbix::server (
   $install     = lookup('server_install_package', 'Boolean')
 ) {
 
-  $lc_db_type = downcase($db_type)
-  $server_base_dir = "/usr/share/zabbix-server-${lc_db_type}"
-
   case $::operatingsystem {
     'Gentoo' : {
       class { 'zabbix::server::gentoo':
