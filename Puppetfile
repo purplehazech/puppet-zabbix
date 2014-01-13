@@ -1,7 +1,6 @@
 forge "http://forge.puppetlabs.com"
 
-mod "puppetlabs/stdlib", ">=3.2.0"
-mod "purplehazech/activerecord", ">=0.2.0"
+modulefile
 
 # forked mysql to add gentoo params.
 mod "mysql",
