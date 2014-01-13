@@ -30,7 +30,7 @@ class zabbix::server (
   $export      = lookup('export',           'Boolean'),
   $conf_file   = lookup('server_conf_file', 'String' ),
   $template    = lookup('server_template',  'String' ),
-  $node_id     = lookup('server_node_id',   'String' ),
+  $node_id     = lookup('server_node_id',   'Integer'),
   $package     = lookup('server_package',   'String' ),
   $db_type     = lookup('db_type',          'String' ),
   $db_server   = lookup('db_server',        'String' ),
