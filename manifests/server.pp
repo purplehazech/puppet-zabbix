@@ -86,16 +86,14 @@ class zabbix::server (
     content => template($template),
   }
 
-  mysql::db { $db_database :
-    user        => $db_user,
-    password    => $db_password,
-    host        => $db_server,
-    grant       => ['all'],
-    enforce_sql => [
-      '/usr/share/zabbix/database/mysql/schema.sql',
-      '/usr/share/zabbix/database/mysql/images.sql'
-    ]
+  mysql::grant { $db_database :
+    mysql_user               => $db_user,
+    mysql_password           => $db_password,
+    mysql_host               => $db_server,
+    mysql_db_init_query_file => '/usr/share/zabbix/database/mysql/schema.sql',
   }
+  # @todo make mysql::grant understand arrays of sql files and readd the next line
+  # '/usr/share/zabbix/database/mysql/images.sql'
 
   service { 'zabbix-server':
     ensure  => $service_ensure,
