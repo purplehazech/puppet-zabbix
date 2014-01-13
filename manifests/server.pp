@@ -92,13 +92,14 @@ class zabbix::server (
     mysql_host               => $db_server,
     mysql_db_init_query_file => '/usr/share/zabbix/database/mysql/schema.sql',
   }
-  # @todo make mysql::grant understand arrays of sql files and readd the next line
+  # @todo make mysql::grant understand arrays of sql files for the next lines
   # '/usr/share/zabbix/database/mysql/images.sql'
+  # '/usr/share/zabbix/database/mysql/data.sql'
 
   service { 'zabbix-server':
     ensure  => $service_ensure,
     enable  => $service_enable,
-    require => Mysql::Db[$db_database]
+    require => Mysql::Grant[$db_database]
   }
 
   File[$conf_file] ~> Service['zabbix-server']
@@ -106,30 +107,8 @@ class zabbix::server (
   if $install_package != false {
     package { $real_package:
       ensure => $ensure,
-      notify => Exec['zabbix-server-schema']
     }
     Package[$real_package] -> File[$conf_file]
-  }
-
-  if $db_type == 'MYSQL' {
-    $mysql_creds="--user=${db_user} --password=${db_password}"
-    $mysql_params="${mysql_creds} --host=${db_server}"
-    $mysql_command="mysql ${mysql_params} ${db_database}"
-
-    exec { 'zabbix-server-schema':
-      command     => "${mysql_command} < ${server_base_dir}/schema.sql",
-      refreshonly => true,
-      notify      => Exec['zabbix-server-images'],
-    }
-    exec { 'zabbix-server-images':
-      command     => "${mysql_command} < ${server_base_dir}/images.sql",
-      refreshonly => true,
-      notify      => Exec['zabbix-server-data'],
-    }
-    exec { 'zabbix-server-data':
-      command     => "${mysql_command} < ${server_base_dir}/data.sql",
-      refreshonly => true,
-    }
   }
 
   if $export == present {
