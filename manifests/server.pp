@@ -54,12 +54,6 @@ class zabbix::server (
     $real_package = $package
   }
 
-  if ($ensure == present) {
-    include activerecord
-
-    Class['activerecord'] -> File[$conf_file]
-  }
-
   case $::operatingsystem {
     'Gentoo' : {
       class { 'zabbix::server::gentoo':
