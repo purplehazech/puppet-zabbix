@@ -10,3 +10,5 @@ description 'Simply installs and configure a zabbix agent. I also plan on doing 
 
 dependency 'puppetlabs/stdlib', '>=3.2.0'
 dependency 'example42/mysql', '>=2.1.1'
+
+# dependency 'gentoo/portage', '>=2.1.0'
