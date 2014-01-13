@@ -10,4 +10,4 @@ description 'Simply installs and configure a zabbix agent. I also plan on doing 
 
 dependency 'puppetlabs/stdlib', '>=3.2.0'
 dependency 'purplehazech/activerecord', '>=0.2.0'
-dependency 'example24/mysql', '>=2.1.1'
+dependency 'example42/mysql', '>=2.1.1'
