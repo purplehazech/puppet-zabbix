@@ -25,18 +25,20 @@
 #  mysql server password
 #
 class zabbix::server (
-  $ensure      = $zabbix::params::server_ensure,
-  $hostname    = $zabbix::params::server_hostname,
-  $export      = $zabbix::params::export,
-  $conf_file   = $zabbix::params::server_conf_file,
-  $template    = $zabbix::params::server_template,
-  $node_id     = $zabbix::params::server_node_id,
-  $package     = $zabbix::params::server_package,
-  $db_type     = $zabbix::params::db_type,
-  $db_server   = $zabbix::params::db_server,
-  $db_database = $zabbix::params::db_database,
-  $db_user     = $zabbix::params::db_user,
-  $db_password = $zabbix::params::db_password) inherits zabbix::params {
+  $ensure      = lookup('server_ensure',    'Boolean'),
+  $hostname    = lookup('server_hostname',  'String' ),
+  $export      = lookup('export',           'Boolean'),
+  $conf_file   = lookup('server_conf_file', 'String' ),
+  $template    = lookup('server_template',  'String' ),
+  $node_id     = lookup('server_node_id',   'String' ),
+  $package     = lookup('server_package',   'String' ),
+  $db_type     = lookup('db_type',          'String' ),
+  $db_server   = lookup('db_server',        'String' ),
+  $db_port     = lookup('db_port',          'Integer'),
+  $db_database = lookup('db_database',      'String' ),
+  $db_user     = lookup('db_user',          'String' ),
+  $db_password = lookup('db_password',      'String' )
+) {
 
   $install_package    = $::operatingsystem ? {
     windows => false,
