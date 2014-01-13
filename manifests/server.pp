@@ -25,34 +25,24 @@
 #  mysql server password
 #
 class zabbix::server (
-  $ensure      = lookup('server_ensure',    'Boolean'),
-  $hostname    = lookup('server_hostname',  'String' ),
-  $export      = lookup('export',           'Boolean'),
-  $conf_file   = lookup('server_conf_file', 'String' ),
-  $template    = lookup('server_template',  'String' ),
-  $node_id     = lookup('server_node_id',   'Integer'),
-  $package     = lookup('server_package',   'String' ),
-  $db_type     = lookup('db_type',          'String' ),
-  $db_server   = lookup('db_server',        'String' ),
-  $db_port     = lookup('db_port',          'Integer'),
-  $db_database = lookup('db_database',      'String' ),
-  $db_user     = lookup('db_user',          'String' ),
-  $db_password = lookup('db_password',      'String' )
+  $ensure      = lookup('server_ensure',          'Boolean'),
+  $hostname    = lookup('server_hostname',        'String' ),
+  $export      = lookup('export',                 'Boolean'),
+  $conf_file   = lookup('server_conf_file',       'String' ),
+  $template    = lookup('server_template',        'String' ),
+  $node_id     = lookup('server_node_id',         'Integer'),
+  $package     = lookup('server_package',         'String' ),
+  $db_type     = lookup('db_type',                'String' ),
+  $db_server   = lookup('db_server',              'String' ),
+  $db_port     = lookup('db_port',                'Integer'),
+  $db_database = lookup('db_database',            'String' ),
+  $db_user     = lookup('db_user',                'String' ),
+  $db_password = lookup('db_password',            'String' ),
+  $install     = lookup('server_install_package', 'Boolean')
 ) {
-
-  $install_package    = $::operatingsystem ? {
-    windows => false,
-    default => true,
-  }
 
   $lc_db_type = downcase($db_type)
   $server_base_dir = "/usr/share/zabbix-server-${lc_db_type}"
-
-  if $package == '' {
-    $real_package = "zabbix-server-${lc_db_type}"
-  } else {
-    $real_package = $package
-  }
 
   case $::operatingsystem {
     'Gentoo' : {
@@ -100,11 +90,11 @@ class zabbix::server (
 
   File[$conf_file] ~> Service['zabbix-server']
 
-  if $install_package != false {
-    package { $real_package:
+  if $install != false {
+    package { $package:
       ensure => $ensure,
     }
-    Package[$real_package] -> File[$conf_file]
+    Package[$package] -> File[$conf_file]
   }
 
   if $export == present {
