@@ -64,6 +64,7 @@ class zabbix::server (
     mysql_user               => $db_user,
     mysql_password           => $db_password,
     mysql_host               => $db_server,
+    mysql_db                 => $db_database,
     mysql_db_init_query_file => '/usr/share/zabbix/database/mysql/schema.sql',
   }
   # @todo make mysql::grant understand arrays of sql files for the next lines
