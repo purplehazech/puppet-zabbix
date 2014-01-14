@@ -29,29 +29,24 @@
 #  base path for web request_uri
 #
 class zabbix::frontend (
-  $ensure      = $zabbix::params::frontend_ensure,
-  $server_host = $zabbix::params::server_hostname,
-  $server_name = $zabbix::params::server_name,
-  $hostname    = $zabbix::params::frontend_hostname,
-  $base        = $zabbix::params::frontend_base,
-  $vhost_class = $zabbix::params::frontend_vhost_class,
-  $version     = $zabbix::params::version,
-  $package     = $zabbix::params::frontend_package,
-  $conf_file   = $zabbix::params::frontend_conf_file,
-  $db_type     = $zabbix::params::db_type,
-  $db_server   = $zabbix::params::db_server,
-  $db_port     = $zabbix::params::db_port,
-  $db_database = $zabbix::params::db_database,
-  $db_user     = $zabbix::params::db_user,
-  $db_password = $zabbix::params::db_password,
-  $include     = ''
+  $ensure      = lookup('frontend_ensure',      'Boolean'),
+  $server_host = lookup('server_hostname',      'String' ),
+  $server_name = lookup('server_name',          'String' ),
+  $hostname    = lookup('frontend_hostname',    'String' ),
+  $base        = lookup('frontend_base',        'String' ),
+  $vhost_class = lookup('frontend_vhost_class', 'String' ),
+  $version     = lookup('version',              'String' ),
+  $package     = lookup('frontend_package',     'String' ),
+  $conf_file   = lookup('frontend_conf_file',   'String' ),
+  $db_type     = lookup('db_type',              'String' ),
+  $db_server   = lookup('db_server',            'String' ),
+  $db_port     = lookup('db_port',              'Integer'),
+  $db_database = lookup('db_database',          'String' ),
+  $db_user     = lookup('db_user',              'String' ),
+  $db_password = lookup('db_password',          'String' ),
+  $include     = lookup('frontend_include',     'String' ),
+  $timezone    = lookup('frontend_timezone',    'String' )
 ) {
-
-  validate_re($ensure, [absent, present])
-  validate_string($server_host)
-  validate_string($server_name)
-  validate_string($hostname)
-  validate_re($ensure, ['^[0-9].[0-9].[0-9]', present, absent, 'skip'])
 
   if ($include != '') {
     include $include

@@ -1,4 +1,7 @@
 {
     "agent_include": "zabbix::debian",
-    "server_include": "zabbix::debian"
+    "server_include": "zabbix::debian",
+    "agent_groups": [
+        "Linux servers"
+    ]
 }

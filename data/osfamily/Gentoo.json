@@ -4,5 +4,7 @@
   "agent_include": "zabbix::gentoo",
 
   "server_install_package": false,
-  "server_include": "zabbix::gentoo"
+  "server_include": "zabbix::gentoo",
+
+  "frontend_package": ""
 }

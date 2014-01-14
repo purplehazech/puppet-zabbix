@@ -4,6 +4,8 @@
   "use_api": true,
   "export": true,
 
+  "version": "$::zabbixversion",
+
   "agent_ensure": true,
   "agent_hostname": "${::hostname}",
   "agent_listen_ipv4": "${::ipaddress}",
@@ -21,11 +23,19 @@
   "agent_groups": [],
   "agent_include": "",
 
+  "server_ensure": true,
+  "server_enable": "present",
+  "server_name": "Zabbix Server",
   "server_hostname": "zabbix",
+  "server_node_id": 0,
   "server_include_path": "/etc/zabbix/agent_server.conf",
   "server_conf_file": "/etc/zabbix/zabbix_server.conf",
   "server_template": "zabbix/zabbix_server.conf.erb",
   "server_include": "",
+  "server_install_package": true,
+  "server_package": "zabbix-server-mysql",
+  "server_node_id": 0,
+  "server_host": "zabbix",
 
   "db_type": "MYSQL",
   "db_server": "localhost",
@@ -34,13 +44,13 @@
   "db_user": "root",
   "db_password": "",
 
-  "server_enable": "present",
-  "server_install_package": true,
-  "server_node_id": 0,
-  "server_host": "zabbix",
-  "server_name": "Zabbix Server",
-  "server_package": "zabbix-server-mysql",
-
-  "frontend_enable": "present",
-  "frontend_base": "/zabbix"
+  "frontend_ensure": true,
+  "frontend_hostname": "${::hostname}",
+  "frontend_base": "/zabbix",
+  "frontend_vhost_class": "zabbix::frontend::vhost",
+  "frontend_package": "zabbix-frontend-php",
+  "frontend_conf_file": "",
+  "frontend_include": "",
+  "frontend_port": 80,
+  "frontend_timezone": "${::timezone}"
 }
