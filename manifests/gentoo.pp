@@ -85,5 +85,22 @@ class zabbix::gentoo {
     onlyif => $frontend_defined
   }
 
+  # Gentoo uses webapp-config
+  $webapp_action = lookup('frontend_ensure', 'Boolean') ? {
+    present => 'install',
+    absent  => 'remove',
+    default => noop
+  }
+
+  webapp_config { 'zabbix':
+    action  => $webapp_action,
+    vhost   => lookup('frontend_hostname', 'String'),
+    version => lookup('version'),
+    app     => 'zabbix',
+    base    => lookup('frontend_base', 'String'),
+    depends => [],
+    before  => File[lookup('frontend_conf_file', 'String')],
+    onlyif  => $frontend_defined
+  }
 
 }

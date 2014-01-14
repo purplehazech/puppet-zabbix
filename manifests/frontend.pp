@@ -51,77 +51,18 @@ class zabbix::frontend (
   if ($include != '') {
     include $include
   }
-
-  $basedir = "/var/www/${hostname}/htdocs${base}"
-
-  if $conf_file == '' {
-    $real_conf_file =  $::osfamily ? {
-      'Debian' => '/etc/zabbix/web/zabbix.conf.php',
-      default  => "${basedir}/conf/zabbix.conf.php"
-    }
-  } else {
-    $real_conf_file = $conf_file
+  if ($vhost_class != '') {
+    include $vhost_class
   }
 
-  if ($version != 'skip') {
-    if $::operatingsystem == 'Gentoo' {
-      # Gentoo uses webapp-config
-      webapp_config { 'zabbix':
-        action  => $webapp_action,
-        vhost   => $hostname,
-        version => $version,
-        app     => 'zabbix',
-        base    => $base,
-        depends => []
-      }
-    } else {
-      #for others this might work.
-      file { $basedir:
-        ensure => link,
-        target => '/usr/share/zabbix',
-      }
-    }
-  }
-
-  if $::operatingsystem == 'Gentoo' {
-    $webapp_config = Webapp_config['zabbix']
-  } else {
-    $webapp_config = File[$basedir]
-  }
-
-  $install_package    = $::operatingsystem ? {
-    windows => false,
-    default => true,
-  }
-
-  if $vhost_class != 'zabbix::frontend::vhost' {
-    class { $vhost_class:
-    }
-  } else {
-    class { 'zabbix::frontend::vhost':
-      ensure   => $ensure,
-      hostname => $hostname,
-      before   => $webapp_config
-    }
-
-  }
-
-  $webapp_action = $ensure ? {
-    present => 'install',
-    absent  => 'remove',
-    default => noop
-  }
-
-  file { $real_conf_file:
+  file { $conf_file:
     ensure  => $ensure,
-    content => template('zabbix/zabbix.conf.php.erb'),
-    require => $webapp_config
+    content => template('zabbix/zabbix.conf.php.erb')
   }
 
-  if $install_package != false {
-    package { $package:
-      ensure => $ensure,
-    }
-    Package[$package] -> File[$real_conf_file]
+  package { $package:
+    ensure => $ensure,
+    onlyif => $package != '',
+    before => File[$conf_file],
   }
 }

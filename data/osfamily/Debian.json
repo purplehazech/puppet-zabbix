@@ -1,7 +1,10 @@
 {
     "agent_include": "zabbix::debian",
-    "server_include": "zabbix::debian",
     "agent_groups": [
         "Linux servers"
-    ]
+    ],
+
+    "server_include": "zabbix::debian",
+
+    "frontend_conf_file": "/var/www/${::hostname}/htdocs${::base}/conf/zabbix.conf.php"
 }
