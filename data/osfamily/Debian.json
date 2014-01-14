@@ -1,0 +1,4 @@
+{
+    "agent_include": "zabbix::debian",
+    "server_include": "zabbix::debian"
+}

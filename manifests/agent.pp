@@ -83,7 +83,8 @@ class zabbix::agent (
   $server_include_path= lookup('server_include_path',  'String' ),
   $package            = lookup('agent_package',        'String' ),
   $service_name       = lookup('agent_service_name',   'String' ),
-  $groups             = lookup('agent_groups',         'Array'  )
+  $groups             = lookup('agent_groups',         'Array'  ),
+  $include            = lookup('agent_include',        'String' )
 ) {
 
   validate_bool($ensure)
@@ -105,18 +106,8 @@ class zabbix::agent (
     default => $source_ipv4
   }
 
-  case $::operatingsystem {
-    'Gentoo' : {
-      class { 'zabbix::agent::gentoo':
-        ensure => $ensure
-      }
-    }
-    'Debian','Ubuntu' : {
-      include zabbix::debian
-    }
-    default : {
-      # ignore unknown boxen
-    }
+  if ($include != '') {
+    include $include
   }
 
   file { $agent_include_path:

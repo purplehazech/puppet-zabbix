@@ -38,21 +38,12 @@ class zabbix::server (
   $db_database = lookup('db_database',            'String' ),
   $db_user     = lookup('db_user',                'String' ),
   $db_password = lookup('db_password',            'String' ),
-  $install     = lookup('server_install_package', 'Boolean')
+  $install     = lookup('server_install_package', 'Boolean'),
+  $include     = lookup('server_include',         'String' )
 ) {
 
-  case $::operatingsystem {
-    'Gentoo' : {
-      class { 'zabbix::server::gentoo':
-        ensure => $ensure
-      }
-    }
-    'Debian','Ubuntu' : {
-      include zabbix::debian
-    }
-    default  : {
-      # fail silently for now
-    }
+  if ($include != '') {
+    include $include
   }
 
   $service_ensure = $ensure ? {

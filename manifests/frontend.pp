@@ -43,7 +43,9 @@ class zabbix::frontend (
   $db_port     = $zabbix::params::db_port,
   $db_database = $zabbix::params::db_database,
   $db_user     = $zabbix::params::db_user,
-  $db_password = $zabbix::params::db_password) inherits zabbix::params {
+  $db_password = $zabbix::params::db_password,
+  $include     = ''
+) {
 
   validate_re($ensure, [absent, present])
   validate_string($server_host)
@@ -51,18 +53,8 @@ class zabbix::frontend (
   validate_string($hostname)
   validate_re($ensure, ['^[0-9].[0-9].[0-9]', present, absent, 'skip'])
 
-  case $::operatingsystem {
-    'Gentoo' : {
-      class { 'zabbix::frontend::gentoo':
-        ensure => $ensure
-      }
-    }
-    'Debian','Ubuntu' : {
-      include zabbix::debian
-    }
-    default : {
-      # i haz default
-    }
+  if ($include != '') {
+    include $include
   }
 
   $basedir = "/var/www/${hostname}/htdocs${base}"

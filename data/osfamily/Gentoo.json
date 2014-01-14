@@ -1,6 +1,8 @@
 { 
   "agent_package": "zabbix",
   "agent_service_name": "zabbix-agentd",
+  "agent_include": "zabbix::gentoo",
 
-  "server_install_package": false
+  "server_install_package": false,
+  "server_include": "zabbix::gentoo"
 }

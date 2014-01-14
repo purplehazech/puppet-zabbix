@@ -19,11 +19,13 @@
   "agent_package": "zabbix-agent",
   "agent_service_name": "zabbix-agent",
   "agent_groups": [],
+  "agent_include": "",
 
   "server_hostname": "zabbix",
   "server_include_path": "/etc/zabbix/agent_server.conf",
   "server_conf_file": "/etc/zabbix/zabbix_server.conf",
   "server_template": "zabbix/zabbix_server.conf.erb",
+  "server_include": "",
 
   "db_type": "MYSQL",
   "db_server": "localhost",
