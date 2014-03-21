@@ -7,7 +7,7 @@
 class zabbix::debian () {
   $diststring=downcase($lsbdistid)
   apt::source { 'zabbix':
-    location   => "http://repo.zabbix.com/zabbix/2.0/$diststring",
+    location   => "http://repo.zabbix.com/zabbix/2.2/$diststring",
     repos      => 'main contrib non-free',
     release    => $lsbdistcodename,
 	key        => '79EA5ED4',
