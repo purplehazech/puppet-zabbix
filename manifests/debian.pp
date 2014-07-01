@@ -10,8 +10,7 @@ class zabbix::debian () {
     location   => "http://repo.zabbix.com/zabbix/2.2/$diststring",
     repos      => 'main contrib non-free',
     release    => $lsbdistcodename,
-	key        => '79EA5ED4',
-	key_server => 'keys.gnupg.net'
+	  key_source => 'http://repo.zabbix.com/zabbix-official-repo.key'
   }
   
   apt::source { 'zabbixzone':
