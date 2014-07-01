@@ -143,12 +143,13 @@ class zabbix::agent (
     dns     => $fqdn,
     require => Zabbix_host[$fqdn]
   }
-  
-  @@zabbix_host_interface { "default_ipv6":
-    host => $fqdn,
-    ip => $ipaddress6,
-    dns => $fqdn,
-    require => Zabbix_host[$fqdn]
+ 
+  if $ipaddress6 {
+    @@zabbix_host_interface { "default_ipv6":
+      host => $fqdn,
+      ip => $ipaddress6,
+      dns => $fqdn,
+      require => Zabbix_host[$fqdn]
+    }
   }
-
 }
