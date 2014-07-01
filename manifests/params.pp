@@ -15,7 +15,7 @@ class zabbix::params {
 
   #agent parameters
   $use_ipv6                    = hiera('use_ipv6', true)
-  $real_use_ipv6               = $use_ipv6 && $::ipaddress6
+  $real_use_ipv6               = $use_ipv6 and $::ipaddress6
   $use_ipv4                    = hiera('use_ipv4', true)
 
   if $real_use_ipv6 and $use_ipv4 {
