@@ -132,19 +132,19 @@ class zabbix::agent (
     Package[$package] -> File[$conf_file]
   }
 
-  zabbix_host { $fqdn:
+  @@zabbix_host { $fqdn:
     ip     => $source_ip,
     groups => $groups
   }
 
-  zabbix_host_interface { "default_ipv4":
+  @@zabbix_host_interface { "default_ipv4":
     host    => $fqdn,
     ip      => $ipaddress,
     dns     => $fqdn,
     require => Zabbix_host[$fqdn]
   }
   
-  zabbix_host_interface { "default_ipv6":
+  @@zabbix_host_interface { "default_ipv6":
     host => $fqdn,
     ip => $ipaddress6,
     dns => $fqdn,
