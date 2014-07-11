@@ -137,7 +137,7 @@ class zabbix::agent (
     groups => $groups
   }
 
-  @@zabbix_host_interface { "default_ipv4":
+  @@zabbix_host_interface { "${fqdn}_default_ipv4":
     host    => $fqdn,
     ip      => $ipaddress,
     dns     => $fqdn,
@@ -145,7 +145,7 @@ class zabbix::agent (
   }
  
   if $ipaddress6 {
-    @@zabbix_host_interface { "default_ipv6":
+    @@zabbix_host_interface { "${fqdn}_default_ipv6":
       host => $fqdn,
       ip => $ipaddress6,
       dns => $fqdn,
