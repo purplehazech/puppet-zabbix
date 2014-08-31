@@ -36,11 +36,11 @@ define zabbix::agent::param (
   $command  = hiera('agent_param_command', undef),
   $path     = hiera('agent_include_path', '/etc/zabbix/zabbix_agentd.d/'),
   $index    = hiera('agent_param_index', 10),
-  $file     = hiera('agent_param_file', undef),
+  $file     = hiera('agent_param_file', ''),
   $template = hiera('agent_param_template', 'zabbix/zabbix_agent_userparam.conf.erb'
   )) {
   $file_real = $file ? {
-    undef   => "${path}/${index}_${key}.conf",
+    ''   => "${path}/${index}_${key}.conf",
     default => $file
   }
 
