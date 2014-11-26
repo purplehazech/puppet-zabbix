@@ -14,9 +14,8 @@ before_script:
   - gunzip -c /usr/share/zabbix-server-mysql/schema.sql.gz | mysql -uzabbix -pzabbix zabbix
   - gunzip -c /usr/share/zabbix-server-mysql/images.sql.gz | mysql -uzabbix -pzabbix zabbix
   - gunzip -c /usr/share/zabbix-server-mysql/data.sql.gz | mysql -uzabbix -pzabbix zabbix
-  - sudo find /etc/apache2
-  - sudo cp /usr/share/doc/zabbix-frontend-php/examples/apache.conf /etc/apache2/conf-available/zabbix.conf
-  - sudo a2enconf zabbix.confA
+  - sudo cp /usr/share/doc/zabbix-frontend-php/examples/apache.conf /etc/apache2/mods-available/zabbix.conf
+  - sudo ln -s ../mods-available/zabbix.conf /etc/apache2/mods-enabled/zabbix.conf
   - sudo service apache2 restart
   - sed -i -e 's/START=no/START=yes/' /etc/default/zabbix-server
   - curl -fsSL https://gist.githubusercontent.com/hairmare/b8d75af34c213585f543/raw/7d1af7dffeb4badc543d3d0094c980ef1c2625d6/zabbix.confzabbix/conf/zabbix.conf.php
