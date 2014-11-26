@@ -8,13 +8,8 @@ RSpec.configure do |c|
   c.filter_run_excluding :broken => true
 end
 
+Puppet[:binder] = true
+
 shared_context "hieradata" do
-  let(:hiera_config) do
-    { :backends => ['rspec', 'json'],
-      :hierarchy => [
-        "operatingsystem/%{operatingsystem}",
-        "osfamily/%{osfamily}",
-        "common"],
-      :rspec => respond_to?(:hiera_data) ? hiera_data : {} }
-  end
+  let(:hiera_config) { 'spec/fixtures/hiera/hiera.yaml' }
 end

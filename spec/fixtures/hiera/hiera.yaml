@@ -1,0 +1,8 @@
+---
+:backends:
+  - json
+:hierarchy:
+  - common
+  - "osfamily/%{osfamily}"
+:json:
+  :datadir: data

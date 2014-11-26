@@ -10,8 +10,9 @@ describe 'zabbix::agent' do
       }
     }
     it {
-      should contain_package('zabbix-agent').with({:ensure => 'present'})
-      should contain_file('/etc/zabbix/zabbix_agent.conf')
+
+      should contain_package('zabbix-agent').with({:ensure => 'installed'})
+      should contain_file('/etc/zabbix/zabbix_agentd.conf')
       should contain_service('zabbix-agent').with({
         :ensure => 'running',
         :enable => 'true'
