@@ -5,7 +5,7 @@ before_script:
   - source /etc/lsb-release
   - echo "deb http://ppa.launchpad.net/tbfr/zabbix/ubuntu $DISTRIB_CODENAME main" > zabbix.list
   - echo "deb-src http://ppa.launchpad.net/tbfr/zabbix/ubuntu $DISTRIB_CODENAME main" >> zabbix.list
-  - sudo mv pgdg.list /etc/apt/sources.list.d/
+  - sudo mv zabbix.list /etc/apt/sources.list.d/
   - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C407E17D5F76A32B
   - sudo apt-get update -y
   - sudo apt-get install -y zabbix-server-mysql php5-mysql zabbix-frontend-php
