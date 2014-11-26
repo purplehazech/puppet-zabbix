@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'zabbix::frontend::vhost' do
+  include_context "puppet_binder"
 
   context "on gentoo" do
     let(:facts) { 

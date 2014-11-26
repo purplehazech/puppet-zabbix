@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'zabbix::frontend' do
+  include_context "puppet_binder"
 
   # only support gentoo for frontends as of now
   let(:facts) {

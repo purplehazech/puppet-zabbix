@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe 'zabbix::agent' do
-  
+  include_context "puppet_binder"
+
   context "on debian" do
     include_context "hieradata"
     let(:facts) { 

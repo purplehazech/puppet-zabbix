@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'zabbix' do
+  include_context "puppet_binder"
+
   context "with params" do
     let(:params) {
       {

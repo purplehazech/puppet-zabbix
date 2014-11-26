@@ -1,5 +1,6 @@
 
 describe 'zabbix::externals' do
+  include_context "puppet_binder"
   
   context 'should have params' do
     let :param do

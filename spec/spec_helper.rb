@@ -8,8 +8,12 @@ RSpec.configure do |c|
   c.filter_run_excluding :broken => true
 end
 
-Puppet[:binder] = true
-
 shared_context "hieradata" do
   let(:hiera_config) { 'spec/fixtures/hiera/hiera.yaml' }
+end
+
+shared_context "puppet_binder" do
+  before(:each) do
+    Puppet[:binder] = true
+  end
 end

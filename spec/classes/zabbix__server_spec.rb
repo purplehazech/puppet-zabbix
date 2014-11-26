@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'zabbix::server' do
+  include_context "puppet_binder"
+
   context 'on gentoo' do
     let(:facts) {
       {

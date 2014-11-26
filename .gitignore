@@ -1,6 +1,7 @@
 .project
 Gemfile.lock
-spec/fixtures/
+spec/fixtures/manifests
+spec/fixtures/modules
 .*.swp
 metadata.json
 # Emacs stuff.
