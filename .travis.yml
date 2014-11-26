@@ -7,7 +7,7 @@ before_script:
   - sudo mv zabbix.list /etc/apt/sources.list.d/
   - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C407E17D5F76A32B
   - sudo apt-get update -y
-  - sudo apt-get install -y zabbix-server-mysql php5-mysql zabbix-frontend-php
+  - sudo apt-get install -y zabbix-server-mysql php5-mysql zabbix-frontend-php libapache2-mod-php5
   - mysql -u root -e "create database zabbix"
   - mysql -u root -e "create user 'zabbix'@'%' identified by 'zabbix'"
   - mysql -u root -e "grant all privileges on zabbix.* to 'zabbix'@'%'"
