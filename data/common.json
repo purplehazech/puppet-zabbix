@@ -45,12 +45,10 @@
   "db_password": "",
 
   "frontend_ensure": true,
-  "frontend_hostname": "${::hostname}",
   "frontend_base": "/zabbix",
   "frontend_vhost_class": "zabbix::frontend::vhost",
   "frontend_package": "zabbix-frontend-php",
   "frontend_conf_file": "",
   "frontend_include": "",
-  "frontend_port": 80,
-  "frontend_timezone": "${::timezone}"
+  "frontend_port": 80
 }

@@ -1,38 +1,40 @@
 # == Class: zabbix::frontend::vhost
 #
 class zabbix::frontend::vhost (
-  $ensure   = $zabbix::params::frontend_ensure,
-  $hostname = $zabbix::params::frontend_hostname,
-  $docroot  = undef,
-  $port     = $zabbix::params::frontend_port,
-  $timezone = $zabbix::params::timezone) inherits zabbix::params {
+  $ensure    = lookup('frontend_ensure',   'Boolean', true),
+  $vhostname = lookup('frontend_hostname', 'String',  $::fqdn),
+  $docroot   = undef,
+  $port      = lookup('frontend_port',     'String', '80'),
+  $timezone  = lookup('frontend_timezone', 'String',  $timezone)
+) {
 
-  validate_re($ensure, [absent, present])
-  validate_string($hostname)
+  validate_bool($ensure)
+  validate_string($vhostname)
 
   $docroot_real = $docroot ? {
-    undef   => "/var/www/${hostname}/htdocs",
+    undef   => "/var/www/${vhostname}/htdocs",
     default => $docroot
   }
   validate_absolute_path($docroot_real)
 
-  if ($ensure == present) {
+  if ($ensure) {
     include apache
 
-    apache::vhost { $hostname:
-      vhost_name => $hostname,
+    apache::vhost { $vhostname:
+      vhost_name => $vhostname,
       docroot    => $docroot_real,
       port       => $port,
       ssl        => false
     }
 
     apache::vhost::include::php { 'zabbix':
-      vhost_name => $hostname,
+      vhost_name => $vhostname,
       values     => [
         "date.timezone \"${timezone}\"",
         'post_max_size "32M"',
         'max_execution_time "600"',
-        'max_input_time "600"']
+        'max_input_time "600"'
+      ]
     }
   }
 }

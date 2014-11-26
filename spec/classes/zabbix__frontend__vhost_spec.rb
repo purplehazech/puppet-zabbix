@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'zabbix::frontend::vhost' do
   include_context "puppet_binder"
+  include_context "hieradata"
 
   context "on gentoo" do
     let(:facts) { 
@@ -39,7 +40,8 @@ describe 'zabbix::frontend::vhost' do
     }
     let(:params) { 
       {
-        :hostname        => 'elsewhere',
+        :ensure    => true,
+        :vhostname => 'elsewhere',
       }
     }
     it {
