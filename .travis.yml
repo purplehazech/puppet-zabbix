@@ -20,7 +20,6 @@ before_script:
   - sudo sed -i -e 's/START=no/START=yes/' /etc/default/zabbix-server
   - curl -fsSL https://gist.githubusercontent.com/hairmare/b8d75af34c213585f543/raw/7d1af7dffeb4badc543d3d0094c980ef1c2625d6/zabbix.confzabbix/conf/zabbix.conf.php
   - sudo service zabbix-server start
-  - mysql -u root -e "use zabbix; insert into users_groups(usrgrpid, userid) values(10,1);"
 script:
   - "bundle exec rake lint"
   - "bundle exec rake spec"
