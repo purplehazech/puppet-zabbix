@@ -11,7 +11,6 @@ describe 'zabbix::agent' do
       }
     }
     it {
-
       should contain_package('zabbix-agent').with({:ensure => 'installed'})
       should contain_file('/etc/zabbix/zabbix_agentd.conf')
       should contain_service('zabbix-agent').with({
@@ -24,7 +23,7 @@ describe 'zabbix::agent' do
     include_context "hieradata"
     let(:facts) { 
       {
-        :operatingsystem => 'Gentoo'
+        :osfamily => 'Gentoo'
       }
     }
     it {

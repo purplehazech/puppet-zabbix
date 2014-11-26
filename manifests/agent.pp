@@ -126,10 +126,12 @@ class zabbix::agent (
   }
 
   $service_ensure = $ensure ? {
+    true    => running,
     present => running,
     default => stopped
   }
   $service_enable = $ensure ? {
+    true    => true,
     present => true,
     default => false
   }
