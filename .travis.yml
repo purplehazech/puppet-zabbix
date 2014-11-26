@@ -20,7 +20,7 @@ before_script:
   - sudo service apache2 restart
   - sudo bash -c 'echo "DBPassword=zabbix" >> /etc/zabbix/zabbix_server.conf'
   - sudo sed -i -e 's/START=no/START=yes/' /etc/default/zabbix-server
-  - curl -fsSL https://gist.githubusercontent.com/hairmare/b8d75af34c213585f543/raw/7d1af7dffeb4badc543d3d0094c980ef1c2625d6/zabbix.conf > /etc/zabbix/zabbix.conf.php
+  - sudo bash -c 'curl -fsSL https://gist.githubusercontent.com/hairmare/b8d75af34c213585f543/raw/7d1af7dffeb4badc543d3d0094c980ef1c2625d6/zabbix.conf > /etc/zabbix/zabbix.conf.php'
   - sudo service zabbix-server start
 script:
   - "bundle exec rake lint"
