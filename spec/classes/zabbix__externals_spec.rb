@@ -1,12 +1,19 @@
+require 'spec_helper'
 
 describe 'zabbix::externals' do
   include_context "puppet_binder"
   
   context 'should have params' do
+    include_context "hieradata"
     let :param do
       {
         :ensure => 'undef',
         :api    => 'undef',
+      }
+    end
+    let :facts do
+      {
+        :operatingsystem => 'Gentoo'
       }
     end
     it {

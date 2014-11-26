@@ -1,8 +1,17 @@
 
-Puppet::Type.newtype(:zabbix_template_application, :parent => Puppet::Type.type(:zabbix_application)) do
+Puppet::Type.newtype(:zabbix_template_application) do
   desc <<-EOT
     Manage a template application in Zabbix
   EOT
+
+  ensurable do
+    defaultvalues
+    defaultto :present
+  end
+
+  newparam(:host) do
+    desc 'Host'
+  end
 
   newparam(:host_type) do
     desc <<-EOT
@@ -15,7 +24,7 @@ Puppet::Type.newtype(:zabbix_template_application, :parent => Puppet::Type.type(
     EOT
     defaultto 2
   end
-  
+
   autorequire(:zabbix_template) do
     [self[:host]]
   end  
