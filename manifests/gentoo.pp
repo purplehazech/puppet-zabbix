@@ -52,8 +52,8 @@ class zabbix::gentoo {
   }
 
   package_use { 'net-analyzer/zabbix':
-    ensure  => present,
-    use     => concat(
+    ensure => present,
+    use    => concat(
       concat(
         $default_use_flags,
         $agent_use_flags
