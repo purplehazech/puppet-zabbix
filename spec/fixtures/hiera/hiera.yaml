@@ -2,7 +2,7 @@
 :backends:
   - json
 :hierarchy:
+  - "osfamily/%{::osfamily}"
   - common
-  - "osfamily/%{osfamily}"
 :json:
   :datadir: data

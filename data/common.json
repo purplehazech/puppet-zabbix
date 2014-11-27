@@ -4,10 +4,10 @@
   "use_api": true,
   "export": true,
 
-  "version": "$::zabbixversion",
+  "version": "%{::zabbixversion}",
 
   "agent_ensure": true,
-  "agent_hostname": "${::hostname}",
+  "agent_hostname": "%{::hostname}",
   "agent_listen_ipv4": "${::ipaddress}",
   "agent_listen_ipv6": "${::ipaddress6}",
   "agent_source_ipv4": "${::ipaddress}",
@@ -46,9 +46,10 @@
 
   "frontend_ensure": true,
   "frontend_base": "/zabbix",
+  "frontend_hostname": "%{::fqdn}",
+  "frontend_timezone": "%{::timezone}",
   "frontend_vhost_class": "zabbix::frontend::vhost",
   "frontend_package": "zabbix-frontend-php",
-  "frontend_conf_file": "",
   "frontend_include": "",
   "frontend_port": 80
 }

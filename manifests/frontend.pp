@@ -29,28 +29,24 @@
 #  base path for web request_uri
 #
 class zabbix::frontend (
-  $ensure      = lookup('frontend_ensure',      'Boolean'),
-  $server_host = lookup('server_hostname',      'String' ),
-  $server_name = lookup('server_name',          'String' ),
-  $hostname    = lookup('frontend_hostname',    'String' ),
-  $base        = lookup('frontend_base',        'String' ),
-  $vhost_class = lookup('frontend_vhost_class', 'String' ),
-  $version     = lookup('version',              'String' ),
-  $package     = lookup('frontend_package',     'String' ),
-  $conf_file   = lookup('frontend_conf_file',   'String' ),
-  $db_type     = lookup('db_type',              'String' ),
-  $db_server   = lookup('db_server',            'String' ),
-  $db_port     = lookup('db_port',              'Integer'),
-  $db_database = lookup('db_database',          'String' ),
-  $db_user     = lookup('db_user',              'String' ),
-  $db_password = lookup('db_password',          'String' ),
-  $include     = lookup('frontend_include',     'String' ),
-  $timezone    = lookup('frontend_timezone',    'String' )
+  $ensure       = lookup('frontend_ensure',      'Boolean'),
+  $server_host  = lookup('server_hostname',      'String' ),
+  $server_name  = lookup('server_name',          'String' ),
+  $vhostname    = lookup('frontend_hostname',    'String' ),
+  $base         = lookup('frontend_base',        'String' ),
+  $vhost_class  = lookup('frontend_vhost_class', 'String' ),
+  $version      = lookup('version',              'String' ),
+  $package      = lookup('frontend_package',     'String' ),
+  $conf_file    = lookup('frontend_conf_file',   'String' ),
+  $db_type      = lookup('db_type',              'String' ),
+  $db_server    = lookup('db_server',            'String' ),
+  $db_port      = lookup('db_port',              'Integer'),
+  $db_database  = lookup('db_database',          'String' ),
+  $db_user      = lookup('db_user',              'String' ),
+  $db_password  = lookup('db_password',          'String' ),
+  $timezone     = lookup('frontend_timezone',    'String' )
 ) {
 
-  if ($include != '') {
-    include $include
-  }
   if ($vhost_class != '') {
     include $vhost_class
   }
@@ -60,9 +56,10 @@ class zabbix::frontend (
     content => template('zabbix/zabbix.conf.php.erb')
   }
 
-  package { $package:
-    ensure => $ensure,
-    onlyif => $package != '',
-    before => File[$conf_file],
+  if ( $package != '' ) {
+    package { $package:
+      ensure => $ensure,
+      before => File[$conf_file],
+    }
   }
 }

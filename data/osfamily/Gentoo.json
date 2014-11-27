@@ -6,5 +6,6 @@
   "server_install_package": false,
   "server_include": "zabbix::gentoo",
 
-  "frontend_package": ""
+  "frontend_package": "",
+  "frontend_conf_file": "/var/www/%{::fqdn}/htdocs/zabbix/conf/zabbix.conf.php"
 }
