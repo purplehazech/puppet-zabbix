@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'zabbix::server' do
   include_context "puppet_binder"
+  include_context "hieradata"
 
   context 'on gentoo' do
     let(:facts) {
@@ -11,7 +12,6 @@ describe 'zabbix::server' do
       }
     }
     it {
-      should contain_class('zabbix::server::gentoo')
       should contain_service('zabbix-server').with({
         :ensure => 'running',
         :enable => 'true',
@@ -64,39 +64,6 @@ describe 'zabbix::server' do
       should contain_zabbix__agent__server('server_host').with({
         :ensure   => 'present',
         :hostname => 'server_host'
-      })
-    }
-  end
-  context 'should always require an agent' do
-    let(:facts) {
-      {
-        :operatingsystem => 'Gentoo'
-      }
-    }
-    let(:params) {
-      {
-        :ensure => 'present'
-      }
-    }
-    it {
-      should contain_class('zabbix::agent')
-    }
-  end
-  context 'should install activerecord' do
-
-    let(:facts) {
-      {
-        :operatingsystem => 'Gentoo'
-      }
-    }
-    let(:params) {
-      {
-        :ensure => 'present'
-      }
-    }
-    it {
-      should contain_package('activerecord').with({
-        :ensure => 'present'
       })
     }
   end
