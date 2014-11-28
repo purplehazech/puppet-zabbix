@@ -1,3 +1,4 @@
+require "puppet"
 
 describe "zabbix_host" do
   let(:provider) { Puppet::Type.type(:zabbix_host) }
@@ -7,7 +8,7 @@ describe "zabbix_host" do
     resource = Puppet::Type.type(:zabbix_host).new({
       :name => 'my.rspec.host',
     })
-    resource.provider.class.to_s.should == "Puppet::Type::Zabbix_host::ProviderRuby"
+    expect(resource.provider.class.to_s).to eq("Puppet::Type::Zabbix_host::ProviderRuby")
   end
   
   it "should return false on inexistant hosts" do
@@ -15,7 +16,8 @@ describe "zabbix_host" do
       :name => 'not.my.rspec.host',
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
-    resource.provider().exists?().should be_false
+
+    expect(resource.provider().exists?()).to be false
   end
 
   it "should return true on a newly created host" do
@@ -40,7 +42,7 @@ describe "zabbix_host" do
       resource.provider.create()
     end
     
-    resource.provider().exists?().should be_true
+    expect(resource.provider().exists?()).to be true
   end
   
   it "should create a host, find it and delete it again" do
@@ -60,8 +62,8 @@ describe "zabbix_host" do
       ]
     })
     resource.provider().create()
-    resource.provider().exists?().should be_true
+    expect(resource.provider().exists?()).to be true
     resource.provider().destroy()
-    resource.provider().exists?().should be_false
+    expect(resource.provider().exists?()).to be false
   end
 end

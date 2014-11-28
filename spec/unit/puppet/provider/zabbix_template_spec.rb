@@ -1,3 +1,4 @@
+require "puppet"
 
 describe "zabbix_template" do
   let(:provider) { Puppet::Type.type(:zabbix_template) }
@@ -7,7 +8,7 @@ describe "zabbix_template" do
     resource = Puppet::Type.type(:zabbix_template).new({
       :name => 'blerghli',
     })
-    resource.provider.class.to_s.should == "Puppet::Type::Zabbix_template::ProviderRuby"
+    expect(resource.provider.class.to_s).to eq("Puppet::Type::Zabbix_template::ProviderRuby")
   end
   
   it "should return false on inexistant templates" do
@@ -15,7 +16,7 @@ describe "zabbix_template" do
       :name => 'not rspec zabbix_template',
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
-    resource.provider().exists?().should be_false
+    expect(resource.provider().exists?).to be false
   end
   
   it "should return true on existing templates" do
@@ -26,7 +27,7 @@ describe "zabbix_template" do
     if !resource.provider().exists?()
       resource.provider().create()
     end
-    resource.provider().exists?().should be_true
+    expect(resource.provider().exists?).to be true
   end
   
   it "should create a template, find it and delete it again", :broken => true do
@@ -35,8 +36,8 @@ describe "zabbix_template" do
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
     resource.provider().create()
-    resource.provider().exists?().should be_true
+    expect(resource.provider().exists?).to be true
     resource.provider().destroy()
-    resource.provider().exists?().should be_false
+    expect(resource.provider().exists?).to be false
   end
 end

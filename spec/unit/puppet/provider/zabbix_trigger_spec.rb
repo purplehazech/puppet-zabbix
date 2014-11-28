@@ -1,3 +1,4 @@
+require "puppet"
 
 describe "zabbix_trigger" do
   let(:provider) { Puppet::Type.type(:zabbix_trigger) }
@@ -7,7 +8,7 @@ describe "zabbix_trigger" do
     resource = Puppet::Type.type(:zabbix_trigger).new({
       :name => 'my rspec trigger',
     })
-    resource.provider.class.to_s.should == "Puppet::Type::Zabbix_trigger::ProviderRuby"
+    expect(resource.provider.class.to_s).to eq("Puppet::Type::Zabbix_trigger::ProviderRuby")
   end
   
   it "should return false on inexistant triggers" do
@@ -15,7 +16,7 @@ describe "zabbix_trigger" do
       :name => 'not my rspec trigger',
     })
     Puppet.settings[:config]= "#{File.dirname(__FILE__)}/../../../../tests/etc/puppet.conf"
-    resource.provider().exists?().should be_false
+    expect(resource.provider().exists?).to be false
   end
 
   it "should return true on a newly created trigger" do
@@ -43,7 +44,7 @@ describe "zabbix_trigger" do
       resource.provider.create()
     end
     
-    resource.provider().exists?().should be_true
+    expect(resource.provider().exists?).to be true
   end
   
   it "should create a trigger in a template, find it and delete it again" do
@@ -67,8 +68,8 @@ describe "zabbix_trigger" do
       item.provider().create()
     end
     resource.provider().create()
-    resource.provider().exists?().should be_true
+    expect(resource.provider().exists?).to be true
     resource.provider().destroy()
-    resource.provider().exists?().should be_false
+    expect(resource.provider().exists?).to be false
   end
 end
