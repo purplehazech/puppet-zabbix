@@ -1,11 +1,11 @@
 # == Class: zabbix::frontend::vhost
 #
 class zabbix::frontend::vhost (
-  $ensure    = lookup('frontend_ensure',   'Boolean', true),
-  $vhostname = lookup('frontend_hostname', 'String',  $::fqdn),
+  $ensure    = lookup('frontend_ensure',   'Boolean'),
+  $vhostname = lookup('frontend_hostname', 'String' ),
   $docroot   = undef,
-  $port      = lookup('frontend_port',     'String', '80'),
-  $timezone  = lookup('frontend_timezone', 'String',  $timezone)
+  $port      = lookup('frontend_port',     'Integer'),
+  $timezone  = lookup('frontend_timezone', 'String' )
 ) {
 
   validate_bool($ensure)
