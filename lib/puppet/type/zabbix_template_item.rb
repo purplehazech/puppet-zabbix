@@ -9,9 +9,21 @@ Puppet::Type.newtype(:zabbix_template_item) do
     defaultto :present
   end
 
+  newparam(:name, :namevar => true) do
+    desc 'Name of the item.'
+  end
+
   newparam(:applications) do
     desc 'Array of applications to add the item to.'
     defaultto []
+  end
+
+  newparam(:host) do
+    desc 'ID of the host or template that the item belongs to.'
+  end
+
+  newparam(:template) do
+    desc 'Template to contain this item in.'
   end
 
   newparam(:host_type) do
@@ -24,6 +36,11 @@ Puppet::Type.newtype(:zabbix_template_item) do
      * 2 - template;
     EOT
     defaultto 2
+  end
+
+  newparam(:interface) do
+    desc 'ID of the item\'s host interface.'
+    defaultto 0
   end
 
   newparam(:description) do
