@@ -7,7 +7,7 @@ else
 end
 
 gem 'puppet', puppetversion
-gem 'zabbixapi', ['>= 0.4.9', '<2.2']
+gem 'zabbixapi', ['>= 0.4.9']
  
 group :test do
   gem 'rake', '>= 0.9.0'

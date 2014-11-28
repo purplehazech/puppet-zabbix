@@ -2,10 +2,8 @@ rvm:
   - 1.8.7
   - 1.9.3
 before_script:
-  - echo "deb http://ppa.launchpad.net/tbfr/zabbix/ubuntu precise main" > zabbix.list
-  - echo "deb-src http://ppa.launchpad.net/tbfr/zabbix/ubuntu precise main" >> zabbix.list
-  - sudo mv zabbix.list /etc/apt/sources.list.d/
-  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C407E17D5F76A32B
+  - wget http://repo.zabbix.com/zabbix/2.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_2.4-1+trusty_all.deb
+  - sudo dpkg -i zabbix-release_2.4-1+trusty_all.deb
   - sudo apt-get update -y
   - sudo apt-get install -y zabbix-server-mysql php5-mysql zabbix-frontend-php libapache2-mod-php5
   - mysql -u root -e "create database zabbix"
