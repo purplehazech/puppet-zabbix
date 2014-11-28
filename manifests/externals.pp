@@ -117,7 +117,7 @@ class zabbix::externals (
     }
 
     # create hostgroups for puppetized servers
-    $hostgroups = ['Puppet Clients', $::operatingsystem, $::osfamily]
+    $hostgroups = ['Puppet Clients', $::osfamily]
 
     @@zabbix_hostgroup { $hostgroups:
     }
