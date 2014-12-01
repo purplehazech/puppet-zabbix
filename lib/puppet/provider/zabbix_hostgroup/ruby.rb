@@ -9,7 +9,7 @@ Puppet::Type.type(:zabbix_hostgroup).provide(:ruby) do
 
   def exists?
     extend Zabbix
-    zbx.hostgroups.get_id( 
+    zbx.hostgroups.get_id(
       :name => resource[:name] 
     ).is_a? Integer
   end
