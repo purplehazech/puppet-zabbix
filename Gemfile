@@ -7,7 +7,7 @@ else
 end
 
 gem 'puppet', puppetversion
-gem 'zabbixapi', ['>= 0.4.9']
+gem 'zabbixapi', '>= 2.4', :git => 'https://github.com/express42/zabbixapi.git', :ref => 'zabbix2.4'
  
 group :test do
   gem 'rake', '>= 0.9.0'
@@ -17,4 +17,5 @@ group :test do
   gem 'puppet-lint', '>= 0.3.2'
   gem 'puppetlabs_spec_helper', '>= 0.3.0'
   gem 'rspec-hiera-puppet', '>= 1.0.0'
+  gem 'simplecov'
 end
