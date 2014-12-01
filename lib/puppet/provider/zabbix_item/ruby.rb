@@ -7,13 +7,14 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
 
   def exists?
     extend Zabbix
-    existing = zbx.query(
+     host_id = zbx.hosts.get({:name => resource[:host]})[0]['hostid']
+     existing = zbx.query(
       :method => "item.get",
       :params => {
         :filter => {
           :name => resource[:name],
           :key_ => resource[:key],
-          :hostid => [get_id(resource[:host], resource[:host_type])]
+          :hostid => [host_id]
         },
         :output => "extend"
       }
@@ -23,7 +24,7 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
   
   def create
     extend Zabbix
-    host_id = get_id(resource[:host], resource[:host_type])
+    host_id = zbx.hosts.get({:name => resource[:host]})[0]['hostid']
     
     apps_real = Array.new
     resource[:applications]=[resource[:applications]] if !(resource[:applications].is_a? Array)
@@ -51,22 +52,23 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
     end
 
     #as default we use the first interface defined
-    interface_id = interfaces[0]["interfaceid"] if interface_id.nil?
+    interface_id = interfaces[0]["interfaceid"].to_i if interface_id.nil?
 
+    # @todo reactivate commented fields when i figure out why they fail
     zbx.items.create(
       :applications => apps_real,
-      :delay => resource[:delay], #60
+      #:delay => resource[:delay], #60
       :hostid => host_id,
       :interfaceid => interface_id,
       :key_ => resource[:key],
       :name => resource[:name],
       :type => resource[:type],
-      :username => resource[:username],
+      #:username => resource[:username],
       :value_type => resource[:value_type],
-      :authtype => resource[:authtype],
-      :data_type => resource[:data_type],
-      :delay_flex => resource[:delay_flex],
-      :delta => resource[:delta],
+      #:authtype => resource[:authtype],
+      #:data_type => resource[:data_type],
+      #:delay_flex => resource[:delay_flex],
+      #:delta => resource[:delta],
       :description => resource[:description]
     )
   end
