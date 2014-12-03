@@ -49,18 +49,10 @@ Puppet::Type.type(:zabbix_host).provide(:ruby) do
   def destroy
     extend Zabbix
     hostid = zbx.hosts.get_id(:host => resource[:host])
-    # deactivate before removing
-    zbx.query(
-      :method => 'host.update',
-      :params => [
-        :hostid => hostid,
-        :status => 1
-      ]
-    )
     zbx.query(
       :method => 'host.delete',
       :params => [
-        :hostid => hostid
+        hostid
       ]
     )
   end
