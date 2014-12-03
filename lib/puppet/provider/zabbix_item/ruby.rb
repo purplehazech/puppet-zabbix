@@ -24,7 +24,13 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
   
   def create
     extend Zabbix
-    host_id = zbx.hosts.get({:name => resource[:host]})[0]['hostid']
+    if not resource[:template].nil? then
+      # grab host_id for template to handle tabbix_template_item case
+      # @todo i should refactor this so template_item and item are not mixed as much
+      host_id = zbx.templates.get_id({:host => resource[:template]})
+    else
+      host_id = zbx.hosts.get({:name => resource[:host]})[0]['hostid'] unless resource[:host].nil?
+    end
     
     apps_real = Array.new
     resource[:applications]=[resource[:applications]] if !(resource[:applications].is_a? Array)
@@ -52,7 +58,7 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
     end
 
     #as default we use the first interface defined
-    interface_id = interfaces[0]["interfaceid"].to_i if interface_id.nil?
+    #interface_id = interfaces[0]["interfaceid"].to_i if interface_id.nil?
 
     # @todo reactivate commented fields when i figure out why they fail
     zbx.items.create(
