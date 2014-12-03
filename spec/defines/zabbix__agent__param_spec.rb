@@ -3,13 +3,14 @@ require 'spec_helper'
 describe 'zabbix::agent::param' do
   context "normal call" do
     let(:title) { 'foo.bar.baz' }
-    
+
     let(:facts) { 
       {
         :operatingsystem => 'Gentoo'
       }
     }
     it {
+      should contain_zabbix__agent__param('foo.bar.baz')
       should contain_file('/etc/zabbix/zabbix_agentd.d/10_foo.bar.baz.conf').with({
         :ensure => 'present'
       })
@@ -25,6 +26,7 @@ describe 'zabbix::agent::param' do
       }
     }
     it {
+      should contain_zabbix__agent__param('my witty title')
       should contain_file('/etc/zabbix/zabbix_agentd.d/10_blergh.key.conf').with({
         :ensure => 'present'
       })
