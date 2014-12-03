@@ -45,8 +45,12 @@ define zabbix::agent::param (
     'agent_param_template',
     'zabbix/zabbix_agent_userparam.conf.erb'
   )) {
+  $key_real = $key ? {
+    undef   => $name,
+    default => $key
+  }
   $file_real = $file ? {
-    undef   => "${path}${index}_${key}.conf",
+    undef   => "${path}${index}_${key_real}.conf",
     default => $file
   }
 
