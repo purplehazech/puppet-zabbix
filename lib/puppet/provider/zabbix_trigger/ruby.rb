@@ -42,10 +42,8 @@ Puppet::Type.type(:zabbix_trigger).provide(:ruby) do
         :expandExpression => "data"
       }
     )
-    trigger_ids = []
-    result.each { |trigger| trigger_ids.push(trigger["triggerid"]) if trigger["expression"] == data[:expression] }
-    zbx.triggers.delete(
-      trigger_ids
-    )
+    result.each { |trigger| 
+      zbx.triggers.delete(trigger["triggerid"])
+    }
   end
 end
