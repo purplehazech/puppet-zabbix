@@ -5,7 +5,6 @@ Puppet::Type.type(:zabbix_trigger).provide(:ruby) do
 
   $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../../lib/ruby/")
   require "zabbix"
-  require 'pp'
 
   def exists?
     extend Zabbix
@@ -20,13 +19,13 @@ Puppet::Type.type(:zabbix_trigger).provide(:ruby) do
     extend Zabbix
     dependencies = resource[:dependencies].collect{ |triggerid| {"triggerid" => triggerid}}
     zbx.triggers.create(
-      :description => resource[:description],
-      :expression => resource[:expression],
-      :comments => resource[:comments],
-      :priority => resource[:priority],
-      :status => resource[:status],
-      :type => resource[:type],
-      :url => resource[:url],
+      :description  => resource[:description],
+      :expression   => resource[:expression],
+      :comments     => resource[:comments],
+      :priority     => resource[:priority],
+      :status       => resource[:status],
+      :type         => resource[:type],
+      :url          => resource[:url],
       :dependencies => dependencies
     )
   end

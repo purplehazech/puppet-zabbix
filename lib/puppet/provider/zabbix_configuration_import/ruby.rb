@@ -7,7 +7,6 @@ Puppet::Type.type(:zabbix_configuration_import).provide(:ruby) do
 
   $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../../../../lib/ruby/")
   require 'zabbix'
-  require 'pp'
 
   def exists?
     extend Zabbix
