@@ -151,27 +151,29 @@ class zabbix::agent (
   package { $package:
     ensure => $package_ensure,
   }
+
   Package[$package] -> File[$conf_file]
 
   if ($use_api) {
-    zabbix_host_interface { 'default_ipv4':
+    @@zabbix_host { $::fqdn:
+      ip     => $source_ip,
+      groups => $groups
+    }
+
+    @@zabbix_host_interface { "${::fqdn}_default_ipv4":
       host    => $::fqdn,
       ip      => $::ipaddress,
       dns     => $::fqdn,
       require => Zabbix_host[$::fqdn]
     }
-
-    zabbix_host_interface { 'default_ipv6':
-      host    => $::fqdn,
-      ip      => $::ipaddress6,
-      dns     => $::fqdn,
-      require => Zabbix_host[$::fqdn]
-    }
-
-    zabbix_host { $::fqdn:
-      ip     => $source_ip,
-      groups => $groups
+ 
+    if $::ipaddress6 {
+      @@zabbix_host_interface { "${::fqdn}_default_ipv6":
+        host => $::fqdn,
+        ip => $::ipaddress6,
+        dns => $::fqdn,
+        require => Zabbix_host[$::fqdn]
+      }
     }
   }
-
 }

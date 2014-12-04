@@ -98,6 +98,7 @@ class zabbix::server (
     Zabbix_template_item <<| |>>
     Zabbix_trigger <<| |>>
     Zabbix_hostgroup <<| |>>
-    Zabbix_host <<| |>>
+    Zabbix_host <<| |>> ->
+    Zabbix_host_interface <<| |>>
   }
 }
