@@ -7,7 +7,12 @@ Puppet::Type.type(:zabbix_item).provide(:ruby) do
 
   def exists?
     extend Zabbix
-     host_id = zbx.hosts.get({:name => resource[:host]})[0]['hostid']
+
+     if not resource[:template].nil? then
+       host_id = zbx.templates.get_id({:host => resource[:template]})
+     else
+       host_id = zbx.hosts.get({:name => resource[:host]})[0]['hostid']
+     end
      existing = zbx.query(
       :method => "item.get",
       :params => {
