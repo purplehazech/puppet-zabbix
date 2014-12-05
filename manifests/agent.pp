@@ -159,19 +159,17 @@ class zabbix::agent (
       ip     => $source_ip,
       groups => $groups
     }
-
     @@zabbix_host_interface { "${::fqdn}_default_ipv4":
       host    => $::fqdn,
       ip      => $::ipaddress,
       dns     => $::fqdn,
       require => Zabbix_host[$::fqdn]
     }
- 
     if $::ipaddress6 {
       @@zabbix_host_interface { "${::fqdn}_default_ipv6":
-        host => $::fqdn,
-        ip => $::ipaddress6,
-        dns => $::fqdn,
+        host    => $::fqdn,
+        ip      => $::ipaddress6,
+        dns     => $::fqdn,
         require => Zabbix_host[$::fqdn]
       }
     }
