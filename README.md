@@ -41,6 +41,11 @@ following things.
 At this point most of the legwork is done. This module will hit
 the 1.x milestone as soon as it is ready for produciton on gentoo
 and debian/ubuntu.
+
+## Requirements
+
+* zabbix = 2.4
+* puppet >= 3.5.1
   
 ## Development
 
