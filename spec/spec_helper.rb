@@ -5,7 +5,9 @@ require 'simplecov'
 
 fixture_path = File.expand_path(File.join(__FILE__, '..', 'fixtures'))
 
-SimpleCov.start
+SimpleCov.start do
+  add_filter '/spec/'
+end
 
 RSpec.configure do |c|
   c.filter_run_excluding :broken => true
