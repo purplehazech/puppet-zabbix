@@ -12,9 +12,10 @@ before_script:
   - mysql -u root -e "drop database if exists zabbix; create database zabbix"
   - mysql -u root -e "create user 'zabbix'@'%' identified by 'zabbix'"
   - mysql -u root -e "grant all privileges on zabbix.* to 'zabbix'@'%'"
-  - gunzip -c /usr/share/zabbix-server-mysql/schema.sql.gz | mysql -uzabbix -pzabbix zabbix
-  - gunzip -c /usr/share/zabbix-server-mysql/images.sql.gz | mysql -uzabbix -pzabbix zabbix
-  - gunzip -c /usr/share/zabbix-server-mysql/data.sql.gz | mysql -uzabbix -pzabbix zabbix
+  - ls /usr/share/zabbix/
+  - cat /usr/share/zabbix-server-mysql/schema.sql | mysql -uzabbix -pzabbix zabbix
+  - cat /usr/share/zabbix-server-mysql/images.sql | mysql -uzabbix -pzabbix zabbix
+  - cat /usr/share/zabbix-server-mysql/data.sql | mysql -uzabbix -pzabbix zabbix
   - sudo cp /usr/share/doc/zabbix-frontend-php/examples/apache.conf /etc/apache2/mods-available/zabbix.conf
   - sudo ln -s ../mods-available/zabbix.conf /etc/apache2/mods-enabled/zabbix.conf
   - sudo a2enmod php5
