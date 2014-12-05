@@ -16,8 +16,6 @@ before_script:
   - cat /usr/share/zabbix-server-mysql/schema.sql | mysql -uroot zabbix
   - cat /usr/share/zabbix-server-mysql/images.sql | mysql -uroot zabbix
   - cat /usr/share/zabbix-server-mysql/data.sql | mysql -uroot zabbix
-  - sudo cp /usr/share/doc/zabbix-frontend-php/examples/apache.conf /etc/apache2/mods-available/zabbix.conf
-  - sudo ln -s ../mods-available/zabbix.conf /etc/apache2/mods-enabled/zabbix.conf
   - sudo a2enmod php5
   - sudo service apache2 restart
   - sudo bash -c 'echo "DBPassword=zabbix" >> /etc/zabbix/zabbix_server.conf'
