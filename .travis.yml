@@ -16,7 +16,10 @@ before_script:
   - cat /usr/share/zabbix-server-mysql/schema.sql | mysql -uroot zabbix
   - cat /usr/share/zabbix-server-mysql/images.sql | mysql -uroot zabbix
   - cat /usr/share/zabbix-server-mysql/data.sql | mysql -uroot zabbix
-  - sudo a2enmod php5
+  - sudo cp /usr/share/zabbix/conf/zabbix.conf.php.example /etc/zabbix/web/zabbix.conf.php
+  - sudo chmod go+w /etc/zabbix/web/zabbix.conf.php
+  - sed -i -e 's/^.*PASSWORD.*;/$DB["PASSWORD"] = "'$(cat /etc/zabbix/zabbix_server.conf | grep ^DBPass | cut -d "=" -f 2)'";/' /etc/zabbix/web/zabbix.conf.php
+  - sudo chmod go-w /etc/zabbix/web/zabbix.conf.php
   - sudo service apache2 restart
   - sudo service zabbix-server start
 script:
