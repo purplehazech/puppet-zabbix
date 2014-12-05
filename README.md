@@ -1,92 +1,61 @@
 # Module: Zabbix
 
-{<img src="https://secure.travis-ci.org/purplehazech/puppet-zabbix.png?branch=master" alt="Build Status" />}[https://travis-ci.org/purplehazech/puppet-zabbix] *Master* 
-
-{<img src="https://secure.travis-ci.org/purplehazech/puppet-zabbix.png?branch=zabbix-api" alt="Build Status" />}[https://travis-ci.org/purplehazech/puppet-zabbix] zabbix-api
+[![Build Status](https://travis-ci.org/purplehazech/puppet-zabbix.svg?branch=develop)](https://travis-ci.org/purplehazech/puppet-zabbix)
 
 Install and configure Zabbix.
 
 This module aims to be a feature complete module for Zabbix. Right 
 now it is being developed and tested on Gentoo and Debian/Ubuntu.
 I plan on porting it over to multiple architectures later on. 
-The main development branch is the zabbix-api branch.
+This modules uses the ``git-flow`` model and the main development branch
+is ``develop``. For versioning this module adheres to semver.org.
 
 In my opinion a feature complete Zabbix module must support the 
 following things.
 
-[Zabbix reports from puppet]
- initial support by doing a subtree merge from 
- https://github.com/thomasvandoren/puppet-zabbix
-[ability to separately manage Zabbix server, frontend and agent]
- more or less ready to integrate
-[additional apps like proxy, alternative agents (snmp + more)]
- not hard to do, but bumped to later since i don't need them
-[complete api integration for provisioning]
- plans are to host every single line of Zabbix config
- in puppet data somewhere. You never need to touch the 
- config part of the frontend. The second version of the
- API seems to work, Zabbix's api has some quirks and i needed
- to find those first.
- This is under development in the zabbix-api branch and will
- not hit master before it's complete. The one in master is 
- considered unsuitable for any use other that finding out how 
- not to code ruby.
-[documentation]
- containing all the (double) spaceship examples to explain 
- why it makes sense to use the Zabbix api this way.
-   
-Most of the legwork is falling together and i expect this module
-to look like it should soonish. I will update the major version
-as soon as its at the stage where i consider it ready for Gentoo
-production and once more per additional operating system. I plan
-on going 1.0.0 as soon as Gentoo, Redhat and Debian work properly.
-The WindowsXP support in the agent is there mainly for historical
-reasons and i would rather commit more time with it (but it still
-needs to keep running on xp in 2.7 for the moment).
-
-=== Example Usage
-
-setup an agent on a node
-
-  $zabbix::params::server = 'zabbix'
-  class{ 'zabbix': }
+* Zabbix reports from puppet
   
-agent management with user parameter
+  supported by doing a subtree merge of 
+  [thomasvandoren/puppet-zabbix](https://github.com/thomasvandoren/puppet-zabbix)
 
-  class{ 'zabbix::agent':
-    server  => 'zabbix'
-  }
-  zabbix::agent::params { 'zabbix.param.test':
-    command => 'echo "Hello World!"'
-  }
-  zabbix::agent::params { 'Check for trueness':
-    key     => 'zabbix.param.trueistrue
-    command => 'test true'
-  }
+* ability to separately manage Zabbix server, frontend and agent
+* additional apps like proxy, alternative agents (snmp + more)
   
-=== Development
+  not hard to do, but bumped to later since i don't need them
+* complete api integration for provisioning
+  
+  plans are to host every single line of Zabbix config
+  in puppet data somewhere. You never need to touch the 
+  config part of the frontend. The second version of the
+  API seems to work, Zabbix's api has some quirks and i needed
+  to find those first.
+  This is under development in the ``develop`` branch and will
+  not hit master before it's complete. The version in master is 
+  considered unsuitable for any use other that finding out how 
+  not to code ruby.
+* documentation
+  
+  containing all the (double) spaceship examples to explain 
+  why it makes sense to use the Zabbix api this way.
+
+At this point most of the legwork is done. This module will hit
+the 1.x milestone as soon as it is ready for produciton on gentoo
+and debian/ubuntu.
+  
+## Development
 
 You might want to look here for a howtos:
 
 * https://github.com/purplehazech/puppet-module_template
 * https://github.com/puppetlabs/puppetlabs-stdlib/blob/master/RELEASE_PROCESS.markdown
 
-I release my own part of this under the AGPL module because I hate hearing 
-about production patches to my code that I can't apply to the master version 
-after properly writing tests for those cases. It is assumed that pull requests 
-contain code that i may relicense into AGPL, if this is not the case ie. when 
-I initiate the pull myself and its license is not convertible to AGPL (most 
-licenses, like GPLv2+ are) this gets disclosed below with a license.
+This modules is released under the Affero GPL. This means you will have to
+contribute all changes back to the community.
 
-=== Open Issues
+For the most part I try to proactively merge changes from forks. Pull
+requests are very welcome as well.
 
-[Trigger Api exists?]
- The Zabbix trigger api does not support a simple way to retreive a trigger by
- using the expanded trigger syntax, looking at Zabbix' code it does not look easy
- to implement this in Zabbix without knowing the trigger id beforehand.
- *Status*: no resolution, not reported to Zabbix
-
-=== License
+## License
 
 2012, Lucas S. Bickel, Alle Rechte vorbehalten
 
@@ -103,7 +72,7 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-==== Zabbix Report Processor
+### Zabbix Report Processor
 
 Zabbix Report Processor is in this program as a subtree merge.
 
