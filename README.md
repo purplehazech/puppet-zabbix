@@ -1,4 +1,4 @@
-== Module: Zabbix
+# Module: Zabbix
 
 {<img src="https://secure.travis-ci.org/purplehazech/puppet-zabbix.png?branch=master" alt="Build Status" />}[https://travis-ci.org/purplehazech/puppet-zabbix] *Master* 
 
