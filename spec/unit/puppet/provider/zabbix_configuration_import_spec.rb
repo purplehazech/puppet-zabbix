@@ -11,4 +11,6 @@ describe 'zabbix_configuration_import' do
     expect(resource.provider.class.to_s).to eq('Puppet::Type::Zabbix_configuration_import::ProviderRuby')
   end
 
+  # @todo add heaps more tests to test importing of all aspects that could be in an xml file
+  # an example to be used during testing might be gleaned from hairmare/zabbix-iceast
 end
