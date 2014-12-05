@@ -12,7 +12,7 @@ before_script:
   - mysql -u root -e "drop database if exists zabbix; create database zabbix"
   - mysql -u root -e "create user 'zabbix'@'%' identified by 'zabbix'"
   - mysql -u root -e "grant all privileges on zabbix.* to 'zabbix'@'%'"
-  - find /usr/share/zabbix/ -namme '*.sql'
+  - find /usr/share/zabbix/ -name '*.sql'
   - cat /usr/share/zabbix-server-mysql/schema.sql | mysql -uroot zabbix
   - cat /usr/share/zabbix-server-mysql/images.sql | mysql -uroot zabbix
   - cat /usr/share/zabbix-server-mysql/data.sql | mysql -uroot zabbix
