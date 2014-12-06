@@ -3,10 +3,11 @@ source 'https://rubygems.org'
 if ENV.key?('PUPPET_VERSION')
   puppetversion = "= #{ENV['PUPPET_VERSION']}"
 else
-  puppetversion = ['>= 3.0']
+  puppetversion = ['>= 3.5.1']
 end
 
 gem 'puppet', puppetversion
+gem 'facter'
 gem 'zabbixapi', '>= 2.4', :git => 'https://github.com/express42/zabbixapi.git', :ref => 'zabbix2.4'
  
 group :test do
